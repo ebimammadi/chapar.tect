@@ -1,5 +1,5 @@
 # chapar.tect
-![Chapar.tech](https://chapar.tech/chapar.tech.png)
+![Chapar tech](https://chapar.tech/chapar.tech.png)
 
 ## Project setup
 ```

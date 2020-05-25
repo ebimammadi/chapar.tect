@@ -1,13 +1,18 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
 
-import { BootstrapVue } from 'bootstrap-vue'
+import router from './core/router'
+import ApiService from './core/api'
 
+import "./plugins/bootstrap-vue";
 import './assets/custom.scss'
 
-Vue.use(BootstrapVue)
 
+//plugins
+
+
+
+ApiService.init();
 
 Vue.config.productionTip = false
 
@@ -15,3 +20,4 @@ new Vue({
   router,
   render: h => h(App),
 }).$mount('#app')
+

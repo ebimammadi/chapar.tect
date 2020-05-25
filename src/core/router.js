@@ -9,22 +9,23 @@ export default new Router({
         {
             path: "/",
             name: "home",
-            component: () => import("@/views/base.vue")
+            component: () => import("../components/home.vue")
         },
         {
             path: "/about",
             name: "about",
-            component: () => import("@/views/about.vue")
+            component: () => import("../components/about.vue")
         },
-        {
-            path: "*",
-            redirect: "/404"
-        },
+        
         {
             // the 404 route, when none of the above matches
             path: "/404",
             name: "404",
-            component: () => import("@/views/error.vue")
+            component: () => import("../components/404.vue")
+        },
+        {
+            path: "*",
+            redirect: "/404"
         }
     ]
 })

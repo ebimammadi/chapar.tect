@@ -1,27 +1,28 @@
-import Vue from "vue"
-import Router from "vue-router"
+import Vue from "vue";
+import Router from "vue-router";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
     mode: 'history',
+    linkExactActiveClass: 'active-link',
     routes: [
         {
             path: "/",
             name: "home",
-            component: () => import("../components/home.vue")
+            component: () => import("../views/Home.vue")
         },
         {
             path: "/about",
             name: "about",
-            component: () => import("../components/about.vue")
+            component: () => import("../views/About.vue")
         },
         
         {
             // the 404 route, when none of the above matches
             path: "/404",
             name: "404",
-            component: () => import("../components/404.vue")
+            component: () => import("../views/404.vue")
         },
         {
             path: "*",

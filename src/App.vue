@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <Navbar />
+    <nav-bar />
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 import Navbar from './components/navbar';
 export default {
   name: 'App',
   components: {
-    Navbar
+    'nav-bar': Navbar
   }
 }
 </script>
@@ -22,7 +21,5 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  // color: #2c3e50;
-  // margin-top: 60px;
 }
 </style>

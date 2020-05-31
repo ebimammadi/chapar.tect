@@ -1,12 +1,13 @@
 import Vue from "vue";
 import axios from "axios";
 //import JwtSer
-import _SETTINGS from "../settings.js";
+import APP_SETTINGS from "../settings.js";
+
 
 const ApiService = {
     init() {   
-        Vue.use(axios);
-        axios.defaults.baseURL = _SETTINGS.remote_api_base_url;
+        Vue.prototype.$http = axios;
+        axios.defaults.baseURL = APP_SETTINGS.remote_api_base_url;
     },
 
     //TODO I need to add the set header in case of adding jwt
@@ -15,7 +16,7 @@ const ApiService = {
     },
 
     get(resource) {
-        return axios.get(resource);
+        return axios.get(resource, {        crossDomain: true});
     },
 
     post(resource, params) {

@@ -1,19 +1,19 @@
 <template>
   <div>
-    <h1>the home view</h1>
+    <h1>The home view</h1>
   </div>
 </template>
 
 <script>
-  import ApiService from "../core/api"
+  import ApiService from "../core/ApiService"
   
   export default {
     name: "Home",
     created: () => {
-      console.log(`inside home creatation`);
+      console.log(`inside home view`);
       let a = async () => {
         const response = await ApiService.get('/');
-        console.log(response);
+        console.log(response.data);
         //return response;
       }
       

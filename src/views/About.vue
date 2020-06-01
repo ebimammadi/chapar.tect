@@ -4,10 +4,6 @@
 
 <script>
     export default {
-        name: "about"
+      name: "about"
     }
 </script>
-
-<style scoped>
-
-</style>

@@ -5,24 +5,32 @@
 </template>
 
 <script>
-  import ApiService from "../core/ApiService"
-  
+  import ApiService from '../core/ApiService';
+  import Store from "../stores/stores";
+
   export default {
     name: "Home",
-    created: () => {
-      console.log(`inside home view`);
-      let a = async () => {
-        const response = await ApiService.get('/');
-        console.log(response.data);
-        //return response;
-      }
+    methods: {
       
-      a()
+    },
+   
+    created() {
+      const checkApiConnection = async function() {
+
+        ApiService.get('/')
+        .then((response)=> {
+          Store.commit('changeMessage',
+            `Message rom the api side: ${response.data.message}`)
+        })
+        .catch(err =>{
+          console.log(err)
+        }).finally(function(){
+          //test
+        });
+          
+        
+      }
+      checkApiConnection();
     }
-    
   }
 </script>
-
-<style scoped>
-
-</style>

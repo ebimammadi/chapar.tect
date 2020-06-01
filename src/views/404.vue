@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Not Found!</h1>  
+    <h1>Address Not Found!</h1>  
     <b-button variant="outline-primary" >
       <router-link to="/">
         Home
@@ -16,7 +16,3 @@
         name: "error"
     }
 </script>
-
-<style >
-
-</style>

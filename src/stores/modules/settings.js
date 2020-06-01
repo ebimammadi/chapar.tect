@@ -1,4 +1,4 @@
-import APP_SETTINGS from  '@/core/settings.js';
+import APP_SETTINGS from  '@/core/settings';
 
 const state = {
   settings: APP_SETTINGS

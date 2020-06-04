@@ -40,9 +40,9 @@
 </template>
 
 <script>
-//import router from "vue-router";
-import Logo from '@/components/Logo.vue';
 import Store from '@/stores/stores';
+import Logo from '@/components/Logo.vue';
+
 export default {
   name: 'login',
   components:{
@@ -56,14 +56,14 @@ export default {
   methods:{
     onSubmit: function(evt) {
       evt.preventDefault()
-      console.log('sublit is fired')
+      console.log('submit is fired')
       //validate 
+      //stored
+      Store.commit('changeSingInStatus', true)
 
-      //go to home
+      //console.log(this.$route.query.redirect)
       //const redirectPath = this.$route.query.redirect || "/";
       this.$router.push("/");
-      //this.$router.go()
-      //router.push('/');
     }
   },
   computed:{

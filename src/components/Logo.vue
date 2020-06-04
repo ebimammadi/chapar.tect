@@ -16,8 +16,14 @@ export default {
 </script>
 
 <style scoped>
+  a{
+    opacity: 0.9;
+  }
   a:hover{
     text-decoration: none;
+    opacity: 1;
+    transform: scale(4.5);
+    transition: all 0.5s ease;
   }
   span{
     font-size:1.7rem;

@@ -14,7 +14,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 
 import Store from '../stores/stores';
 
-//console.log(Store)
 export default {
   components: {
     Loading

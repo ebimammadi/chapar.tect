@@ -56,7 +56,7 @@ export default {
     appName: () => Store.getters.settings.app_name,
   },
   methods: {
-    singOut: function(){
+    singOut: function() {
       console.error('I Should remove the jwt here!');
       this.$router.push('/login')
     }
@@ -64,7 +64,3 @@ export default {
 
 }
 </script>
-
-<style>
-
-</style>

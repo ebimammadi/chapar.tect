@@ -12,19 +12,25 @@ const router = new Router({
 		{
 			path: "/",
 			name: "home",
-			component: () => import("../views/Home.vue")
+			component: () => import("../views/Home.vue"),
+			meta: {
+				requiresAuth: true
+			}
 		},
 		{
 			path: "/about",
 			name: "about",
-			component: () => import("../views/About.vue")
+			component: () => import("../views/About.vue"),
+			meta: {
+				requiresAuth: true
+			}
 		},
 		{
 			path: "/login",
 			name: "login",
 			component: () => import("../views/Login.vue"),
 			meta: {
-					isPublic: true
+				isPublic: true
 			}
 		},
 		
@@ -46,6 +52,18 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
 	Store.commit('changeMessage', '');
 	next();
+});
+
+router.beforeEach((to, from, next) => {
+	if ( to.matched.some(path => path.meta.requiresAuth) ){
+		if ( !Store.getters.isSinged )
+			next({
+				name: "login",
+				//query: { redirec: to.fullPath}
+			})
+		else next();	
+	}
+	else next();
 });
 
 export default router;

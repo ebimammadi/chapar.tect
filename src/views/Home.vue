@@ -16,19 +16,16 @@
    
     created() {
       const checkApiConnection = async function() {
-
         ApiService.get('/')
         .then((response)=> {
           Store.commit('changeMessage',
-            `Message rom the api side: ${response.data.message}`)
+            `Message from the api side: ${response.data.message}`)
         })
         .catch(err =>{
           console.log(err)
         }).finally(function(){
           //test
         });
-          
-        
       }
       checkApiConnection();
     }

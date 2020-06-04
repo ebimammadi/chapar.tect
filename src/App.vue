@@ -1,18 +1,17 @@
 <template>
   <div id="app">
     <overlay-loader />
-    <nav-bar />
-    <!-- <alert-box message="test" variant="warning" /> -->
-    <alert-box message="test" variant="warning" />
+    <nav-bar v-if="isGuarded"/>
+    <alert-box />
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+//import Rou
 import Navbar from './components/navbar';
 import AlertBox from './components/AlertBox';
 import OverlayLoader from './components/OverlayLoader';
-
 
 export default {
   name: 'App',
@@ -22,16 +21,15 @@ export default {
     AlertBox
   },
   computed: {
-    
+    isGuarded: function() {
+      return !this.$route.meta.isPublic
+    }
   }
 }
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
 </style>

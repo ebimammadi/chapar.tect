@@ -1,19 +1,18 @@
 import Vue from "vue";
 import axios from "axios";
 
-
 //import JwtSer
-import APP_SETTINGS from "../settings.js";
 import Store from "../stores/stores";
 //import { mapGetters } from "vuex";
 
 const ApiService = {
 	init() {   
 		Vue.prototype.$http = axios;
-		axios.defaults.baseURL = APP_SETTINGS.remote_api_base_url;
+		axios.defaults.baseURL = Store.getters.settings.remote_api_base_url;
 		
 		axios.interceptors.request.use(function(config) {
 			Store.commit('changeOverlayShow', true);
+			
 			return config;
 		}, function(err) {
 			return Promise.reject(err);
@@ -25,11 +24,8 @@ const ApiService = {
 		}, function(err) {
 			return Promise.reject(err);
 		});
-			
-
 	},
 
-	
 	//TODO I need to add the set header in case of adding jwt
 	setHeader() {
 

@@ -1,6 +1,25 @@
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/bootstrap-vue/src/index.scss';
 
+* {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+//for testing
 h1{
-    color: red;
+	color: red;
+}
+
+h2,h3{
+	color: gray;
+}
+
+.color-chapar-blue{
+	color: #6d9eeb;
+}
+
+.color-chapar-green{
+	color: #6aa84f;
 }

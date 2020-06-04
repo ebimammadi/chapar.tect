@@ -1,12 +1,13 @@
 <template>
   <div class="alert-box">
-      <b-alert 
-        :show="message.length > 0"
-        :variant="variant"
-        :dismissible="dismissible"
-      >
-        {{ message }}
-      </b-alert>
+    <b-alert 
+      :show="showAlert"
+      :variant="variant"
+      dismissible
+      fade
+    >
+      {{ message }}
+    </b-alert>
   </div>
 </template>
 
@@ -15,13 +16,14 @@ import Store from '../stores/stores';
 
 export default {
   props: {
-    dismissible: {
-      type: Boolean,
-      default: true
-    }
+
   },
   computed: {
-    message: function() {
+    showAlert: function() {
+      if (Store.getters.getMessage.length>0) return true;
+      return false;
+    },
+    message: function() {  
       return Store.getters.getMessage;
     },
     variant: function() {
@@ -32,7 +34,7 @@ export default {
 </script>
 <style scoped>
   .alert-box{
-    width:400px;
+    max-width:400px;
     margin: 10px auto;
     padding:10px;
   }

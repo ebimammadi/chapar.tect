@@ -5,7 +5,7 @@ const state = {
 }
 
 const getters = {
-  appSettingsGet: state => state.settings
+  settings: state => state.settings
 }
 
 export default {

@@ -22,6 +22,7 @@ const ApiService = {
 			Store.commit('changeOverlayShow', false);
 			return config;
 		}, function(err) {
+			Store.commit('changeOverlayShow', false);
 			return Promise.reject(err);
 		});
 	},
@@ -36,7 +37,6 @@ const ApiService = {
 	},
 
 	get(resource) {
-
 		return axios.get(resource);
 	},
 

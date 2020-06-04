@@ -19,12 +19,14 @@
         ApiService.get('/')
         .then((response)=> {
           Store.commit('changeMessage',
-            `Message from the api side: ${response.data.message}`)
+            `Message from the api: ${response.data.message}`)
         })
         .catch(err =>{
-          console.log(err)
+          if (!err.status)
+            Store.commit('changeMessage', 'Network Error!');
         }).finally(function(){
           //test
+          //Store.commit('changeOverlayShow', false);
         });
       }
       checkApiConnection();

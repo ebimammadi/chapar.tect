@@ -20,6 +20,7 @@
         .then((response)=> {
           Store.commit('changeMessage',
             `Message from the api: ${response.data.message}`)
+          Store.commit('changeVariant','success')  
         })
         .catch(err =>{
           if (!err.status)

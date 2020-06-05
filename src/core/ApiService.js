@@ -32,10 +32,6 @@ const ApiService = {
 
 	},
 
-	async get2(resource) {
-		return await axios.get(resource);
-	},
-
 	get(resource) {
 		return axios.get(resource);
 	},

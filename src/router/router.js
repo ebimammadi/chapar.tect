@@ -33,7 +33,14 @@ const router = new Router({
 				isPublic: true
 			}
 		},
-		
+		{
+			path: "/register",
+			name: "register",
+			component: () => import("../views/Register.vue"),
+			meta: {
+				isPublic: true
+			}
+		},
 		{
 			path: "/404",
 			name: "404",

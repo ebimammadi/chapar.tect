@@ -4,6 +4,7 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 import Store from '@/stores/stores';
+import JwtService from '@/core/JwtService';
 
 const router = new Router({
 	mode: 'history',
@@ -63,6 +64,9 @@ router.beforeEach((to, from, next) => {
 
 router.beforeEach((to, from, next) => {
 	if ( to.matched.some(path => path.meta.requiresAuth) ){
+		// if ( !Store.getters.isSinged )
+		console.log(JwtService.getToken())
+		//if ( JwtService.getToken()!== '')
 		if ( !Store.getters.isSinged )
 			next({
 				name: "login",

@@ -11,8 +11,9 @@ const ApiService = {
 		axios.defaults.baseURL = Store.getters.settings.remote_api_base_url;
 		
 		axios.interceptors.request.use(function(config) {
+			Store.commit('changeMessage', '');				//reset to its default
+			Store.commit('changeVariant', 'warning');	//reset to its default
 			Store.commit('changeOverlayShow', true);
-			
 			return config;
 		}, function(err) {
 			return Promise.reject(err);

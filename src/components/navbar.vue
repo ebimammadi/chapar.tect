@@ -47,6 +47,8 @@
 <script>
 import Logo from '@/components/Logo.vue';
 import Store from '@/stores/stores';
+
+import JwtService from '@/core/JwtService';
 export default {
   name: 'Navbar',
   components: {
@@ -57,7 +59,9 @@ export default {
   },
   methods: {
     singOut: function() {
+      JwtService.deleteToken();
       console.error('I Should remove the jwt here!');
+
       this.$router.push('/login')
     }
   }

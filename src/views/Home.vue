@@ -16,7 +16,7 @@
    
     created() {
       const checkApiConnection = async function() {
-        ApiService.get('/')
+        await ApiService.get('/')
         .then((response)=> {
           Store.commit('changeMessage',
             `Message from the api: ${response.data.message}`)

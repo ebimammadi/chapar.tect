@@ -42,6 +42,11 @@
 </template>
 
 <script>
+import _ from 'lodash';
+
+import ApiService from '@/core/ApiService';
+import JwtService from '@/core/JwtService';
+
 import Store from '@/stores/stores';
 import Logo from '@/components/Logo.vue';
 
@@ -52,20 +57,45 @@ export default {
   },
   data(){
     return {
-      form : {}
+      form : {
+        email: '',
+        password: ''
+      }
     }
   },
   methods:{
     onSubmit: function(evt) {
-      evt.preventDefault()
-      console.log('submit is fired')
+      evt.preventDefault();
+      const data = _.pick(this.form, ['email','password']);
+      ApiService.post('/users/login', data)
+      .then( response => {
+        Store.commit('changeMessage', '');
+        const token = response.headers["x-auth-token"];
+        JwtService.setToken(token);
+       
+        Store.commit('changeSingInStatus', true);
+         this.$router.push("/");
+        //Store.commit('changeMessage',
+          //`Message from the api: ${response.data.message}`)
+        //Store.commit('changeVariant','success')  
+      })
+      .catch( error => {
+        if (!error.response)
+           return Store.commit('changeMessage', 'Network Error!');        
+        Store.commit('changeMessage', `Error: ${error.response.data.message}`);
+        
+        console.warn(error.response.data.message)
+      });
+     
+
+      //console.log('submit is fired')
       //validate 
       //stored
-      Store.commit('changeSingInStatus', true)
+      //Store.commit('changeSingInStatus', true)
 
       //console.log(this.$route.query.redirect)
       //const redirectPath = this.$route.query.redirect || "/";
-      this.$router.push("/");
+      //this.$router.push("/");
     }
   },
   computed:{

@@ -12,8 +12,8 @@
           placeholder="Enter email address"
         >
         </b-form-input>
-      </b-form-group>  
-      
+      </b-form-group>
+
       <b-form-group label="Password:" label-for="password">
         <b-form-input
           id="password"
@@ -22,21 +22,21 @@
           required
           placeholder="Enter Password"
         ></b-form-input>
-      </b-form-group>    
+      </b-form-group>
 
       <b-form-group>
-        <b-button type="submit" variant="success">Log In</b-button> 
-      </b-form-group> 
-      
+        <b-button type="submit" variant="success">Log In</b-button>
+      </b-form-group>
+
       <b-form-group class="mt-10 align-center ">
         <router-link to="/register">Forget Password?</router-link>
       </b-form-group>
       <b-form-group class="mt-20 align-center">
           Don't have an account? <router-link to="/register">Sign Up</router-link>
-      </b-form-group> 
-      
+      </b-form-group>
+
     </b-form>
-    
+
     <!-- <b-button variant="primary" href="#">More Info</b-button> -->
   </div>
 </template>
@@ -72,30 +72,21 @@ export default {
         Store.commit('changeMessage', '');
         const token = response.headers["x-auth-token"];
         JwtService.setToken(token);
-       
+
         Store.commit('changeSingInStatus', true);
          this.$router.push("/");
         //Store.commit('changeMessage',
           //`Message from the api: ${response.data.message}`)
-        //Store.commit('changeVariant','success')  
+        //Store.commit('changeVariant','success')
       })
       .catch( error => {
         if (!error.response)
-           return Store.commit('changeMessage', 'Network Error!');        
+           return Store.commit('changeMessage', 'Network Error!');
         Store.commit('changeMessage', `Error: ${error.response.data.message}`);
-        
+
         console.warn(error.response.data.message)
       });
      
-
-      //console.log('submit is fired')
-      //validate 
-      //stored
-      //Store.commit('changeSingInStatus', true)
-
-      //console.log(this.$route.query.redirect)
-      //const redirectPath = this.$route.query.redirect || "/";
-      //this.$router.push("/");
     }
   },
   computed:{

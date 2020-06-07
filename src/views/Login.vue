@@ -86,11 +86,18 @@ export default {
 
         console.warn(error.response.data.message)
       });
-     
+
     }
   },
-  computed:{
+  computed: {
     appName: () => Store.getters.settings.app_name
+  },
+  created() {
+    //if we have loged in before
+    if (JwtService.getToken()) this.$router.push('/')
+  },
+   mounted() {
+    JwtService.deleteToken();//remove the tokens
   }
 }
 </script>

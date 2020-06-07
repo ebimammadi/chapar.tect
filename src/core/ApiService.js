@@ -11,7 +11,6 @@ const ApiService = {
 		axios.defaults.baseURL = Store.getters.settings.remote_api_base_url;
 		axios.defaults.timeout = Store.getters.settings.axios_timeout;
 
-
 		axios.interceptors.request.use(function(config) {
 			Store.commit('changeMessage', '');				//reset to its default
 			Store.commit('changeVariant', 'warning');	//reset to its default

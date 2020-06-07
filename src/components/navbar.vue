@@ -4,7 +4,7 @@
       <!-- <a href="" target="_self">{{ appName }}</a> -->
       <!-- <a href="" target="_self" :title='appName'> -->
       <app-logo />
-      
+
       <!-- <router-link :to="'/'">
         {{ appName }}
       </router-link>   -->
@@ -24,11 +24,11 @@
             About
           </router-link>
         </b-nav-item>
-        
+
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">       
+      <b-navbar-nav class="ml-auto">
         <!-- <b-nav-item-dropdown text="Lang" right>
           <b-dropdown-item href="#">EN</b-dropdown-item>
           <b-dropdown-item href="#">SE</b-dropdown-item>
@@ -60,8 +60,6 @@ export default {
   methods: {
     singOut: function() {
       JwtService.deleteToken();
-      console.error('I Should remove the jwt here!');
-
       this.$router.push('/login')
     }
   }

@@ -57,16 +57,17 @@ const router = new Router({
 	]
 });
 
-router.beforeEach((to, from, next) => {
-	Store.commit('changeMessage', '');
-	next();
-});
+// router.beforeEach((to, from, next) => {
+// 	Store.commit('changeMessage', '');
+// 	console.log('called beforeeach route')
+// 	next();
+// });
 
 router.beforeEach((to, from, next) => {
+	Store.commit('changeMessage', '');
 	if ( to.matched.some(path => path.meta.requiresAuth) ){
-		console.log(JwtService.getToken())
-		//if ( JwtService.getToken()!== '')
-		if ( !Store.getters.isSinged )
+		// if ( !JwtService.getToken() )
+		if ( !JwtService.isValidToken() )
 			next({
 				name: "login",
 				//query: { redirec: to.fullPath}

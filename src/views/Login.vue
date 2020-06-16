@@ -2,7 +2,7 @@
   <div class="enterance-jumbotron bg-ultra-light-gray" >
     <app-logo />
     <h5 class="mt-2">Sign In</h5>
-    <b-form @submit="onSubmit" class="mt-4" >
+    <b-form @submit.prevent="onSubmit" class="mt-4" >
       <b-form-group label="Email address:" label-for="email">
         <b-form-input
           id="email"
@@ -64,8 +64,8 @@ export default {
     }
   },
   methods:{
-    onSubmit: function(evt) {
-      evt.preventDefault();
+    onSubmit: function() {
+      //evt.preventDefault();
       const data = _.pick(this.form, ['email','password']);
       ApiService.post('/users/login', data)
       .then( response => {

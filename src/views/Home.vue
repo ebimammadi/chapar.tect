@@ -7,7 +7,6 @@
 <script>
   import ApiService from '../core/ApiService';
   import Store from "../stores/stores";
-  import JwtService from '../core/JwtService';
 
   export default {
     name: "Home",
@@ -21,12 +20,10 @@
       .then( response => {
         Store.commit('changeMessage',`Message from the api: ${response.data.message}`);
         Store.commit('changeVariant','success');
-        console.log(JwtService.decodeToken());
 
       })
       .catch( err => {
-        console.log(err)
-        console.log('sadsa')
+        console.log('error home page',err)
         if (!err.status)
           Store.commit('changeMessage', 'Network Error!');
       }).finally(function(){

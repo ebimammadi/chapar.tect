@@ -4,12 +4,13 @@ import axios from "axios";
 //import JwtSer
 import Store from "../stores/stores";
 //import { mapGetters } from "vuex";
-
+import router from '../router/router';
 const ApiService = {
 	init() {
 		Vue.prototype.$http = axios;
 		axios.defaults.baseURL = Store.getters.settings.remote_api_base_url;
 		axios.defaults.timeout = Store.getters.settings.axios_timeout;
+		axios.defaults.withCredentials = true;
 
 		axios.interceptors.request.use(function(config) {
 			Store.commit('changeMessage', '');				//reset to its default
@@ -22,9 +23,17 @@ const ApiService = {
 
 		axios.interceptors.response.use(function(config) {
 			Store.commit('changeOverlayShow', false);
+			console.log('interceptor')
 			return config;
 		}, function(err) {
 			Store.commit('changeOverlayShow', false);
+			console.log(`there is an error`)
+			console.log(err.response.status)
+			if (err.response.status >= 400 ){
+				//storage
+				router.push('/login')
+				return;
+			}
 			return Promise.reject(err);
 		});
 	},

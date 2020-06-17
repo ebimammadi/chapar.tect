@@ -87,7 +87,7 @@ export default {
 
   methods:{
     onSubmit: function() {
-
+      //!TODO: validation should be implemeneted using vuelidate
       if (this.form.password.length<8) {
         Store.commit('changeMessage', 'Password is short!');
         Store.commit('changeVariant','warning');

@@ -4,6 +4,7 @@ import App from './App.vue';
 import router from './router/router.js';
 import store from './stores/stores.js';
 import ApiService from './core/ApiService';
+ApiService.init();
 
 //scss files
 import "./plugins/bootstrap-vue";
@@ -11,9 +12,16 @@ import './assets/custom.scss';
 
 //plugins
 
-ApiService.init();
+//import Vuelidate from 'vuelidate';
+//Vue.use(Vuelidate);
 
 Vue.config.productionTip = false
+
+Vue.directive('focus', {
+  inserted: function (el) {
+      el.focus()
+  }
+})
 
 new Vue({
   router,

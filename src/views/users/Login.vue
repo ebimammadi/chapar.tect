@@ -7,6 +7,7 @@
         <b-form-input
           id="email"
           v-model="form.email"
+          v-focus
           type="email"
           required
           placeholder="Enter email address"
@@ -29,7 +30,7 @@
       </b-form-group>
 
       <b-form-group class="mt-10 align-center ">
-        <router-link to="/register">Forget Password?</router-link>
+        <router-link to="/forget-password">Forget Password?</router-link>
       </b-form-group>
       <b-form-group class="mt-20 align-center">
           Don't have an account? <router-link to="/register">Sign Up</router-link>
@@ -37,7 +38,6 @@
 
     </b-form>
 
-    <!-- <b-button variant="primary" href="#">More Info</b-button> -->
   </div>
 </template>
 
@@ -46,7 +46,6 @@ import _ from 'lodash';
 
 import ApiService from '@/core/ApiService';
 import JwtService from '@/core/JwtService';
-
 import Store from '@/stores/stores';
 import Logo from '@/components/Logo.vue';
 
@@ -65,32 +64,22 @@ export default {
   },
   methods:{
     onSubmit: function() {
-      //evt.preventDefault();
       const data = _.pick(this.form, ['email','password']);
       ApiService.post('/users/login', data)
       .then( response => {
         Store.commit('changeMessage', '');
         const token = response.headers["x-auth-token"];
         JwtService.setToken(token);
-
         Store.commit('changeSingInStatus', true);
-         this.$router.push("/");
-        //Store.commit('changeMessage',
-          //`Message from the api: ${response.data.message}`)
-        //Store.commit('changeVariant','success')
+        this.$router.push("/");
       })
       .catch( error => {
         if (!error.response)
-           return Store.commit('changeMessage', 'Network Error!');
+          return Store.commit('changeMessage', 'Network Error!');
         Store.commit('changeMessage', `Error: ${error.response.data.message}`);
-
-        console.warn(error.response.data.message)
       });
 
     }
-  },
-  computed: {
-    appName: () => Store.getters.settings.app_name
   },
   created() {
     //if we have loged in before

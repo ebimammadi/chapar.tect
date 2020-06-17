@@ -27,12 +27,12 @@ const ApiService = {
 			return config;
 		}, function(err) {
 			Store.commit('changeOverlayShow', false);
-			console.log(`there is an error`)
-			console.log(err.response.status)
+			//console.log(`there is an error status:`,err.response.status)
 			if (err.response.status >= 400 ){
-				//storage
-				router.push('/login')
-				return;
+				if (!['login','register'].includes(router.currentRoute.name) ) {
+					router.push('/login')
+				}
+				//return;
 			}
 			return Promise.reject(err);
 		});

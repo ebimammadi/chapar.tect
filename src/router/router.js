@@ -29,7 +29,7 @@ const router = new Router({
 		{
 			path: "/login",
 			name: "login",
-			component: () => import("../views/Login.vue"),
+			component: () => import("../views/users/Login.vue"),
 			meta: {
 				isPublic: true
 			}
@@ -37,7 +37,23 @@ const router = new Router({
 		{
 			path: "/register",
 			name: "register",
-			component: () => import("../views/Register.vue"),
+			component: () => import("../views/users/Register.vue"),
+			meta: {
+				isPublic: true
+			}
+		},
+		{
+			path: "/forget-password",
+			name: "forget-password",
+			component: () => import("../views/users/ForgetPassword.vue"),
+			meta: {
+				isPublic: true
+			}
+		},
+		{
+			path: "/terms",
+			name: "terms",
+			component: () => import("../views/Terms.vue"),
 			meta: {
 				isPublic: true
 			}

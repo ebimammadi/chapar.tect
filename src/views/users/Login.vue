@@ -1,7 +1,7 @@
 <template>
   <div class="enterance-jumbotron bg-ultra-light-gray" >
     <app-logo />
-    <h5 class="mt-2">Sign In</h5>
+    <h5 class="mt-2 align-center">Sign In</h5>
     <b-form @submit.prevent="onSubmit" class="mt-4" >
       <b-form-group label="Email address:" label-for="email">
         <b-form-input
@@ -101,7 +101,4 @@ export default {
   text-align: left;
 }
 
-h5 {
-  text-align: center;
-}
 </style>

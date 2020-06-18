@@ -29,6 +29,7 @@ export default {
 </script>
 
 <style lang="scss">
+//TODO: i am not sure if this css identifier is really requiered!
 #app {
   text-align: center;
 }

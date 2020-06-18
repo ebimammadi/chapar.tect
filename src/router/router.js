@@ -51,6 +51,14 @@ const router = new Router({
 			}
 		},
 		{
+			path: "/recover-password/:code",
+			name: "recover-password",
+			component: () => import("../views/users/RecoverPassword.vue"),
+			meta: {
+				isPublic: true
+			}
+		},
+		{
 			path: "/terms",
 			name: "terms",
 			component: () => import("../views/Terms.vue"),

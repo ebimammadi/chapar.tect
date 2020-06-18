@@ -1,7 +1,7 @@
 <template>
   <div class="enterance-jumbotron bg-ultra-light-gray" >
     <app-logo />
-    <h5 class="mt-2">Sign Up</h5>
+    <h5 class="mt-2 align-center">Sign Up</h5>
     <b-form @submit.prevent="onSubmit" class="mt-4" >
       <b-form-group label="Fullname:" label-for="name">
         <b-form-input

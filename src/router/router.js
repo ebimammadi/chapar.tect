@@ -59,6 +59,14 @@ const router = new Router({
 			}
 		},
 		{
+			path: "/verify-email/:code",
+			name: "verify-email",
+			component: () => import("../views/users/VerifyEmail.vue"),
+			meta: {
+				isPublic: true
+			}
+		},
+		{
 			path: "/terms",
 			name: "terms",
 			component: () => import("../views/Terms.vue"),

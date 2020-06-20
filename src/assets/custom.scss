@@ -7,6 +7,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+[v-cloak] > * {
+  display: none;
+}
+
 //for testing
 h1 {
 	color: red;

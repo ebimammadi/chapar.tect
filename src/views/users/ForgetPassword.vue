@@ -70,7 +70,7 @@ export default {
   },
   created() {
     //if we have logged-in before
-    if (JwtService.getToken()) this.$router.push("/");
+    if (JwtService.getToken()) return this.$router.push("/");
   }
 };
 </script>

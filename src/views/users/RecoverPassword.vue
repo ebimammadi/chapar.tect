@@ -96,7 +96,7 @@ export default {
     }
   },
   created() {
-    if (JwtService.getToken()) this.$router.push("/");  //if we have loged in before
+    if (JwtService.getToken()) return this.$router.push("/");  //if we have loged in before
 
     ApiService.get(`/users/recover-password-verify-code/${this.$route.params.code}`)
       .then( response => {

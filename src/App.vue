@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div v-cloak>
     <overlay-loader />
     <nav-bar v-if="isGuarded"/>
     <alert-box />

@@ -83,7 +83,7 @@ export default {
   },
   created() {
     //if we have loged in before
-    if (JwtService.getToken()) this.$router.push('/')
+    if (JwtService.getToken()) return this.$router.push('/')
   },
    mounted() {
     JwtService.deleteToken();//remove the tokens

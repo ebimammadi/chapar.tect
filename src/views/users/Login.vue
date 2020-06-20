@@ -100,5 +100,4 @@ export default {
   padding: 20px;
   text-align: left;
 }
-
 </style>

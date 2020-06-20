@@ -18,7 +18,7 @@
       </b-form-group>
 
       <b-form-group class="mt-10 align-center">
-        Back to <router-link to="/login">Sign In</router-link> page
+        Back to the <router-link to="/login">Sign In</router-link> page
       </b-form-group>
 
     </b-form>
@@ -36,7 +36,6 @@ import Store from "@/stores/stores";
 import Logo from "@/components/Logo.vue";
 
 export default {
-  name: "login",
   components: {
     "app-logo": Logo
   },

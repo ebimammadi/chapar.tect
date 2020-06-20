@@ -1,5 +1,5 @@
 <template>
-  <div v-cloak>
+  <div id="vueApp" v-cloak>
     <overlay-loader />
     <nav-bar v-if="isGuarded"/>
     <alert-box />
@@ -30,7 +30,7 @@ export default {
 
 <style lang="scss">
 //TODO: i am not sure if this css identifier is really requiered!
-#app {
+#vueApp {
   text-align: center;
 }
 </style>

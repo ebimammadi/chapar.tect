@@ -4,7 +4,7 @@
     <h5 class="mt-2 align-center">Verify Email</h5>
     <b-form class="mt-4">
       <b-form-group v-if="verified" >
-          Your email have been verified!
+        Thank you for your confirmation. Your email address has been verified now, please sign in and start using the application.
       </b-form-group>
 
       <b-form-group class="mt-4">
@@ -38,8 +38,6 @@ export default {
     };
   },
   created() {
-    //if we have logged-in before
-    //if (JwtService.getToken()) return this.$router.push("/");
     ApiService.get(`/users/verify-email/${this.$route.params.code}`)
       .then( response => {
         if (response.data.message !== "ok"){

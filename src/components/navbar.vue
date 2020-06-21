@@ -1,13 +1,9 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="dark">
     <b-navbar-brand>
-      <!-- <a href="" target="_self">{{ appName }}</a> -->
-      <!-- <a href="" target="_self" :title='appName'> -->
       <app-logo />
 
-      <!-- <router-link :to="'/'">
-        {{ appName }}
-      </router-link>   -->
+
     </b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -27,7 +23,6 @@
 
       </b-navbar-nav>
 
-      <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <!-- <b-nav-item-dropdown text="Lang" right>
           <b-dropdown-item href="#">EN</b-dropdown-item>
@@ -49,18 +44,29 @@ import Logo from '@/components/Logo.vue';
 import Store from '@/stores/stores';
 
 import JwtService from '@/core/JwtService';
+import ApiService from '@/core/ApiService';
 export default {
   name: 'Navbar',
   components: {
     'app-logo': Logo
   },
-  computed: {
-    appName: () => Store.getters.settings.app_name,
-  },
   methods: {
     singOut: function() {
+
+      console.log('called singOut ')
+      ApiService.get(`/users/logout`)
+      .then( () => {
+        console.log('called logout')
+        this.$router.push('/login');
+      })
+      .catch( err => {
+        console.log(err);
+        if (!err.status)
+          Store.commit('changeMessage', 'Network Error!');
+        this.$router.push('/login');
+      });
       JwtService.deleteToken();
-      this.$router.push('/login')
+      //this.$router.push('/login');
     }
   }
 

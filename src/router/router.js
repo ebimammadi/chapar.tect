@@ -27,9 +27,17 @@ const router = new Router({
 			}
 		},
 		{
+			path: "/profile",
+			name: "profile",
+			component: () => import("../views/users/Profile.vue"),
+			meta: {
+				requiresAuth: true
+			}
+		},
+		{
 			path: "/login",
 			name: "login",
-			component: () => import("../views/users/Login.vue"),
+			component: () => import("../views/auth/Login.vue"),
 			meta: {
 				isPublic: true
 			}
@@ -37,7 +45,7 @@ const router = new Router({
 		{
 			path: "/register",
 			name: "register",
-			component: () => import("../views/users/Register.vue"),
+			component: () => import("../views/auth/Register.vue"),
 			meta: {
 				isPublic: true
 			}
@@ -45,7 +53,7 @@ const router = new Router({
 		{
 			path: "/forget-password",
 			name: "forget-password",
-			component: () => import("../views/users/ForgetPassword.vue"),
+			component: () => import("../views/auth/ForgetPassword.vue"),
 			meta: {
 				isPublic: true
 			}
@@ -53,7 +61,7 @@ const router = new Router({
 		{
 			path: "/recover-password/:code",
 			name: "recover-password",
-			component: () => import("../views/users/RecoverPassword.vue"),
+			component: () => import("../views/auth/RecoverPassword.vue"),
 			meta: {
 				isPublic: true
 			}
@@ -61,7 +69,7 @@ const router = new Router({
 		{
 			path: "/verify-email/:code",
 			name: "verify-email",
-			component: () => import("../views/users/VerifyEmail.vue"),
+			component: () => import("../views/auth/VerifyEmail.vue"),
 			meta: {
 				isPublic: true
 			}

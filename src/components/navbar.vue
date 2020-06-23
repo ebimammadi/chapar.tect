@@ -33,7 +33,9 @@
           <b-dropdown-item :to="'/profile'">
             Profile
           </b-dropdown-item>
-          <b-dropdown-item href="#" :click="singOut">Sign Out</b-dropdown-item>
+          <b-dropdown-item href="#" v-on:click="singOut">
+            Sign Out
+          </b-dropdown-item>
         </b-nav-item-dropdown>
 
       </b-navbar-nav>

@@ -1,7 +1,7 @@
 <template>
   <div class="enterance-jumbotron bg-ultra-light-gray">
     <app-logo />
-    <h5 class="mt-2 align-center">Verify Email</h5>
+    <h5 class="mt-2 align-center">Email Verification</h5>
     <b-form class="mt-4">
       <b-form-group v-if="verified" >
         Thank you for your confirmation. Your email address has been verified now, please sign in and start using the application.
@@ -40,7 +40,7 @@ export default {
   created() {
     ApiService.get(`/users/verify-email/${this.$route.params.code}`)
       .then( response => {
-        if (response.data.message !== "ok"){
+        if (response.data.message !== ""){
           Store.commit('changeMessage', 'There is an error!' );
           Store.commit('changeVariant','warning');
           this.verified = false;

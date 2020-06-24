@@ -4,13 +4,15 @@
     <!-- <input name="name" placeholder="File Name" />
     <input type="file" name="name" placeholder="File Name" /> -->
     <!-- Styled -->
-    <b-form-file
+    <!-- <b-form-file
       v-model="file"
       :state="Boolean(file)"
       placeholder="Choose a file or drop it here..."
       drop-placeholder="Drop file here..."
     ></b-form-file>
-    <div class="mt-3">Selected file: {{ file ? file.name : '' }}</div>
+
+    <div class="mt-3">Selected file: {{ file ? file.name : '' }}</div> -->
+    <image-upload img-url="avatar.png" ></image-upload>
   <br>
   </div>
 </template>
@@ -19,14 +21,11 @@
 // import ApiService from '@/core/ApiService';
 // import Store from "@/stores/stores";
 
-export default {
-  methods: {
+import ImageUpload from "@/components/ImageUpload.vue";
 
-  },
-  data(){
-    return {
-      file: null
-    }
+export default {
+  components: {
+    ImageUpload
   },
   created() {
     return console.log('yes')

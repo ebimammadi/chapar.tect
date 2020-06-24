@@ -40,7 +40,7 @@ export default {
   created() {
     ApiService.get(`/users/verify-email/${this.$route.params.code}`)
       .then( response => {
-        if (response.data.message !== ""){
+        if (response.data.response_type !== "success"){
           Store.commit('changeMessage', 'There is an error!' );
           Store.commit('changeVariant','warning');
           this.verified = false;

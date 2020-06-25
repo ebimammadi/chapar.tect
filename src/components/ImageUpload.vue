@@ -1,12 +1,19 @@
 <template>
   <div>
     <input type="file" @change="croppie"/>
-    <vue-croppie ref="croppieRef" :enableOrientation="true" :boundary="{ width: 450, height: 300}" :viewport="{ width:400, height:250, 'type':'square' }">
-    </vue-croppie>
-    <!-- the result -->
-    <img :src="cropped">
-    <button @click="crop">Crop</button>
-    <button @click="h">test</button>
+    <div v-if="file">
+      <vue-croppie
+        ref="croppieRef"
+        :enableOrientation="true"
+        :boundary="{ width: 450, height: 300}"
+        :viewport="{ width:400, height:250, 'type':'square' }">
+      </vue-croppie>
+      <img :src="cropped">
+      <br/>
+      <button @click="rotate">Rotate 90</button>
+      <button @click="crop">Crop</button>
+
+    </div>
     <!-- <button @click="rotate">Rotate</button> -->
   </div>
 </template>
@@ -16,31 +23,36 @@ import Vue from "vue";
 import VueCroppie from "vue-croppie";
 import 'croppie/croppie.css';
 
+import ApiService from "@/core/ApiService";
 Vue.use(VueCroppie);
 
 export default {
   data() {
     return {
       croppieImage: '',
-      cropped: null
+      cropped: null,
+      file: ''
     };
   },
   methods: {
-    h(){
-      console.log(`test`);this.$refs.croppieRef.rotate(90);
+    rotate(){
+      console.log(`rotate`);
+      this.$refs.croppieRef.rotate(90);
     },
-    croppie (e) {
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
+    croppie (event) {
+      const files = event.target.files || event.dataTransfer.files;
+      if (!files.length) {
+        return this.file = '';
 
-      var reader = new FileReader();
-      reader.onload = e => {
+      }
+      this.file = '1';
+      const reader = new FileReader();
+      reader.onload = (event) => {
         this.$refs.croppieRef.bind({
-          url: e.target.result
+          url: event.target.result
         });
       };
-
-    reader.readAsDataURL(files[0]);
+      reader.readAsDataURL(files[0]);
     },
     crop() {
       // Options can be updated.
@@ -52,7 +64,15 @@ export default {
       };
       this.$refs.croppieRef.result(options, output => {
         this.cropped = this.croppieImage = output;
-          console.log(this.croppieImage);
+          //console.log(this.croppieImage);
+          console.log(`let's submit this to the backend`)
+          ApiService.post('/files/upload',{ image: this.cropped })
+            .then(response => {
+              console.log(response);
+            })
+            .catch(err =>{
+              console.log(err)
+            })
         });
       }
     },

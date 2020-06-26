@@ -64,7 +64,7 @@ export default {
         this.$refs.croppieRef.bind({
           url: event.target.result,
         });
-        console.log(this.$refs.croppieRef.viewport)
+        //console.log(this.$refs.croppieRef.viewport)
 
       };
       reader.readAsDataURL(files[0]);
@@ -80,8 +80,9 @@ export default {
       this.$refs.croppieRef.result(options, output => {
         //this.cropped = this.croppieImage = output;
         //console.log(this.croppieImage);
-        console.log(`let's submit this to the backend`,output)
-        ApiService.post('/files/upload-image',{ image: this.cropped, unique: this.unique, usage: this.usage })
+        console.log(options)
+        console.log(`let's submit this to the backend`)
+        ApiService.post('/files/upload-image',{ image: output, unique: this.unique, usage: this.usage })
           .then(response => {
             // this.$refs.croppieRef.bind({
             //   url: response.data.url

@@ -1,18 +1,14 @@
 <template>
   <div>
     <h1>Profile</h1>
-    <!-- <input name="name" placeholder="File Name" />
-    <input type="file" name="name" placeholder="File Name" /> -->
-    <!-- Styled -->
-    <!-- <b-form-file
-      v-model="file"
-      :state="Boolean(file)"
-      placeholder="Choose a file or drop it here..."
-      drop-placeholder="Drop file here..."
-    ></b-form-file>
-
-    <div class="mt-3">Selected file: {{ file ? file.name : '' }}</div> -->
-    <image-upload img-url="avatar.png" ></image-upload>
+    <img v-if="profile_url" :src="profile_url" width="200"/>
+    <image-upload
+      crop_width="800"
+      crop_height="800"
+      unique="true"
+      usage="profile"
+      @url="imageShow"
+    ></image-upload>
   <br>
   </div>
 </template>
@@ -24,8 +20,19 @@
 import ImageUpload from "@/components/ImageUpload.vue";
 
 export default {
+  data(){
+    return {
+      profile_url: ''
+    }
+  },
   components: {
     ImageUpload
+  },
+  methods: {
+    imageShow(url){
+      this.profile_url = url;
+      console.log(url)
+    }
   },
   created() {
     return console.log('yes')

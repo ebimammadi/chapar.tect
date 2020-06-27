@@ -1,18 +1,21 @@
 <template>
   <div>
-    <input v-if="!show" type="file" @change="croppie" />
+    <b-form-group label="Choose Profile " label-for="file-default" label-cols-sm="2" v-if="!show">
+      <b-form-file id="file-default" @change="croppie"></b-form-file>
+    </b-form-group>
     <div v-if="show">
-      <button @click="crop">Crop & Save</button>
-      <button @click="rotate">Rotate 90</button>
-      <button @click="cancel">Cancel</button>
+      <b-button @click="crop">Crop & Save</b-button>
+      <b-button @click="rotate" class="ml-3">⤸</b-button>
+      <b-button @click="cancel" class="ml-3">Cancel</b-button>
       <vue-croppie
         ref="croppieRef"
         :enableOrientation="true"
         :enableResize="false"
         :enforceBoundary="true"
         :boundary="{ width: width + boundary, height: height + boundary }"
-        :viewport="{ width: width, height: height, 'type':'square' }">
-      </vue-croppie>
+        :viewport="{ width: width, height: height, 'type':'square' }"
+        class="mt-3"
+      ></vue-croppie>
       <!-- <img :src="cropped"> -->
     </div>
   </div>
@@ -21,85 +24,80 @@
 <script>
 import Vue from "vue";
 import VueCroppie from "vue-croppie";
-import 'croppie/croppie.css';
+import "croppie/croppie.css";
 
 import ApiService from "@/core/ApiService";
 Vue.use(VueCroppie);
 
 export default {
-  props: [ 'crop_width','crop_height', 'unique', 'usage'],
+  props: ["crop_width", "crop_height", "unique", "usage"],
   data() {
     return {
-      croppieImage: '',
+      croppieImage: "",
       cropped: null,
       width: 200,
       height: 200,
       boundary: 40,
-      show: ''
+      show: ""
     };
   },
   methods: {
-    rotate(){
-
-      this.$refs.croppieRef.rotate(90);
+    rotate() {
+      this.$refs.croppieRef.rotate(-90);
     },
-    cancel(){
+    cancel() {
       this.show = false;
     },
-    croppie (event) {
-      if (!this.width) this.width = 200
+    croppie(event) {
+      if (!this.width) this.width = 200;
       if (!this.height) this.height = 200;
       if (!this.boundary) this.boundary = 40;
       const files = event.target.files || event.dataTransfer.files;
       if (!files.length) {
-        return this.file = false;
+        return (this.file = false);
       }
-      this.show = true;//!this file is useless?
+      this.show = true; //!this file is useless?
       const reader = new FileReader();
-      reader.onload = (event) => {
-        //const width = 4000;
-        //const height = 4000;
-        //this.$refs.croppieRef.viewport ={ width, height }
-        //this.$refs.croppieRef.viewport ={ width: width+20, height:height+20 }
+      reader.onload = event => {
         this.$refs.croppieRef.bind({
-          url: event.target.result,
+          url: event.target.result
         });
         //console.log(this.$refs.croppieRef.viewport)
-
       };
       reader.readAsDataURL(files[0]);
     },
     crop() {
-      // Options can be updated.
-      // Current option will return a base64 version of the uploaded image with a size of 600px X 450px.
       let options = {
-        type: 'base64',
-        size: { width: this.crop_width, height: this.crop_height },
-        format: 'jpeg'
+        type: "base64",
+        format: "jpeg",
+        size: { width: this.crop_width, height: this.crop_height }
       };
       this.$refs.croppieRef.result(options, output => {
         //this.cropped = this.croppieImage = output;
         //console.log(this.croppieImage);
-        console.log(options)
-        console.log(`let's submit this to the backend`)
-        ApiService.post('/files/upload-image',{ image: output, unique: this.unique, usage: this.usage })
+        // console.log(`options`, options);
+        // console.log(`let's submit this to the backend`);
+        const postPayload = {
+          image: output,
+          unique: this.unique,
+          usage: this.usage
+        };
+        ApiService.post("/files/upload-image", postPayload)
           .then(response => {
             // this.$refs.croppieRef.bind({
             //   url: response.data.url
             // });
             this.show = false;
-            this.$emit('url', response.data.url);
-
+            this.$emit("url", response.data.url);
           })
-          .catch(err =>{
-            console.log(`error in uploading`,err)
-          })
-        });
-      }
-    },
-    rotate() {
-      this.$refs.croppieRef.rotate(90);
+          .catch(err => {
+            console.log(`error in 'ImageUpload' component`, err);
+          });
+      });
     }
+  },
+  rotate() {
+    this.$refs.croppieRef.rotate(90);
+  }
 };
-
 </script>

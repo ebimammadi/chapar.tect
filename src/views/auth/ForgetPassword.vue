@@ -50,8 +50,9 @@ export default {
     onSubmit: function() {
       ApiService.post("/users/forget-password", {email: this.form.email})
         .then(response => {
-          this.form.email = ""
-          Store.commit("changeMessage", response.data.message)
+          this.form.email = "";
+          Store.commit("changeMessage", response.data.message);
+          if (response.data.response_type === "success") Store.commit("changeVariant", response.data.response_type);
         })
         .catch(error => {
           this.form.email = ""

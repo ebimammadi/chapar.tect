@@ -2,8 +2,6 @@
   <b-navbar toggleable="lg" type="dark" variant="dark">
     <b-navbar-brand>
       <app-logo />
-
-
     </b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -33,6 +31,9 @@
           <b-dropdown-item :to="'/profile'">
             Profile
           </b-dropdown-item>
+          <b-dropdown-item :to="'/profile/address'">
+            address
+          </b-dropdown-item>
           <b-dropdown-item href="#" v-on:click="singOut">
             Sign Out
           </b-dropdown-item>
@@ -56,21 +57,17 @@ export default {
   },
   methods: {
     singOut: function() {
-
-      console.log('called singOut ')
       ApiService.get(`/users/logout`)
-      .then( () => {
-        console.log('called logout')
-        this.$router.push('/login');
-      })
-      .catch( err => {
-        console.log(err);
-        if (!err.status)
-          Store.commit('changeMessage', 'Network Error!');
-        this.$router.push('/login');
-      });
-      JwtService.deleteToken();
-      //this.$router.push('/login');
+        .then( () => this.$router.push('/login') )
+        .catch( err => {
+          console.log(err);
+          if (!err.status)
+            Store.commit('changeMessage', 'Network Error!');
+          this.$router.push('/login');
+        });
+
+        JwtService.deleteToken();
+        //this.$router.push('/login');
     }
   }
 

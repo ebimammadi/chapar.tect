@@ -28,11 +28,28 @@ const router = new Router({
 		},
 		{
 			path: "/profile",
-			name: "profile",
-			component: () => import("../views/users/Profile.vue"),
+			component: () => import("../views/users/ProfileParent.vue"),
 			meta: {
 				requiresAuth: true
-			}
+			},
+			children: [
+				{
+					path: "",
+					name: "profile",
+					component: () => import("../views/users/Profile.vue"),
+					meta: {
+						requiresAuth: true
+					}
+				},
+				{
+					path: "address",
+					name: "address",
+					component: () => import("../views/users/Address.vue"),
+					meta: {
+						requiresAuth: true
+					}
+				}
+			]
 		},
 		{
 			path: "/login",

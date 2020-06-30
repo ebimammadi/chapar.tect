@@ -12,6 +12,7 @@
       @url="imageShow"
     ></image-upload>
   <br>
+  <router-link to="/profile/address">address</router-link>
   </div>
 </template>
 

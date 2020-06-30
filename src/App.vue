@@ -2,6 +2,7 @@
   <div id="vueApp" v-cloak>
     <overlay-loader />
     <nav-bar v-if="isGuarded"/>
+    <bread-crumb v-if="isGuarded"/>
     <alert-box />
     <router-view></router-view>
   </div>
@@ -12,13 +13,14 @@
 import Navbar from './components/navbar';
 import AlertBox from './components/AlertBox';
 import OverlayLoader from './components/OverlayLoader';
-
+import BreadCrumb from './components/BreadCrumb';
 export default {
   name: 'App',
   components: {
     OverlayLoader,
     'nav-bar': Navbar,
-    AlertBox
+    AlertBox,
+    BreadCrumb
   },
   computed: {
     isGuarded: function() {

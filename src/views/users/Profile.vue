@@ -1,19 +1,36 @@
 <template>
-  <div>
-    <h1>Profile</h1>
-    <img v-if="profile_url" :src="profile_url" width="200"/>
-    <b-button v-if="profile_url" @click="deleteImage" variant="danger">Button</b-button>
-    <b-button v-if="profile_url" @click="deleteImage" class="mt-2" >Remove</b-button>
-    <image-upload
-      crop_width="800"
-      crop_height="800"
-      unique="true"
-      usage="profile"
-      @url="imageShow"
-    ></image-upload>
-  <br>
-  <router-link to="/profile/address">address</router-link>
-  </div>
+  <b-container class="bv-example-row">
+    <b-row>
+      <b-col>
+        <img v-if="profile_url" :src="profile_url" width="150"/>{{user.profilePhotoUrl}}
+        <b-button v-if="profile_url" @click="deleteImage" variant="danger">Remove</b-button>
+        <image-upload
+          crop_width="800"
+          crop_height="800"
+          unique="true"
+          usage="profile"
+          @url="imageShow"
+        ></image-upload>
+        <br>
+        <router-link to="/profile/address">address</router-link><br/><br/>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-form-group label="Fullname">
+          <b-form-input v-model="user.name" type="text" placeholder="Enter email"></b-form-input>
+        </b-form-group>
+        <b-form-group label="Email address">
+          <b-form-input
+            v-model="user.email"
+            type="email"
+            placeholder="Enter email"
+          ></b-form-input>
+        </b-form-group>
+
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -25,7 +42,8 @@ import ImageUpload from "@/components/ImageUpload.vue";
 export default {
   data(){
     return {
-      profile_url: ''
+      profile_url: '',
+      user: null
     }
   },
   components: {
@@ -48,31 +66,30 @@ export default {
       })
       .catch( err => {
         console.log(err)
-        console.log('error in about/validate page')
         if (!err.status)
           Store.commit('changeMessage', 'Network Error!');
-      }).finally(function(){
-        //test
-        //Store.commit('changeOverlayShow', false);
       });
     }
   },
   created() {
-    return console.log('yes')
-    // ApiService.get('/about')
-    // .then( response => {
-    //   Store.commit('changeMessage',`${response.data.message}`);
-    //   Store.commit('changeVariant','success');
-    // })
-    // .catch( err => {
-    //   console.log(err)
-    //   console.log('error in about/validate page')
-    //   if (!err.status)
-    //     Store.commit('changeMessage', 'Network Error!');
-    // }).finally(function(){
-    //   //test
-    //   //Store.commit('changeOverlayShow', false);
-    // });
+    console.log('yes')
+    ApiService.get('/users/profile-get')
+    .then( response => {
+      //console.log(response.data)
+      console.log(response.data.profilePhotoUrl)
+
+      this.profile_url = response.data.proflePhotoUrl;
+      this.user = response.data;
+    })
+    .catch( err => {
+      console.log(err)
+      console.log('error in about/validate page')
+      if (!err.status)
+        Store.commit('changeMessage', 'Network Error!');
+    }).finally(function(){
+      //test
+      //Store.commit('changeOverlayShow', false);
+    });
 
   }
 }

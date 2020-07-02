@@ -109,12 +109,12 @@ export default {
       if (this.user.name.length<5) return Store.commit('changeAlert', 'Name is very short.', 'warning');
       console.log(this.user.urls)
       validateURL
-      // if (this.user.urls.website.length>0 && !validateURL(this.user.urls.website))
-      //   return Store.commit('changeAlert', 'Website Address (URL) format is not valid.', 'warning');
-      // if (this.user.urls.facebook.length>0 && !validateURL(this.user.urls.facebook))
-      //   return Store.commit('changeAlert', 'Facebook Address (URL) format is not valid.', 'warning');
-      // if (this.user.urls.instagram.length>0 && !validateURL(this.user.urls.instagram))
-      //   return Store.commit('changeAlert', 'Instagram Address (URL) format is not valid.', 'warning');
+      if (this.user.urls.website.length>0 && !validateURL(this.user.urls.website))
+        return Store.commit('changeAlert', 'Website Address (URL) format is not valid.', 'warning');
+      if (this.user.urls.facebook.length>0 && !validateURL(this.user.urls.facebook))
+        return Store.commit('changeAlert', 'Facebook Address (URL) format is not valid.', 'warning');
+      if (this.user.urls.instagram.length>0 && !validateURL(this.user.urls.instagram))
+        return Store.commit('changeAlert', 'Instagram Address (URL) format is not valid.', 'warning');
       const payload = { name: this.user.name, urls: this.user.urls };
       console.log(payload);
       ApiService.post('/users/profile-set', payload)

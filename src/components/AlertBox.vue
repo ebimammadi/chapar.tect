@@ -1,6 +1,6 @@
 <template>
   <div class="alert-box">
-    <b-alert 
+    <b-alert
       :show="showAlert"
       :variant="variant"
       dismissible
@@ -23,7 +23,7 @@ export default {
       if (Store.getters.getMessage.length>0) return true;
       return false;
     },
-    message: function() {  
+    message: function() {
       return Store.getters.getMessage;
     },
     variant: function() {

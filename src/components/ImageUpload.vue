@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-form-group label="Choose Profile " label-for="file-default" label-cols-sm="2" v-if="!show">
-      <b-form-file id="file-default" @change="croppie"></b-form-file>
+    <b-form-group  v-if="!show">
+      <b-form-file id="file-default" :placeholder="placeholder" @change="croppie"></b-form-file>
     </b-form-group>
-    <div v-if="show">
-      <b-button @click="crop">Crop & Save</b-button>
-      <b-button @click="rotate" class="ml-3">⤸</b-button>
-      <b-button @click="cancel" class="ml-3">Cancel</b-button>
+    <div v-if="show" class="float-left">
+      <b-button @click="crop" variant="outline-success">Crop & Save Photo</b-button>
+      <b-button @click="rotate" variant="outline-secondary" class="ml-3">Rotate ⤸</b-button>
+      <b-button @click="cancel" variant="outline-secondary" class="ml-3">Cancel</b-button>
       <vue-croppie
         ref="croppieRef"
         :enableOrientation="true"
@@ -30,14 +30,14 @@ import ApiService from "@/core/ApiService";
 Vue.use(VueCroppie);
 
 export default {
-  props: ["crop_width", "crop_height", "unique", "usage"],
+  props: ["crop_width", "crop_height", "unique", "usage", "placeholder"],
   data() {
     return {
       croppieImage: "",
       cropped: null,
       width: 200,
       height: 200,
-      boundary: 40,
+      boundary: 20,
       show: ""
     };
   },
@@ -73,10 +73,6 @@ export default {
         size: { width: this.crop_width, height: this.crop_height }
       };
       this.$refs.croppieRef.result(options, output => {
-        //this.cropped = this.croppieImage = output;
-        //console.log(this.croppieImage);
-        // console.log(`options`, options);
-        // console.log(`let's submit this to the backend`);
         const postPayload = {
           image: output,
           unique: this.unique,
@@ -84,9 +80,6 @@ export default {
         };
         ApiService.post("/files/upload-image", postPayload)
           .then(response => {
-            // this.$refs.croppieRef.bind({
-            //   url: response.data.url
-            // });
             this.show = false;
             this.$emit("url", response.data.url);
           })

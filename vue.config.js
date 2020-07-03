@@ -1,6 +1,7 @@
-module.exports = {
-    publicPath: '/',
-    devServer: {
-        port: 3000
-    }
-};
+//? no need 
+// module.exports = {
+//     publicPath: '/',
+//     devServer: {
+//         port: 3000
+//     }
+// };

@@ -1,6 +1,6 @@
 <template>
   <div class="alert-box">
-    <b-alert :show="showAlert" :variant="variant" dismissible fade>
+    <b-alert :show="message.length>0" :variant="variant" dismissible fade>
       {{ message }}
     </b-alert>
   </div>
@@ -10,21 +10,13 @@
 import Store from "../stores/stores";
 
 export default {
-  props: {},
   computed: {
-    showAlert: function() {
-      if (Store.getters.getMessage.length > 0) return true;
-      return false;
-    },
-    message: function() {
-      return Store.getters.getMessage;
-    },
-    variant: function() {
-      return Store.getters.getVariant || "warning";
-    }
+    message: () => Store.getters.getMessage,   
+    variant: () => Store.getters.getVariant
   }
 };
 </script>
+
 <style scoped>
 .alert-box {
   max-width: 400px;

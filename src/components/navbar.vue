@@ -8,17 +8,16 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item >
+        <b-nav-item>
           <router-link :to="'/'">
             Home
           </router-link>
         </b-nav-item>
-        <b-nav-item >
+        <b-nav-item>
           <router-link :to="'/about'">
             About
           </router-link>
         </b-nav-item>
-
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
@@ -38,38 +37,35 @@
             Sign Out
           </b-dropdown-item>
         </b-nav-item-dropdown>
-
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
 
 <script>
-import Logo from '@/components/Logo.vue';
-import Store from '@/stores/stores';
+import Logo from "@/components/Logo.vue";
+import Store from "@/stores/stores";
 
-import JwtService from '@/core/JwtService';
-import ApiService from '@/core/ApiService';
+import JwtService from "@/core/JwtService";
+import ApiService from "@/core/ApiService";
 export default {
-  name: 'Navbar',
+  name: "Navbar",
   components: {
-    'app-logo': Logo
+    "app-logo": Logo
   },
   methods: {
     singOut: function() {
       ApiService.get(`/users/logout`)
-        .then( () => this.$router.push('/login') )
-        .catch( err => {
+        .then(() => this.$router.push("/login"))
+        .catch(err => {
           console.log(err);
-          if (!err.status)
-            Store.commit('changeMessage', 'Network Error!');
-          this.$router.push('/login');
+          if (!err.status) Store.commit("changeMessage", "Network Error!");
+          this.$router.push("/login");
         });
 
-        JwtService.deleteToken();
-        //this.$router.push('/login');
+      JwtService.deleteToken();
+      //this.$router.push('/login');
     }
   }
-
-}
+};
 </script>

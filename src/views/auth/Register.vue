@@ -1,8 +1,8 @@
 <template>
-  <div class="enterance-jumbotron bg-ultra-light-gray" >
+  <div class="enterance-jumbotron bg-ultra-light-gray">
     <app-logo />
     <h5 class="mt-2 align-center">Sign Up</h5>
-    <b-form @submit.prevent="onSubmit" class="mt-4" >
+    <b-form @submit.prevent="onSubmit" class="mt-4">
       <b-form-group label="Fullname:" label-for="name">
         <b-form-input
           id="name"
@@ -50,75 +50,76 @@
 
       <b-form-group class="mt-20 align-center">
         <p class="align-justify">
-          By signing up, you agree to our <router-link to="/terms">Terms</router-link>.
-          Learn how we collect, use and share your data in our
-          Data Policy and how we use cookies and similar technology in our Cookies Policy.
+          By signing up, you agree to our
+          <router-link to="/terms">Terms</router-link>. Learn how we collect,
+          use and share your data in our Data Policy and how we use cookies and
+          similar technology in our Cookies Policy.
         </p>
         Have an account? <router-link to="/login">Log In</router-link>
       </b-form-group>
     </b-form>
-
   </div>
 </template>
 
 <script>
-import _ from 'lodash';
+import _ from "lodash";
 
-import ApiService from '@/core/ApiService';
-import JwtService from '@/core/JwtService';
-import Store from '@/stores/stores';
-import Logo from '@/components/Logo.vue';
+import ApiService from "@/core/ApiService";
+import JwtService from "@/core/JwtService";
+import Store from "@/stores/stores";
+import Logo from "@/components/Logo.vue";
 
 export default {
-  name: 'register',
-  components:{
-    'app-logo': Logo
+  name: "register",
+  components: {
+    "app-logo": Logo
   },
-  data(){
+  data() {
     return {
-      form : {
-        name: '',
-        email: '',
-        password: '',
-        repeatPassword: ''
+      form: {
+        name: "",
+        email: "",
+        password: "",
+        repeatPassword: ""
       }
-    }
+    };
   },
 
-  methods:{
+  methods: {
     onSubmit: function() {
       //!TODO: validation should be implemeneted using vuelidate
-      if (this.form.password.length<8) {
-        Store.commit('changeMessage', 'Password is short!');
-        Store.commit('changeVariant','warning');
-        return
+      if (this.form.password.length < 8) {
+        Store.commit("changeMessage", "Password is short!");
+        Store.commit("changeVariant", "warning");
+        return;
       }
-      if (this.form.password != this.form.repeatPassword){
-        Store.commit('changeMessage', 'Passwords mismatch!');
-        Store.commit('changeVariant','warning');
-        return
+      if (this.form.password != this.form.repeatPassword) {
+        Store.commit("changeMessage", "Passwords mismatch!");
+        Store.commit("changeVariant", "warning");
+        return;
       }
-      const data = _.pick(this.form, ['name','email','password']);
-      ApiService.post('/users/register', data)
-      .then( response => {
-        Store.commit('changeMessage', '');
-        const token = response.headers["x-auth-token"];
-        JwtService.setToken(token);
-        Store.commit('changeSingInStatus', true);
-        this.$router.push("/");
-      })
-      .catch( error => {
-        if (!error.response)
-          return Store.commit('changeMessage', 'Network Error!');
-        Store.commit('changeMessage', `Error: ${error.response.data.message}`);
-
-      });
-
+      const data = _.pick(this.form, ["name", "email", "password"]);
+      ApiService.post("/users/register", data)
+        .then(response => {
+          Store.commit("changeMessage", "");
+          const token = response.headers["x-auth-token"];
+          JwtService.setToken(token);
+          Store.commit("changeSingInStatus", true);
+          this.$router.push("/");
+        })
+        .catch(error => {
+          if (!error.response)
+            return Store.commit("changeMessage", "Network Error!");
+          Store.commit(
+            "changeMessage",
+            `Error: ${error.response.data.message}`
+          );
+        });
     }
   },
   created() {
     //if we have loged in before
-    if (JwtService.getToken()) return this.$router.push('/')
-  },
-}
+    if (JwtService.getToken()) return this.$router.push("/");
+  }
+};
 </script>

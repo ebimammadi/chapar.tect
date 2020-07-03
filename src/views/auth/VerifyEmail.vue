@@ -3,13 +3,12 @@
     <app-logo />
     <h5 class="mt-2 align-center">Email Verification</h5>
     <b-form class="mt-4">
-      <b-form-group v-if="verified" >
-        Thank you for your confirmation. Your email address has been verified now, please sign in and start using the application.
+      <b-form-group v-if="verified">
+        Thank you for your confirmation. Your email address has been verified
+        now, please sign in and start using the application.
       </b-form-group>
 
-      <b-form-group class="mt-4">
-
-      </b-form-group>
+      <b-form-group class="mt-4"> </b-form-group>
 
       <b-form-group class="mt-10 align-center">
         Go to the
@@ -39,21 +38,20 @@ export default {
   },
   created() {
     ApiService.get(`/users/verify-email/${this.$route.params.code}`)
-      .then( response => {
-        if (response.data.response_type !== "success"){
-          Store.commit('changeMessage', 'There is an error!' );
-          Store.commit('changeVariant','warning');
+      .then(response => {
+        if (response.data.response_type !== "success") {
+          Store.commit("changeMessage", "There is an error!");
+          Store.commit("changeVariant", "warning");
           this.verified = false;
-        }else{
-          Store.commit('changeMessage', response.data.message );
-          Store.commit('changeVariant','success');
+        } else {
+          Store.commit("changeMessage", response.data.message);
+          Store.commit("changeVariant", "success");
           this.verified = true;
         }
       })
-      .catch( err => {
+      .catch(err => {
         console.log(err);
-        if (!err.status)
-          Store.commit('changeMessage', 'Network Error!');
+        if (!err.status) Store.commit("changeMessage", "Network Error!");
       });
   }
 };

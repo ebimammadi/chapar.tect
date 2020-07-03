@@ -1,8 +1,8 @@
 <template>
   <div id="vueApp" v-cloak>
     <overlay-loader />
-    <nav-bar v-if="isGuarded"/>
-    <bread-crumb v-if="isGuarded"/>
+    <nav-bar v-if="isGuarded" />
+    <bread-crumb v-if="isGuarded" />
     <alert-box />
     <router-view></router-view>
   </div>
@@ -10,24 +10,24 @@
 
 <script>
 //import Rou
-import Navbar from './components/navbar';
-import AlertBox from './components/AlertBox';
-import OverlayLoader from './components/OverlayLoader';
-import BreadCrumb from './components/BreadCrumb';
+import Navbar from "./components/navbar";
+import AlertBox from "./components/AlertBox";
+import OverlayLoader from "./components/OverlayLoader";
+import BreadCrumb from "./components/BreadCrumb";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     OverlayLoader,
-    'nav-bar': Navbar,
+    "nav-bar": Navbar,
     AlertBox,
     BreadCrumb
   },
   computed: {
     isGuarded: function() {
-      return !this.$route.meta.isPublic
+      return !this.$route.meta.isPublic;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

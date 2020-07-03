@@ -1,8 +1,8 @@
 <template>
-  <div class="enterance-jumbotron bg-ultra-light-gray" >
+  <div class="enterance-jumbotron bg-ultra-light-gray">
     <app-logo />
     <h5 class="mt-2 align-center">Sign In</h5>
-    <b-form @submit.prevent="onSubmit" class="mt-4" >
+    <b-form @submit.prevent="onSubmit" class="mt-4">
       <b-form-group label="Email address:" label-for="email">
         <b-form-input
           id="email"
@@ -33,68 +33,68 @@
         <router-link to="/forget-password">Forget Password?</router-link>
       </b-form-group>
       <b-form-group class="mt-20 align-center">
-          Don't have an account? <router-link to="/register">Sign Up</router-link>
+        Don't have an account? <router-link to="/register">Sign Up</router-link>
       </b-form-group>
-
     </b-form>
-
   </div>
 </template>
 
 <script>
-import _ from 'lodash';
+import _ from "lodash";
 
-import ApiService from '@/core/ApiService';
-import JwtService from '@/core/JwtService';
-import Store from '@/stores/stores';
-import Logo from '@/components/Logo.vue';
+import ApiService from "@/core/ApiService";
+import JwtService from "@/core/JwtService";
+import Store from "@/stores/stores";
+import Logo from "@/components/Logo.vue";
 
 export default {
-  name: 'login',
-  components:{
-    'app-logo': Logo
+  name: "login",
+  components: {
+    "app-logo": Logo
   },
-  data(){
+  data() {
     return {
-      form : {
-        email: '',
-        password: ''
+      form: {
+        email: "",
+        password: ""
       }
-    }
+    };
   },
-  methods:{
+  methods: {
     onSubmit: function() {
-      const data = _.pick(this.form, ['email','password']);
-      ApiService.post('/users/login', data)
-      .then( response => {
-        Store.commit('changeMessage', '');
-        const token = response.headers["x-auth-token"];
-        JwtService.setToken(token);
-        Store.commit('changeSingInStatus', true);
-        this.$router.push("/");
-      })
-      .catch( error => {
-        if (!error.response)
-          return Store.commit('changeMessage', 'Network Error!');
-        Store.commit('changeMessage', `Error: ${error.response.data.message}`);
-      });
-
+      const data = _.pick(this.form, ["email", "password"]);
+      ApiService.post("/users/login", data)
+        .then(response => {
+          Store.commit("changeMessage", "");
+          const token = response.headers["x-auth-token"];
+          JwtService.setToken(token);
+          Store.commit("changeSingInStatus", true);
+          this.$router.push("/");
+        })
+        .catch(error => {
+          if (!error.response)
+            return Store.commit("changeMessage", "Network Error!");
+          Store.commit(
+            "changeMessage",
+            `Error: ${error.response.data.message}`
+          );
+        });
     }
   },
   created() {
     //if we have loged in before
-    if (JwtService.getToken()) return this.$router.push('/')
+    if (JwtService.getToken()) return this.$router.push("/");
   },
-   mounted() {
-    JwtService.deleteToken();//remove the tokens
+  mounted() {
+    JwtService.deleteToken(); //remove the tokens
   }
-}
+};
 </script>
 
 <style>
-.enterance-jumbotron{
-  max-width:400px;
-  margin:20px auto;
+.enterance-jumbotron {
+  max-width: 400px;
+  margin: 20px auto;
   border: 1px solid #e9e9e9;
   border-radius: 5px;
   padding: 20px;

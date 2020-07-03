@@ -3,7 +3,6 @@
     <app-logo />
     <h5 class="mt-2 align-center">Recover Your Password</h5>
     <b-form @submit.prevent="onSubmit" class="mt-4">
-
       <b-form-group label="Email address:" label-for="email">
         <b-form-input
           id="email"
@@ -41,7 +40,6 @@
 </template>
 
 <script>
-
 import ApiService from "@/core/ApiService";
 import JwtService from "@/core/JwtService";
 import Store from "@/stores/stores";
@@ -76,7 +74,10 @@ export default {
         Store.commit("changeVariant", "warning");
         return;
       }
-      const data = { password: this.form.password, code: this.$route.params.code };
+      const data = {
+        password: this.form.password,
+        code: this.$route.params.code
+      };
       ApiService.post("/users/recover-password", data)
         .then(response => {
           Store.commit("changeMessage", "");
@@ -96,23 +97,24 @@ export default {
     }
   },
   created() {
-    if (JwtService.getToken()) return this.$router.push("/");  //if we have loged in before
+    if (JwtService.getToken()) return this.$router.push("/"); //if we have loged in before
 
-    ApiService.get(`/users/recover-password-verify-code/${this.$route.params.code}`)
-      .then( response => {
-        if (!response.data.email){
-          Store.commit('changeMessage', response.data.message );
-          Store.commit('changeVariant','warning');
-        }else{
+    ApiService.get(
+      `/users/recover-password-verify-code/${this.$route.params.code}`
+    )
+      .then(response => {
+        if (!response.data.email) {
+          Store.commit("changeMessage", response.data.message);
+          Store.commit("changeVariant", "warning");
+        } else {
           this.form.email = response.data.email;
-          Store.commit('changeMessage', response.data.message );
-          Store.commit('changeVariant','success');
+          Store.commit("changeMessage", response.data.message);
+          Store.commit("changeVariant", "success");
         }
       })
-      .catch( err => {
+      .catch(err => {
         console.log(err);
-        if (!err.status)
-          Store.commit('changeMessage', 'Network Error!');
+        if (!err.status) Store.commit("changeMessage", "Network Error!");
       });
   }
 };

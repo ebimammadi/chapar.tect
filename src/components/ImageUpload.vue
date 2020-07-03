@@ -1,19 +1,29 @@
 <template>
   <div>
-    <b-form-group  v-if="!show">
-      <b-form-file id="file-default" :placeholder="placeholder" @change="croppie"></b-form-file>
+    <b-form-group v-if="!show">
+      <b-form-file
+        id="file-default"
+        :placeholder="placeholder"
+        @change="croppie"
+      ></b-form-file>
     </b-form-group>
     <div v-if="show" class="float-left">
-      <b-button @click="crop" variant="outline-success">Crop & Save Photo</b-button>
-      <b-button @click="rotate" variant="outline-secondary" class="ml-3">Rotate ⤸</b-button>
-      <b-button @click="cancel" variant="outline-secondary" class="ml-3">Cancel</b-button>
+      <b-button @click="crop" variant="outline-success"
+        >Crop & Save Photo</b-button
+      >
+      <b-button @click="rotate" variant="outline-secondary" class="ml-3"
+        >Rotate ⤸</b-button
+      >
+      <b-button @click="cancel" variant="outline-secondary" class="ml-3"
+        >Cancel</b-button
+      >
       <vue-croppie
         ref="croppieRef"
         :enableOrientation="true"
         :enableResize="false"
         :enforceBoundary="true"
         :boundary="{ width: width + boundary, height: height + boundary }"
-        :viewport="{ width: width, height: height, 'type':'square' }"
+        :viewport="{ width: width, height: height, type: 'square' }"
         class="mt-3"
       ></vue-croppie>
       <!-- <img :src="cropped"> -->

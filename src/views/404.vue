@@ -1,18 +1,20 @@
 <template>
   <div>
-    <h1>Address Not Found!</h1>  
-    <b-button variant="outline-primary" >
+    <h1>Address Not Found!</h1>
+    <b-button variant="outline-primary">
       <router-link to="/">
         Home
       </router-link>
     </b-button>
-    <br/><br/>
-    <b-button variant="outline-primary" @click="$router.go(-1)">Go Back</b-button>
+    <br /><br />
+    <b-button variant="outline-primary" @click="$router.go(-1)"
+      >Go Back</b-button
+    >
   </div>
 </template>
 
 <script>
-    export default {
-        name: "error"
-    }
+export default {
+  name: "error"
+};
 </script>

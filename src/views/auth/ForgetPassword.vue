@@ -20,7 +20,6 @@
       <b-form-group class="mt-10 align-center">
         Back to the <router-link to="/login">Sign In</router-link> page
       </b-form-group>
-
     </b-form>
 
     <!-- <b-button variant="primary" href="#">More Info</b-button> -->
@@ -28,7 +27,6 @@
 </template>
 
 <script>
-
 import ApiService from "@/core/ApiService";
 import JwtService from "@/core/JwtService";
 
@@ -48,14 +46,15 @@ export default {
   },
   methods: {
     onSubmit: function() {
-      ApiService.post("/users/forget-password", {email: this.form.email})
+      ApiService.post("/users/forget-password", { email: this.form.email })
         .then(response => {
           this.form.email = "";
           Store.commit("changeMessage", response.data.message);
-          if (response.data.response_type === "success") Store.commit("changeVariant", response.data.response_type);
+          if (response.data.response_type === "success")
+            Store.commit("changeVariant", response.data.response_type);
         })
         .catch(error => {
-          this.form.email = ""
+          this.form.email = "";
           if (!error.response)
             return Store.commit("changeMessage", "Network Error!");
           Store.commit(

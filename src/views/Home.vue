@@ -1,7 +1,11 @@
 <template>
-  <div>
-    <h1>The home view</h1>
-  </div>
+  <b-container>
+    <b-row class="mb-3">
+      <b-col>
+        <h1>Welcome to this app, Under construction ...</h1>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -15,11 +19,10 @@ export default {
   created() {
     ApiService.get("/")
       .then(response => {
-        Store.commit(
-          "changeMessage",
-          `Message from the api: ${response.data.message}`
-        );
-        Store.commit("changeVariant", "success");
+        Store.commit("changeAlert", {
+          message: `Message from the api: ${response.data.message}`,
+          variant: `success`
+        });
       })
       .catch(err => {
         console.log("error home page", err);

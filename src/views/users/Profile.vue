@@ -1,3 +1,8 @@
+//Todo onsubmit should be applied firefox should be fixed, saffari should be checked
+//TODO all requests should be checked
+//TODO email verify!
+//TODO paasswrod change!
+//TODO email change
 <template>
   <b-container>
     <b-row class="mb-3">
@@ -217,7 +222,8 @@ export default {
         urls: this.user.urls
       })
         .then(response => {
-          this.setAlert("changeAlert", {
+          console.log(response)
+          this.setAlert({
             message: response.data.message,
             variant: response.data.response_type
           });

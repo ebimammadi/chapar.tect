@@ -121,15 +121,15 @@ const router = new Router({
 // });
 
 router.beforeEach((to, from, next) => {
-  Store.commit("changeMessage", "");
+  Store.dispatch({ type: "setAlert", message: "" }); //! check the payload
   if (to.matched.some(path => path.meta.requiresAuth)) {
-    // if ( !JwtService.getToken() )
-    if (!JwtService.isValidToken())
+    if (!JwtService.isValidToken()) {
+      //! store redirect
       next({
         name: "login"
         //query: { redirec: to.fullPath}
       });
-    else next();
+    } else next();
   } else next();
 });
 

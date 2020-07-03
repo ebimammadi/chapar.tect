@@ -166,10 +166,12 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import validateURL from "@/core/lib.js";
 
 import ApiService from "@/core/ApiService";
-import Store from "@/stores/stores";
+//import Store from "@/stores/stores";
 
 import ImageUpload from "@/components/ImageUpload.vue";
 
@@ -183,53 +185,47 @@ export default {
     ImageUpload
   },
   methods: {
+    ...mapActions(["setAlert"]),
     sendProfile() {
       if (this.user.name.length < 5)
-        return Store.commit("changeAlert", "Name is very short.", "warning");
-      //console.log(this.user.urls)
-      validateURL;
+        return this.setAlert({ message: `Name is too short.` });
+
       if (
         this.user.urls.website.length > 0 &&
         !validateURL(this.user.urls.website)
       )
-        return Store.commit(
-          "changeAlert",
-          "Website Address (URL) format is not valid.",
-          "warning"
-        );
+        return this.setAlert({
+          message: `Website Address (URL) format is not valid.`
+        });
       if (
         this.user.urls.facebook.length > 0 &&
         !validateURL(this.user.urls.facebook)
       )
-        return Store.commit(
-          "changeAlert",
-          "Facebook Address (URL) format is not valid.",
-          "warning"
-        );
+        return this.setAlert({
+          message: `Facebook Address (URL) format is not valid.`
+        });
       if (
         this.user.urls.instagram.length > 0 &&
         !validateURL(this.user.urls.instagram)
       )
-        return Store.commit(
-          "changeAlert",
-          "Instagram Address (URL) format is not valid.",
-          "warning"
-        );
-      const payload = { name: this.user.name, urls: this.user.urls };
-      //console.log(payload);
-      ApiService.post("/users/profile-set", payload)
+        return this.setAlert({
+          message: `Instagram Address (URL) format is not valid.`
+        });
+
+      ApiService.post("/users/profile-set", {
+        name: this.user.name,
+        urls: this.user.urls
+      })
         .then(response => {
-          console.log(response.data.response_type); //!set message
-          //this.user = response.data
-          Store.commit("changeAlert", {
+          this.setAlert("changeAlert", {
             message: response.data.message,
             variant: response.data.response_type
           });
         })
-        .catch(err => {
-          console.log(err);
-          if (!err.status) Store.commit("changeMessage", "Network Error!");
-        });
+        .catch(
+          error =>
+            this.setAlert({ message: `Network Error!` }) && console.log(error)
+        );
     },
     changeEmail() {},
     imageShow(url) {
@@ -242,24 +238,20 @@ export default {
           pathArr[pathArr.length - 1]
         }`
       )
-        .then(() => {
-          this.user.profilePhotoUrl = "";
-        })
-        .catch(err => {
-          console.log(err);
-          if (!err.status) Store.commit("changeMessage", "Network Error!");
-        });
+        .then(() => (this.user.profilePhotoUrl = ""))
+        .catch(
+          error =>
+            this.setAlert({ message: `Network Error!` }) && console.log(error)
+        );
     }
   },
   created() {
     ApiService.get("/users/profile-get")
-      .then(response => {
-        this.user = response.data;
-      })
-      .catch(err => {
-        console.log(err);
-        if (!err.status) Store.commit("changeMessage", "Network Error!");
-      });
+      .then(response => (this.user = response.data))
+      .catch(
+        error =>
+          this.setAlert({ message: `Network Error!` }) && console.log(error)
+      );
   },
   computed: {
     emailVerify: function() {

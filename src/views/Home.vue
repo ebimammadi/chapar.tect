@@ -10,27 +10,25 @@
 
 <script>
 import ApiService from "../core/ApiService";
-import Store from "../stores/stores";
+import { mapActions } from "vuex";
 
 export default {
   name: "Home",
-  methods: {},
-
+  methods: { ...mapActions(["setAlert"]) },
   created() {
     ApiService.get("/")
-      .then(response => {
-        Store.commit("changeAlert", {
-          message: `Message from the api: ${response.data.message}`,
+      .then(response =>
+        this.setAlert({
+          message: `Message: ${response.data.message}`,
           variant: `success`
-        });
-      })
-      .catch(err => {
-        console.log("error home page", err);
-        if (!err.status) Store.commit("changeMessage", "Network Error!");
-      })
+        })
+      )
+      .catch(
+        error =>
+          this.setAlert({ message: `Network Error!` }) && console.log(error)
+      )
       .finally(function() {
         //test
-        //Store.commit('changeOverlayShow', false);
       });
   }
 };

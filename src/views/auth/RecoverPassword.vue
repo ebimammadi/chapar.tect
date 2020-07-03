@@ -40,9 +40,10 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import ApiService from "@/core/ApiService";
 import JwtService from "@/core/JwtService";
-import Store from "@/stores/stores";
 import Logo from "@/components/Logo.vue";
 
 export default {
@@ -62,38 +63,29 @@ export default {
   },
 
   methods: {
+    ...mapActions(["setAlert", "setSingInStatus"]),
     onSubmit: function() {
       //!TODO: validation should be implemeneted using vuelidate
-      if (this.form.password.length < 8) {
-        Store.commit("changeMessage", "Password is short!");
-        Store.commit("changeVariant", "warning");
-        return;
-      }
-      if (this.form.password != this.form.repeatPassword) {
-        Store.commit("changeMessage", "Passwords mismatch!");
-        Store.commit("changeVariant", "warning");
-        return;
-      }
+      if (this.form.password.length < 8)
+        return this.setAlert({ message: "Password is short!" });
+      if (this.form.password != this.form.repeatPassword)
+        return this.setAlert({ message: "Password mismatch!" });
       const data = {
         password: this.form.password,
         code: this.$route.params.code
       };
       ApiService.post("/users/recover-password", data)
         .then(response => {
-          Store.commit("changeMessage", "");
+          this.setAlert({ message: "" });
           const token = response.headers["x-auth-token"];
           JwtService.setToken(token);
-          Store.commit("changeSingInStatus", true);
+          this.setSingInStatus(true);
           this.$router.push("/");
         })
-        .catch(error => {
-          if (!error.response)
-            return Store.commit("changeMessage", "Network Error!");
-          Store.commit(
-            "changeMessage",
-            `Error: ${error.response.data.message}`
-          );
-        });
+        .catch(
+          error =>
+            this.setAlert({ message: `Network Error!` }) && console.log(error)
+        );
     }
   },
   created() {
@@ -104,18 +96,16 @@ export default {
     )
       .then(response => {
         if (!response.data.email) {
-          Store.commit("changeMessage", response.data.message);
-          Store.commit("changeVariant", "warning");
+          this.setAlert({ message: response.data.message });
         } else {
           this.form.email = response.data.email;
-          Store.commit("changeMessage", response.data.message);
-          Store.commit("changeVariant", "success");
+          this.setAlert({ message: response.data.message, variant: "success" });
         }
       })
-      .catch(err => {
-        console.log(err);
-        if (!err.status) Store.commit("changeMessage", "Network Error!");
-      });
+      .catch(
+        error =>
+          this.setAlert({ message: `Network Error!` }) && console.log(error)
+      );
   }
 };
 </script>

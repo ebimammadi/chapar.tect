@@ -42,9 +42,9 @@
 <script>
 import _ from "lodash";
 
+import { mapActions } from "vuex";
 import ApiService from "@/core/ApiService";
 import JwtService from "@/core/JwtService";
-import Store from "@/stores/stores";
 import Logo from "@/components/Logo.vue";
 
 export default {
@@ -61,24 +61,21 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["setAlert", "setSingInStatus"]),
     onSubmit: function() {
       const data = _.pick(this.form, ["email", "password"]);
       ApiService.post("/users/login", data)
         .then(response => {
-          Store.commit("changeMessage", "");
+          this.setAlert({ message: "" });
           const token = response.headers["x-auth-token"];
           JwtService.setToken(token);
-          Store.commit("changeSingInStatus", true);
+          this.setSingInStatus(true);
           this.$router.push("/");
         })
-        .catch(error => {
-          if (!error.response)
-            return Store.commit("changeMessage", "Network Error!");
-          Store.commit(
-            "changeMessage",
-            `Error: ${error.response.data.message}`
-          );
-        });
+        .catch(
+          error =>
+            this.setAlert({ message: `Network Error!` }) && console.log(error)
+        );
     }
   },
   created() {

@@ -9,25 +9,19 @@ const getters = {
 };
 
 const actions = {
-  setMessage({ commit }, value) {
-    commit("changeMessage", value);
-  },
-  setVariant({ commit }, value) {
-    commit("changeVariant", value);
-  },
-  setChangeAlert({ commit }, payload) {
+  setAlert({ commit }, payload) {
     commit("changeAlert", payload);
   }
 };
 
 const mutations = {
-  changeMessage: (state, value) => (state.message = value),
-  changeVariant: (state, value) => (state.variant = value),
   changeAlert: (state, payload) => {
-    console.log(`payload`, payload);
-    state.variant = payload.variant;
+    if (payload.response_type) payload.variant = payload.response_type;
+    payload.variant = payload.variant ?? "warning";
     state.message = payload.message;
-    document.getElementsByClassName("alert-box")[0].scrollIntoView();
+    state.variant = payload.variant;
+    if (document.getElementsByClassName("alert-box").length > 0)
+      document.getElementsByClassName("alert-box")[0].scrollIntoView();
   }
 };
 

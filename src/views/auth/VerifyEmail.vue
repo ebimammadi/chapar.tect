@@ -21,10 +21,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import ApiService from "@/core/ApiService";
-//import JwtService from "@/core/JwtService";
-
-import Store from "@/stores/stores";
 import Logo from "@/components/Logo.vue";
 
 export default {
@@ -36,23 +34,24 @@ export default {
       verified: false
     };
   },
+  methods: {
+    ...mapActions(["setAlert"])
+  },
   created() {
     ApiService.get(`/users/verify-email/${this.$route.params.code}`)
       .then(response => {
         if (response.data.response_type !== "success") {
-          Store.commit("changeMessage", "There is an error!");
-          Store.commit("changeVariant", "warning");
+          this.setAlert({ message: "There is an error!" });
           this.verified = false;
         } else {
-          Store.commit("changeMessage", response.data.message);
-          Store.commit("changeVariant", "success");
+          this.setAlert({ message: response.data.message, variant: "success" });
           this.verified = true;
         }
       })
-      .catch(err => {
-        console.log(err);
-        if (!err.status) Store.commit("changeMessage", "Network Error!");
-      });
+      .catch(
+        error =>
+          this.setAlert({ message: `Network Error!` }) && console.log(error)
+      );
   }
 };
 </script>

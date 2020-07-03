@@ -44,7 +44,7 @@
 
 <script>
 import Logo from "@/components/Logo.vue";
-import Store from "@/stores/stores";
+import { mapActions } from "vuex";
 
 import JwtService from "@/core/JwtService";
 import ApiService from "@/core/ApiService";
@@ -54,12 +54,13 @@ export default {
     "app-logo": Logo
   },
   methods: {
+    ...mapActions(["setAlert"]),
     singOut: function() {
       ApiService.get(`/users/logout`)
         .then(() => this.$router.push("/login"))
         .catch(err => {
           console.log(err);
-          if (!err.status) Store.commit("changeMessage", "Network Error!");
+          if (!err.status) this.setAlert({ message: `Network Error!` });
           this.$router.push("/login");
         });
 

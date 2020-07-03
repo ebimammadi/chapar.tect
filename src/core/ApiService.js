@@ -14,8 +14,9 @@ const ApiService = {
 
     axios.interceptors.request.use(
       function(config) {
-        Store.commit("changeMessage", ""); //reset to its default
-        Store.commit("changeVariant", "warning"); //reset to its default
+        Store.dispatch({ type: "setAlert", message: "" }); //! check the payload
+        // Store.commit("changeMessage", ""); //reset to its default
+        // Store.commit("changeVariant", "warning"); //reset to its default
         Store.commit("changeOverlayShow", true);
         return config;
       },

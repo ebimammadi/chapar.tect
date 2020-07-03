@@ -27,10 +27,10 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import ApiService from "@/core/ApiService";
 import JwtService from "@/core/JwtService";
 
-import Store from "@/stores/stores";
 import Logo from "@/components/Logo.vue";
 
 export default {
@@ -45,27 +45,22 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["setAlert"]),
     onSubmit: function() {
       ApiService.post("/users/forget-password", { email: this.form.email })
         .then(response => {
           this.form.email = "";
-          Store.commit("changeMessage", response.data.message);
-          if (response.data.response_type === "success")
-            Store.commit("changeVariant", response.data.response_type);
+          this.setAlert({
+            message: response.data.message,
+            variant: response.data.response_type
+          });
         })
         .catch(error => {
           this.form.email = "";
-          if (!error.response)
-            return Store.commit("changeMessage", "Network Error!");
-          Store.commit(
-            "changeMessage",
-            `Error: ${error.response.data.message}`
-          );
+          console.log(error);
+          this.setAlert({ message: `Network Error!` });
         });
     }
-  },
-  computed: {
-    appName: () => Store.getters.settings.app_name
   },
   created() {
     //if we have logged-in before

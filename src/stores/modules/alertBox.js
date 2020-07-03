@@ -15,17 +15,18 @@ const actions = {
   setVariant ({ commit }, value) {
     commit('changeVariant', value)
   },
-  setChangeAlert ( { commit }, message, variant) {
-    commit('changeAlert', message, variant)
+  setChangeAlert ( { commit }, payload) {
+    commit('changeAlert', payload)
   }
 }
 
 const mutations = {
   changeMessage: (state, value) => (state.message = value),
   changeVariant: (state, value) => (state.variant = value),
-  changeAlert: (state, message, variant) => {
-    state.variant = variant;
-    state.message = message;
+  changeAlert: (state, payload) => {
+    console.log(`payload`,payload);
+    state.variant = payload.variant;
+    state.message = payload.message;
     document.getElementsByClassName('alert-box')[0].scrollIntoView();
   }
 }

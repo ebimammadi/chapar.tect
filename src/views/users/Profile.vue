@@ -107,7 +107,7 @@ export default {
   methods: {
     sendProfile(){
       if (this.user.name.length<5) return Store.commit('changeAlert', 'Name is very short.', 'warning');
-      console.log(this.user.urls)
+      //console.log(this.user.urls)
       validateURL
       if (this.user.urls.website.length>0 && !validateURL(this.user.urls.website))
         return Store.commit('changeAlert', 'Website Address (URL) format is not valid.', 'warning');
@@ -119,8 +119,9 @@ export default {
       console.log(payload);
       ApiService.post('/users/profile-set', payload)
         .then( response => {
-          console.log(response)
+          console.log(response.data.response_type)//!set message
           //this.user = response.data
+          Store.commit('changeAlert', { message: response.data.message, variant: response.data} );
           })
         .catch( err => {
           console.log(err)

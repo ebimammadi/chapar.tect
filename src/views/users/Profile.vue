@@ -216,14 +216,14 @@ export default {
           "warning"
         );
       const payload = { name: this.user.name, urls: this.user.urls };
-      console.log(payload);
+      //console.log(payload);
       ApiService.post("/users/profile-set", payload)
         .then(response => {
           console.log(response.data.response_type); //!set message
           //this.user = response.data
           Store.commit("changeAlert", {
             message: response.data.message,
-            variant: response.data
+            variant: response.data.response_type
           });
         })
         .catch(err => {

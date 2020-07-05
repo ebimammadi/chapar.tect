@@ -1,7 +1,7 @@
 import Vue from "vue";
 import axios from "axios";
 
-import Store from "../stores/stores";
+import Store from "../store";
 import router from "../router/router";
 
 const ApiService = {

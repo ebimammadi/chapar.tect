@@ -34,7 +34,8 @@ const ApiService = {
         //console.log(`there is an error status:`,err.response.status)
         if (err.response.status >= 400) {
           //!this chunck of code should be revised and developed 2020-0617
-          if (!["login", "register"].includes(router.currentRoute.name)) router.push("/login");      
+          if (!["login", "register"].includes(router.currentRoute.name))
+            router.push("/login");
           //return;
         }
         return Promise.reject(err);

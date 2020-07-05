@@ -8,7 +8,7 @@ import Loading from "vue-loading-overlay";
 // Import stylesheet
 import "vue-loading-overlay/dist/vue-loading.css";
 
-import Store from "../stores/stores";
+import Store from "@/store/index.js";
 
 export default {
   components: {

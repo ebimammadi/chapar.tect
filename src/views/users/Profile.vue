@@ -1,6 +1,6 @@
-//Todo onsubmit should be applied firefox should be fixed, saffari should be checked 
-//TODO all requests should be checked //TODO email verify! 
-//TODO paasswrod change! //TODO email change
+//Todo onsubmit should be applied firefox should be fixed, saffari should be
+checked //TODO all requests should be checked //TODO email verify! //TODO
+paasswrod change! //TODO email change
 <template>
   <b-container>
     <b-row class="mb-3">
@@ -35,6 +35,7 @@
           <label for="name">Fullname</label>
           <b-input-group>
             <b-input
+              v-focus
               id="name"
               v-model="user.name"
               type="text"
@@ -172,10 +173,7 @@
 import { mapActions } from "vuex";
 
 import validateURL from "@/core/lib.js";
-
 import ApiService from "@/core/ApiService";
-//import Store from "@/stores/stores";
-
 import ImageUpload from "@/components/ImageUpload.vue";
 
 export default {

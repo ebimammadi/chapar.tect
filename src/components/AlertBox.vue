@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Store from "../stores/stores";
+import Store from "@/store/index.js";
 
 export default {
   computed: {

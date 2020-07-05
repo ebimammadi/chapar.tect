@@ -97,7 +97,7 @@ export default {
 
       const data = _.pick(this.form, ["name", "email", "password"]);
       ApiService.post("/users/register", data)
-        .then( response => {
+        .then(response => {
           this.setAlert({ message: "" });
           const token = response.headers["x-auth-token"];
           JwtService.setToken(token);

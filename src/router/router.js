@@ -3,7 +3,7 @@ import Router from "vue-router";
 
 Vue.use(Router);
 
-import Store from "@/stores/stores";
+import Store from "@/store/index.js";
 import JwtService from "@/core/JwtService";
 
 const router = new Router({

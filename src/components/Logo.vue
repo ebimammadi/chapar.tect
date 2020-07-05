@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Store from "@/stores/stores.js";
+import Store from "@/store/index.js";
 export default {
   computed: {
     appName: () => Store.getters.settings.app_name

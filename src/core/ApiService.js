@@ -7,29 +7,30 @@ import router from "../router/router";
 const ApiService = {
   init() {
     Vue.prototype.$http = axios;
+
     axios.defaults.baseURL = Store.getters.settings.remote_api_base_url;
     axios.defaults.timeout = Store.getters.settings.axios_timeout;
     axios.defaults.withCredentials = true;
 
     axios.interceptors.request.use(
-      function(config) {
+      config => {
         //TODO disable overlayshow in case of needed
         Store.dispatch({ type: "setAlert", message: "" });
         Store.commit("changeOverlayShow", true);
         return config;
       },
-      function(err) {
+      err => {
         return Promise.reject(err);
       }
     );
 
     axios.interceptors.response.use(
-      function(config) {
+      config => {
         Store.commit("changeOverlayShow", false);
         //console.log("interceptor");
         return config;
       },
-      function(err) {
+      err => {
         Store.commit("changeOverlayShow", false);
         //console.log(`there is an error status:`,err.response.status)
         if (err.response.status >= 400) {

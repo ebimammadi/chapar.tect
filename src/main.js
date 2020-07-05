@@ -14,7 +14,7 @@ ApiService.init();
 Vue.config.productionTip = false;
 
 Vue.directive("focus", {
-  inserted: (el) => el.focus()
+  inserted: el => el.focus()
 });
 
 new Vue({

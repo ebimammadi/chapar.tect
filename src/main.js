@@ -1,14 +1,14 @@
 import Vue from "vue";
 import App from "./App.vue";
 
-import router from "./router/router.js";
-import store from "./stores/stores.js";
-import ApiService from "./core/ApiService";
+import router from "@/router/router.js";
+import store from "@/stores/stores.js";
+import ApiService from "@/core/ApiService";
 ApiService.init();
 
 //scss files
-import "./plugins/bootstrap-vue";
-import "./assets/custom.scss";
+import "@/plugins/bootstrap-vue";
+import "@/assets/custom.scss";
 
 //plugins
 

@@ -1,10 +1,9 @@
 import Vue from "vue";
 import axios from "axios";
 
-//import JwtSer
 import Store from "../stores/stores";
-//import { mapGetters } from "vuex";
 import router from "../router/router";
+
 const ApiService = {
   init() {
     Vue.prototype.$http = axios;
@@ -14,9 +13,8 @@ const ApiService = {
 
     axios.interceptors.request.use(
       function(config) {
-        Store.dispatch({ type: "setAlert", message: "" }); //! check the payload
-        // Store.commit("changeMessage", ""); //reset to its default
-        // Store.commit("changeVariant", "warning"); //reset to its default
+        //TODO disable overlayshow in case of needed
+        Store.dispatch({ type: "setAlert", message: "" });
         Store.commit("changeOverlayShow", true);
         return config;
       },
@@ -28,7 +26,7 @@ const ApiService = {
     axios.interceptors.response.use(
       function(config) {
         Store.commit("changeOverlayShow", false);
-        console.log("interceptor");
+        //console.log("interceptor");
         return config;
       },
       function(err) {
@@ -36,18 +34,13 @@ const ApiService = {
         //console.log(`there is an error status:`,err.response.status)
         if (err.response.status >= 400) {
           //!this chunck of code should be revised and developed 2020-0617
-          if (!["login", "register"].includes(router.currentRoute.name)) {
-            router.push("/login");
-          }
+          if (!["login", "register"].includes(router.currentRoute.name)) router.push("/login");      
           //return;
         }
         return Promise.reject(err);
       }
     );
   },
-
-  //TODO I need to add the set header in case of adding jwt
-  setHeader() {},
 
   get(resource) {
     return axios.get(resource);

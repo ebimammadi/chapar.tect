@@ -33,6 +33,5 @@ export default {
 <style lang="scss">
 //? I am not sure if this css identifier is really requiered!
 // #vueApp {
-// text-align: center;
 // }
 </style>

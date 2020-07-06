@@ -1,6 +1,7 @@
-//Todo onsubmit should be applied firefox should be fixed, saffari should be
-checked //TODO all requests should be checked //TODO email verify! //TODO
-paasswrod change! //TODO email change
+//TODO all requests should be checked 
+//TODO email verify! 
+//TODO paasswrod change! 
+//TODO email change
 <template>
   <b-container>
     <b-row class="mb-3">
@@ -121,6 +122,7 @@ paasswrod change! //TODO email change
         <b-input-group>
           <b-input
             id="website"
+            type="url"
             v-model="user.urls.website"
             placeholder="Enter Website Address"
           >
@@ -134,6 +136,7 @@ paasswrod change! //TODO email change
         <b-input-group>
           <b-input
             id="facebook"
+            type="url"
             v-model="user.urls.facebook"
             placeholder="Enter Facebook Page"
           >
@@ -147,6 +150,7 @@ paasswrod change! //TODO email change
         <b-input-group>
           <b-input
             id="instagram"
+            type="url"
             v-model="user.urls.instagram"
             placeholder="Enter Instagram Page"
           >
@@ -264,9 +268,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-[b-row] {
-  margin-bottom: 50px;
-}
-</style>

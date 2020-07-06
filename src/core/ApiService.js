@@ -33,7 +33,8 @@ const ApiService = {
       err => {
         Store.commit("changeOverlayShow", false);
         //console.log(`there is an error status:`,err.response.status)
-        if (err.response.status >= 400) {
+        if (err.response.status == 403) {
+          //! err.response.status =>400 a more strick rule
           //!this chunck of code should be revised and developed 2020-0617
           if (!["login", "register"].includes(router.currentRoute.name))
             router.push("/login");

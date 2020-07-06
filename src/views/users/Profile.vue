@@ -2,8 +2,8 @@
 //TODO email verify! 
 //TODO paasswrod change! 
 //TODO email change
-<template v-show="overlayShow">
-  <b-container>
+<template >
+  <b-container v-show="!this.$store.overlayShow">
     <b-row class="mb-3">
       <b-col>
         <img
@@ -32,7 +32,7 @@
     </b-row>
     <b-row class="mb-3">
       <b-col>
-        <b-input-group>
+        <b-input-group>{{ overlayShow + 's'}}
           <label for="name">Fullname</label>
           <b-input-group>
             <b-input
@@ -248,7 +248,7 @@ export default {
         .then(() => (this.user.profilePhotoUrl = ""))
         .catch(
           error =>
-            this.setAlert({ message: `Network Error!` }) && console.log(error)
+            (this.user.profilePhotoUrl = "") && this.setAlert({ message: `Network Error!` }) && console.log(error)  
         );
     }
   },

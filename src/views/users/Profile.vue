@@ -2,7 +2,7 @@
 //TODO email verify! 
 //TODO paasswrod change! 
 //TODO email change
-<template>
+<template v-show="overlayShow">
   <b-container>
     <b-row class="mb-3">
       <b-col>
@@ -183,6 +183,7 @@ import ImageUpload from "@/components/ImageUpload.vue";
 export default {
   data() {
     return {
+      overlayShow: false,
       user: { urls: {} }
     };
   },
@@ -266,5 +267,6 @@ export default {
       return "";
     }
   }
+
 };
 </script>

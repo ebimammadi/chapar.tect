@@ -56,6 +56,7 @@ export default {
   methods: {
     ...mapActions(["setAlert"]),
     singOut: function() {
+      JwtService.deleteToken();
       ApiService.get(`/users/logout`)
         .then(() => this.$router.push("/login"))
         .catch(err => {
@@ -63,9 +64,6 @@ export default {
           if (!err.status) this.setAlert({ message: `Network Error!` });
           this.$router.push("/login");
         });
-
-      JwtService.deleteToken();
-      //this.$router.push('/login');
     }
   }
 };

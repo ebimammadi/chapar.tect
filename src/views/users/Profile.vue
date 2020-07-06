@@ -3,7 +3,7 @@
 //TODO paasswrod change! 
 //TODO email change
 <template >
-  <b-container v-show="!this.$store.overlayShow">
+  <b-container>
     <b-row class="mb-3">
       <b-col>
         <img
@@ -32,7 +32,7 @@
     </b-row>
     <b-row class="mb-3">
       <b-col>
-        <b-input-group>{{ overlayShow + 's'}}
+        <b-input-group>
           <label for="name">Fullname</label>
           <b-input-group>
             <b-input
@@ -68,19 +68,50 @@
             v-if="user.emailVerify"
             variant="outline-secondary"
             class="ml-2"
-            @click="changeEmail"
-            >Change</b-button
+            v-b-toggle.email-collapse
+            >Change Email </b-button
           >
           <b-button
             v-if="!user.emailVerify"
             variant="outline-secondary"
             class="ml-2"
-            @click="changeEmail"
-            >Verify email?</b-button
-          >
+            >Verify email? </b-button>
         </b-input-group>
       </b-col>
     </b-row>
+    <b-collapse id="email-collapse" class="mb-3">
+      <b-card>
+        <b-container>
+          <b-row class="mb-3">
+            <label for="new-email">New Email</label>
+            <b-input-group>
+              <b-input
+                id="new-email"
+                v-model="newEmail"
+                type="email"
+                placeholder="Enter new address"
+              ></b-input>
+            </b-input-group>
+          </b-row>
+          <b-row>
+            <label for="current-password">Current Password</label>
+            <b-input-group>
+              <b-input
+                id="current-password"
+                v-model="currentPassword"
+                type="password"
+                placeholder="Enter current address"
+              ></b-input>
+              <b-button
+                variant="outline-success"
+                class="ml-2"
+                @click="changeEmail"
+                >Save Email </b-button>
+            </b-input-group>
+          </b-row>
+        </b-container>
+      </b-card>
+    </b-collapse>  
     <b-row class="mb-3">
       <b-col>
         <label for="phone">Mobile</label>
@@ -183,7 +214,8 @@ import ImageUpload from "@/components/ImageUpload.vue";
 export default {
   data() {
     return {
-      overlayShow: false,
+      currentPassword: '',
+      newEmail: '',
       user: { urls: {} }
     };
   },
@@ -234,7 +266,11 @@ export default {
             this.setAlert({ message: `Network Error!` }) && console.log(error)
         );
     },
-    changeEmail() {},
+    changeEmail() {
+      //check for valid input
+      
+
+    },
     imageShow(url) {
       this.user.profilePhotoUrl = url;
     },

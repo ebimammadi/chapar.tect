@@ -121,10 +121,10 @@ const router = new Router({
 // });
 
 router.beforeEach((to, from, next) => {
-  Store.dispatch({ type: "setAlert", message: "" }); //! check the payload
+  Store.dispatch({ type: "setAlert", message: "" }); 
   if (to.matched.some(path => path.meta.requiresAuth)) {
     if (!JwtService.isValidToken()) {
-      //! store redirect
+      //! store redirect set
       next({
         name: "login"
         //query: { redirec: to.fullPath}

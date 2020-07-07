@@ -31,7 +31,7 @@
             Profile
           </b-dropdown-item>
           <b-dropdown-item :to="'/profile/address'">
-            address
+            Address
           </b-dropdown-item>
           <b-dropdown-item href="#" v-on:click="singOut">
             Sign Out

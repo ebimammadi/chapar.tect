@@ -1,5 +1,5 @@
 const validateURL = str => {
-  console.log(`str`, str);
+  //console.log(`str`, str);
   const pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
     "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
@@ -12,6 +12,9 @@ const validateURL = str => {
   return !!pattern.test(str);
 };
 
-//const test = 1;
+function validateEmail(email) {
+  const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(String(email).toLowerCase());
+}
 
-export default validateURL;
+export default { validateURL, validateEmail };

@@ -1,20 +1,17 @@
+import * as EmailValidator from 'email-validator';
+
 const validateURL = str => {
-  //console.log(`str`, str);
-  const pattern = new RegExp(
-    "^(https?:\\/\\/)?" + // protocol
-    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-      "(\\#[-a-z\\d_]*)?$",
-    "i"
-  ); // fragment locator
-  return !!pattern.test(str);
+  try {
+    new URL(str);
+  } catch (_) {
+    return false;
+  }
+  return true;
 };
 
-function validateEmail(email) {
-  const regex = "/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/";
-  return regex.test(String(email).toLowerCase());
-}
+const validateEmail = (email) => EmailValidator.validate(email)
+  // const regex = `/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/`;
+  // return regex.test(String(email).toLowerCase());
+
 
 export { validateURL, validateEmail };

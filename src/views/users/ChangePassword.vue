@@ -88,7 +88,7 @@ export default {
         return this.setAlert({ message: this.validation.password });
 
       ApiService.post("/users/password-set", {
-        email: this.email,
+        newPassword: this.newPassword,
         password: this.password
       })
         .then(response => {

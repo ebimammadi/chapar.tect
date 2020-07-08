@@ -66,6 +66,8 @@ export default {
       const data = _.pick(this.form, ["email", "password"]);
       ApiService.post("/users/login", data)
         .then(response => {
+          if (response.data.message)
+            return this.setAlert({ message: response.data.message });
           this.setAlert({ message: "" });
           const token = response.headers["x-auth-token"];
           JwtService.setToken(token);
@@ -80,10 +82,9 @@ export default {
   },
   created() {
     //if we have loged in before
-    console.log(`login JwtService.getToken()`, JwtService.isValidToken())
+    console.log(`login JwtService.getToken()`, JwtService.isValidToken());
     JwtService.deleteToken(); //!
     if (JwtService.isValidToken()) return this.$router.push("/");
-    
   },
   mounted() {
     //JwtService.deleteToken(); //remove the tokens

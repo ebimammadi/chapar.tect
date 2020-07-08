@@ -48,6 +48,14 @@ const router = new Router({
           meta: {
             requiresAuth: true
           }
+        },
+        {
+          path: "change-email",
+          name: "change Email",
+          component: () => import("../views/users/ChangeEmail.vue"),
+          meta: {
+            requiresAuth: true
+          }
         }
       ]
     },
@@ -121,7 +129,7 @@ const router = new Router({
 // });
 
 router.beforeEach((to, from, next) => {
-  Store.dispatch({ type: "setAlert", message: "" }); 
+  Store.dispatch({ type: "setAlert", message: "" });
   if (to.matched.some(path => path.meta.requiresAuth)) {
     if (!JwtService.isValidToken()) {
       //! store redirect set

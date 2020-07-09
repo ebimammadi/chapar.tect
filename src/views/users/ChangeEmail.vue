@@ -72,7 +72,7 @@ export default {
   methods: {
     ...mapActions(["setAlert"]),
     changeEmail() {
-      if (!validateEmail(this.email))
+      if (!this.validateNewEmail(this.email))
         return this.setAlert({ message: this.validation.email });
       if (this.password.length < 8)
         return this.setAlert({ message: `Your password seems invalid!` });

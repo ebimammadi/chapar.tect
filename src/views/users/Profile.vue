@@ -36,9 +36,24 @@
             v-model="user.name"
             type="text"
             placeholder="Enter fullname"
-            class="full-width"
           ></b-input>
-          <b-form-invalid-feedback :state="nameValidation">
+          <b-form-invalid-feedback :state="validateName">
+            {{ validation.name }}
+          </b-form-invalid-feedback>
+        </b-input-group>
+      </b-col>
+    </b-row>
+    <b-row class="mb-3">
+      <b-col>
+        <label for="user-role">User Role</label>
+        <b-input-group>
+          <b-input
+            id="user-role" 
+            v-model="user.userRole"
+            type="text"
+            disabled
+          ></b-input>
+          <b-form-invalid-feedback :state="validateName">
             {{ validation.name }}
           </b-form-invalid-feedback>
         </b-input-group>
@@ -79,10 +94,11 @@
             >Change Email
           </b-button> -->
           <b-button
+            @click="confirmEmail"
             v-if="!user.emailVerify"
             variant="outline-secondary"
             class="ml-2"
-            >Verify Email?
+            >Confirm Email
           </b-button>
         </b-input-group>
       </b-col>
@@ -220,8 +236,19 @@ export default {
   },
   methods: {
     ...mapActions(["setAlert"]),
+    confirmEmail() {
+      ApiService.get("/users/send-verification-link")
+        .then(response => {
+            if (response.data.message)
+            return this.setAlert({ message: response.data.message, variant: response.data.response_type });
+        })
+        .catch(
+          error =>
+            this.setAlert({ message: `Network Error!` }) && console.log(error)
+        );
+    },
     sendProfile() {
-      if (!this.nameValidation)
+      if (!this.validateName)
         return this.setAlert({ message: this.validation.name });
 
       if (!this.validateWebsite)
@@ -286,7 +313,7 @@ export default {
         return `<b-button variant="outline-success">verified</b-button>`;
       return "";
     },
-    nameValidation() {
+    validateName() {
       return (
         this.user.name &&
         this.user.name.length > 5 &&
@@ -308,3 +335,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#user-role {
+  text-transform: capitalize;
+}
+</style>

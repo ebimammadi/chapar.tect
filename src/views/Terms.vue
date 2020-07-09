@@ -25,12 +25,14 @@
           all of these technologies as “cookies.”
         </p>
         <p>
-        Back to
-        <router-link to="/login" class="mt-5">
-          Log In
-        </router-link> or <router-link to="/register" class="mt-5">
-          Register?
-        </router-link>
+          Back to
+          <router-link to="/login" class="mt-5">
+            Log In
+          </router-link>
+          or
+          <router-link to="/register" class="mt-5">
+            Register?
+          </router-link>
         </p>
       </b-form-group>
     </b-form>

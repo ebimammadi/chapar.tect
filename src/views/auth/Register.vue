@@ -63,9 +63,9 @@
       <b-form-group class="mt-20 align-center">
         <p class="align-justify">
           By signing up, you agree to our
-          <router-link target="_blank" to="/terms">Terms</router-link>. Learn how we collect,
-          use and share your data in our Data Policy and how we use cookies and
-          similar technology in our Cookies Policy.
+          <router-link target="_blank" to="/terms">Terms</router-link>. Learn
+          how we collect, use and share your data in our Data Policy and how we
+          use cookies and similar technology in our Cookies Policy.
         </p>
         Have an account? <router-link to="/login">Log In</router-link>
       </b-form-group>
@@ -97,11 +97,10 @@ export default {
         including first name and last name.`,
         email: `'Email Address' should be a valid email address,
           and you should have access to your mailbox.`,
-      password: `The 'Password' should be at least 8 characters, with
+        password: `The 'Password' should be at least 8 characters, with
         at least one lowercase, uppercase, number and special character.`,
-      confirmPassword: `'Confirm Password' Should match the new password`,
+        confirmPassword: `'Confirm Password' Should match the new password`
       }
-      
     };
   },
 
@@ -115,10 +114,12 @@ export default {
       if (!this.validatePassword)
         return this.setAlert({ message: this.validation.password });
       if (!this.validateConfimrPassword)
-        return this.setAlert({ message: this.validation.confirmPassword });  
+        return this.setAlert({ message: this.validation.confirmPassword });
 
-
-      ApiService.post("/users/register", _.pick(this, ["name", "email", "password"]) )
+      ApiService.post(
+        "/users/register",
+        _.pick(this, ["name", "email", "password"])
+      )
         .then(response => {
           this.setAlert({ message: "" });
           const token = response.headers["x-auth-token"];
@@ -150,20 +151,18 @@ export default {
     },
     validateName() {
       return (
-        this.name &&
-        this.name.length > 5 &&
-        this.name.split(" ").length > 1
+        this.name && this.name.length > 5 && this.name.split(" ").length > 1
       );
     },
     validateNewEmail() {
       return validateEmail(this.email);
     },
     validatePassword() {
-      console.log(`testValidatePassowr`)
+      console.log(`testValidatePassowr`);
       return validate(this.password, this.passwordOptions).valid;
     },
     validateConfirmPassword() {
-      return this.password == this.confirmPassword
+      return this.password == this.confirmPassword;
     }
   }
 };

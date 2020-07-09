@@ -49,7 +49,7 @@
         @click="changePassword"
         >Save New Password
       </b-button>
-      <router-link to="/profile/" class="ml-2 float-right">
+      <router-link to="/profile" class="ml-2 float-right">
         <b-button to variant="outline-secondary">
           Back to Profile
         </b-button>

@@ -24,7 +24,7 @@
           placeholder="Confirm new password"
         ></b-input>
         <b-form-invalid-feedback :state="validateConfirmPassword"
-          >{{  validation.confirmPassword }}
+          >{{ validation.confirmPassword }}
         </b-form-invalid-feedback>
       </b-input-group>
     </b-row>
@@ -122,7 +122,7 @@ export default {
       return validate(this.newPassword, this.passwordOptions).valid;
     },
     validateConfirmPassword() {
-      return this.newPassword == this.confirmPassword
+      return this.newPassword == this.confirmPassword;
     },
     validatePassword() {
       return validate(this.password, this.passwordOptions).valid;

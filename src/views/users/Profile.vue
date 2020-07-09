@@ -48,7 +48,7 @@
         <label for="user-role">User Role</label>
         <b-input-group>
           <b-input
-            id="user-role" 
+            id="user-role"
             v-model="user.userRole"
             type="text"
             disabled
@@ -206,7 +206,6 @@
         </router-link>
       </b-col>
     </b-row>
-    
   </b-container>
 </template>
 
@@ -239,8 +238,11 @@ export default {
     confirmEmail() {
       ApiService.get("/users/send-verification-link")
         .then(response => {
-            if (response.data.message)
-            return this.setAlert({ message: response.data.message, variant: response.data.response_type });
+          if (response.data.message)
+            return this.setAlert({
+              message: response.data.message,
+              variant: response.data.response_type
+            });
         })
         .catch(
           error =>
@@ -331,7 +333,7 @@ export default {
     validateInstagram() {
       const url = this.user.urls.instagram;
       return url.length == 0 || validateURL(url);
-    },
+    }
   }
 };
 </script>

@@ -40,7 +40,10 @@ export default {
   created() {
     ApiService.get(`/users/verify-email/${this.$route.params.code}`)
       .then(response => {
-        return this.setAlert({ message: response.data.message, variant: response.data.response_type });
+        return this.setAlert({
+          message: response.data.message,
+          variant: response.data.response_type
+        });
       })
       .catch(
         error =>

@@ -40,13 +40,7 @@ export default {
   created() {
     ApiService.get(`/users/verify-email/${this.$route.params.code}`)
       .then(response => {
-        if (response.data.response_type !== "success") {
-          this.setAlert({ message: "There is an error!" });
-          this.verified = false;
-        } else {
-          this.setAlert({ message: response.data.message, variant: "success" });
-          this.verified = true;
-        }
+        return this.setAlert({ message: response.data.message, variant: response.data.response_type });
       })
       .catch(
         error =>

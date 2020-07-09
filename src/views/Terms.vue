@@ -13,7 +13,7 @@
             href="https://www.datainspektionen.se/vagledningar/en-introduktion-till-dataskyddsforordningen/"
             target="_blank"
           >
-            Data Inspectorate </a
+            Data Inspectorate</a
           >.
           <br />
           Our service uses Cookies. Cookies are small pieces of text used to
@@ -24,10 +24,14 @@
           software, are used for similar purposes. In this policy, we refer to
           all of these technologies as “cookies.”
         </p>
+        <p>
         Back to
         <router-link to="/login" class="mt-5">
-          Log In?
+          Log In
+        </router-link> or <router-link to="/register" class="mt-5">
+          Register?
         </router-link>
+        </p>
       </b-form-group>
     </b-form>
   </div>
@@ -37,7 +41,6 @@
 import Logo from "@/components/Logo.vue";
 
 export default {
-  name: "terms",
   components: {
     "app-logo": Logo
   }

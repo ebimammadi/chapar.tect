@@ -6,128 +6,46 @@ Vue.use(Router);
 import Store from "@/store/index.js";
 import JwtService from "@/core/JwtService";
 
+import profileRoutes from "@/router/routes/profile";
+import loginGroupRoutes from "@/router/routes/loginGroup";
+
+const baseRoutes = [
+  {
+    path: "/",
+    name: "home",
+    component: () => import("../views/Home.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: () => import("../views/About.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/404",
+    name: "404",
+    component: () => import("../views/404.vue"),
+    meta: {
+      isPublic: true
+    }
+  },
+  {
+    path: "*",
+    redirect: "/404"
+  }
+];
+
+const routes = baseRoutes.concat(profileRoutes, loginGroupRoutes);
+
 const router = new Router({
   mode: "history",
   linkExactActiveClass: "active-link",
-  routes: [
-    {
-      path: "/",
-      name: "home",
-      component: () => import("../views/Home.vue"),
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: () => import("../views/About.vue"),
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/profile",
-      component: () => import("../views/users/ProfileParent.vue"),
-      meta: {
-        requiresAuth: true
-      },
-      children: [
-        {
-          path: "",
-          name: "profile",
-          component: () => import("../views/users/Profile.vue"),
-          meta: {
-            requiresAuth: true
-          }
-        },
-        {
-          path: "address",
-          name: "address",
-          component: () => import("../views/users/Address.vue"),
-          meta: {
-            requiresAuth: true
-          }
-        },
-        {
-          path: "change-email",
-          name: "change Email",
-          component: () => import("../views/users/ChangeEmail.vue"),
-          meta: {
-            requiresAuth: true
-          }
-        },
-        {
-          path: "change-password",
-          name: "change Password",
-          component: () => import("../views/users/ChangePassword.vue"),
-          meta: {
-            requiresAuth: true
-          }
-        }
-      ]
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: () => import("../views/auth/Login.vue"),
-      meta: {
-        isPublic: true
-      }
-    },
-    {
-      path: "/register",
-      name: "register",
-      component: () => import("../views/auth/Register.vue"),
-      meta: {
-        isPublic: true
-      }
-    },
-    {
-      path: "/forget-password",
-      name: "forget-password",
-      component: () => import("../views/auth/ForgetPassword.vue"),
-      meta: {
-        isPublic: true
-      }
-    },
-    {
-      path: "/recover-password/:code",
-      name: "recover-password",
-      component: () => import("../views/auth/RecoverPassword.vue"),
-      meta: {
-        isPublic: true
-      }
-    },
-    {
-      path: "/verify-email/:code",
-      name: "verify-email",
-      component: () => import("../views/auth/VerifyEmail.vue"),
-      meta: {
-        isPublic: true
-      }
-    },
-    {
-      path: "/terms",
-      name: "terms",
-      component: () => import("../views/Terms.vue"),
-      meta: {
-        isPublic: true
-      }
-    },
-    {
-      path: "/404",
-      name: "404",
-      component: () => import("../views/404.vue"),
-      meta: {
-        isPublic: true
-      }
-    },
-    {
-      path: "*",
-      redirect: "/404"
-    }
-  ]
+  routes: routes
 });
 
 // router.beforeEach((to, from, next) => {

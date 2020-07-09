@@ -46,5 +46,5 @@ export default [
     meta: {
       isPublic: true
     }
-  },
-]
+  }
+];

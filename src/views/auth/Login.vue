@@ -1,5 +1,5 @@
 <template>
-  <div class="enterance-jumbotron bg-ultra-light-gray">
+  <div class="entrance-jumbotron bg-ultra-light-gray">
     <app-logo />
     <h5 class="mt-2 align-center">Sign In</h5>
     <b-form @submit.prevent="onSubmit" class="mt-4">
@@ -93,7 +93,7 @@ export default {
 </script>
 
 <style>
-.enterance-jumbotron {
+.entrance-jumbotron {
   max-width: 400px;
   margin: 20px auto;
   border: 1px solid #e9e9e9;

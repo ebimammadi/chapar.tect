@@ -1,5 +1,5 @@
 <template>
-  <div class="enterance-jumbotron bg-ultra-light-gray">
+  <div class="entrance-jumbotron bg-ultra-light-gray">
     <app-logo />
     <h5 class="mt-5 align-center">Terms and Condition Policy</h5>
     <b-form class="mt-4">

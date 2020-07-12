@@ -228,7 +228,6 @@
 
 <script>
 import { mapActions } from "vuex";
-//import passwordComplexity from "joi-password-complexity";
 import { validateURL, validateSlug } from "@/core/lib.js";
 import ApiService from "@/core/ApiService";
 import ImageUpload from "@/components/ImageUpload.vue";
@@ -332,11 +331,6 @@ export default {
       );
   },
   computed: {
-    emailVerify: function() {
-      if (this.user.emailVerify)
-        return `<b-button variant="outline-success">verified</b-button>`;
-      return "";
-    },
     validateName() {
       return (
         this.user.name &&

@@ -23,8 +23,8 @@
           placeholder="Select Profile Photo"
           @url="imageShow"
         >
-        </image-upload> </b-col
-      >
+        </image-upload>
+      </b-col>
     </b-row>
     <b-row class="mb-3">
       <b-col>
@@ -140,6 +140,23 @@
     </b-row> -->
     <b-row class="mb-3">
       <b-col>
+        <label for="slug">Slug</label>
+        <b-input-group>
+          <b-input
+            id="slug"
+            type="text"
+            v-model="user.slug"
+            placeholder="Enter Slug"
+          >
+          </b-input>
+          <b-form-invalid-feedback :state="validateSlug">
+            {{ validation.slug }}
+          </b-form-invalid-feedback>
+        </b-input-group>
+      </b-col>
+    </b-row>
+    <b-row class="mb-3">
+      <b-col>
         <label for="website">Website Address</label>
         <b-input-group>
           <b-input
@@ -212,7 +229,7 @@
 <script>
 import { mapActions } from "vuex";
 //import passwordComplexity from "joi-password-complexity";
-import { validateURL } from "@/core/lib.js";
+import { validateURL, validateSlug } from "@/core/lib.js";
 import ApiService from "@/core/ApiService";
 import ImageUpload from "@/components/ImageUpload.vue";
 
@@ -222,6 +239,7 @@ export default {
       user: { urls: { facebook: "", website: "", instagram: "" } },
       validation: {
         name: `Your 'Fullname' should be at least 5 charecters, including first name and last name.`,
+        slug: `'Slug' should contain only lowercase characther and numbers seperated by hyphon (-). For example if the name is 'John Smith Foods' you can use 'john-smith-foods'.`,
         urls: {
           website: `Website Address (URL) format is not valid. It should start with http:// or https://`,
           instagram: `Instagram Address (URL) format is not valid. It should start with https://`,
@@ -252,6 +270,9 @@ export default {
     sendProfile() {
       if (!this.validateName)
         return this.setAlert({ message: this.validation.name });
+
+      if (!this.validateSlug)
+        return this.setAlert({ message: this.validation.slug });
 
       if (!this.validateWebsite)
         return this.setAlert({
@@ -333,6 +354,16 @@ export default {
     validateInstagram() {
       const url = this.user.urls.instagram;
       return url.length == 0 || validateURL(url);
+    },
+    validateSlug() {
+      console.log(`sdsa`, this.user.slug);
+      if (this.user.slug === undefined) return false;
+      if (this.user.slug) console.log(this.user.slug.length);
+      return (
+        this.user.slug &&
+        this.user.slug.length > 0 &&
+        validateSlug(this.user.slug)
+      );
     }
   }
 };

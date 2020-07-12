@@ -1,5 +1,3 @@
-import * as EmailValidator from "email-validator";
-
 const validateURL = str => {
   try {
     new URL(str);
@@ -9,8 +7,11 @@ const validateURL = str => {
   return true;
 };
 
-const validateEmail = email => EmailValidator.validate(email);
-// const regex = `/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/`;
-// return regex.test(String(email).toLowerCase());
+const validateSlug = slug => RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).test(slug);
 
-export { validateURL, validateEmail };
+const validateEmail = email => /\S+@\S+\.\S+/.test(email);
+//! Warning this email validation is not really complete!
+//import * as EmailValidator from "email-validator";
+//https://ui.dev/validate-email-address-javascript/
+
+export { validateURL, validateEmail, validateSlug };

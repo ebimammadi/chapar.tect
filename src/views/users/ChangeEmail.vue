@@ -1,12 +1,14 @@
 <template>
   <b-container>
     <b-row class="mb-3">
+      <b-col>
       <label for="current-email">Current Email</label>
       <b-input-group>
         <b-input disabled id="current-email" v-model="currentEmail"></b-input>
       </b-input-group>
+      </b-col>
     </b-row>
-    <b-row class="mb-3">
+    <b-row class="mb-3"><b-col>
       <label for="new-email">New Email</label>
       <b-input-group>
         <b-input
@@ -18,9 +20,9 @@
         <b-form-invalid-feedback :state="validateNewEmail"
           >{{ email.length > 0 ? validation.email : "" }}
         </b-form-invalid-feedback>
-      </b-input-group>
+      </b-input-group></b-col>
     </b-row>
-    <b-row class="mb-3">
+    <b-row class="mb-3"><b-col>
       <label for="password">Your Password</label>
       <b-input-group>
         <b-input
@@ -32,20 +34,19 @@
         <b-form-invalid-feedback :state="validatePassword"
           >{{ password.length > 0 ? validation.password : "" }}
         </b-form-invalid-feedback>
-      </b-input-group>
+      </b-input-group></b-col>
     </b-row>
-    <b-row>
+    <b-row><b-col>
       <b-button
         variant="outline-success"
-        class="float-right"
         @click="changeEmail"
         >Save Email
       </b-button>
-      <router-link to="/profile" class="ml-2 float-right">
+      <router-link to="/profile" class="ml-2">
         <b-button to variant="outline-secondary">
           Back to Profile
         </b-button>
-      </router-link>
+      </router-link></b-col>
     </b-row>
   </b-container>
 </template>

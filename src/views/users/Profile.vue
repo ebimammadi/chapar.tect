@@ -24,7 +24,7 @@
           @url="imageShow"
         >
         </image-upload> </b-col
-      ><b-col></b-col>
+      >
     </b-row>
     <b-row class="mb-3">
       <b-col>

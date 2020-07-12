@@ -2,51 +2,55 @@
   <b-container>
     <b-row class="mb-3">
       <b-col>
-      <label for="current-email">Current Email</label>
-      <b-input-group>
-        <b-input disabled id="current-email" v-model="currentEmail"></b-input>
-      </b-input-group>
+        <label for="current-email">Current Email</label>
+        <b-input-group>
+          <b-input disabled id="current-email" v-model="currentEmail"></b-input>
+        </b-input-group>
       </b-col>
     </b-row>
-    <b-row class="mb-3"><b-col>
-      <label for="new-email">New Email</label>
-      <b-input-group>
-        <b-input
-          id="new-email"
-          v-model="email"
-          type="email"
-          placeholder="Enter new email address"
-        ></b-input>
-        <b-form-invalid-feedback :state="validateNewEmail"
-          >{{ email.length > 0 ? validation.email : "" }}
-        </b-form-invalid-feedback>
-      </b-input-group></b-col>
+    <b-row class="mb-3"
+      ><b-col>
+        <label for="new-email">New Email</label>
+        <b-input-group>
+          <b-input
+            id="new-email"
+            v-model="email"
+            type="email"
+            placeholder="Enter new email address"
+          ></b-input>
+          <b-form-invalid-feedback :state="validateNewEmail"
+            >{{ email.length > 0 ? validation.email : "" }}
+          </b-form-invalid-feedback>
+        </b-input-group></b-col
+      >
     </b-row>
-    <b-row class="mb-3"><b-col>
-      <label for="password">Your Password</label>
-      <b-input-group>
-        <b-input
-          id="password"
-          v-model="password"
-          type="password"
-          placeholder="Enter your password"
-        ></b-input>
-        <b-form-invalid-feedback :state="validatePassword"
-          >{{ password.length > 0 ? validation.password : "" }}
-        </b-form-invalid-feedback>
-      </b-input-group></b-col>
+    <b-row class="mb-3"
+      ><b-col>
+        <label for="password">Your Password</label>
+        <b-input-group>
+          <b-input
+            id="password"
+            v-model="password"
+            type="password"
+            placeholder="Enter your password"
+          ></b-input>
+          <b-form-invalid-feedback :state="validatePassword"
+            >{{ password.length > 0 ? validation.password : "" }}
+          </b-form-invalid-feedback>
+        </b-input-group></b-col
+      >
     </b-row>
-    <b-row><b-col>
-      <b-button
-        variant="outline-success"
-        @click="changeEmail"
-        >Save Email
-      </b-button>
-      <router-link to="/profile" class="ml-2">
-        <b-button to variant="outline-secondary">
-          Back to Profile
+    <b-row
+      ><b-col>
+        <b-button variant="outline-success" @click="changeEmail"
+          >Save Email
         </b-button>
-      </router-link></b-col>
+        <router-link to="/profile" class="ml-2">
+          <b-button to variant="outline-secondary">
+            Back to Profile
+          </b-button>
+        </router-link></b-col
+      >
     </b-row>
   </b-container>
 </template>

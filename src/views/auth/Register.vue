@@ -26,7 +26,7 @@
           placeholder="Enter email address"
         >
         </b-form-input>
-        <b-form-invalid-feedback :state="validateNewEmail"
+        <b-form-invalid-feedback :state="validateEmail"
           >{{ email.length > 0 ? validation.email : "" }}
         </b-form-invalid-feedback>
       </b-form-group>
@@ -52,7 +52,7 @@
           placeholder="Confirm Password"
         ></b-form-input>
         <b-form-invalid-feedback :state="validateConfirmPassword"
-          >{{ confirmPassword.length > 0 ? validation.confirmPassword : "" }}
+          >{{  validation.confirmPassword  }}
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -93,13 +93,13 @@ export default {
       password: "",
       confirmPassword: "",
       validation: {
-        name: `Your 'Fullname' should be at least 5 charecters, 
+        name: `Your 'Fullname' should be at least 5 characters, 
         including first name and last name.`,
         email: `'Email Address' should be a valid email address,
           and you should have access to your mailbox.`,
         password: `The 'Password' should be at least 8 characters, with
         at least one lowercase, uppercase, number and special character.`,
-        confirmPassword: `'Confirm Password' Should match the new password`
+        confirmPassword: `'Confirm Password' Should match the 'Password'.`
       }
     };
   },
@@ -113,7 +113,7 @@ export default {
         return this.setAlert({ message: this.validation.email });
       if (!this.validatePassword)
         return this.setAlert({ message: this.validation.password });
-      if (!this.validateConfimrPassword)
+      if (!this.validateConfirmPassword)
         return this.setAlert({ message: this.validation.confirmPassword });
 
       ApiService.post(
@@ -154,15 +154,14 @@ export default {
         this.name && this.name.length > 5 && this.name.split(" ").length > 1
       );
     },
-    validateNewEmail() {
+    validateEmail() {
       return validateEmail(this.email);
     },
     validatePassword() {
-      console.log(`testValidatePassowr`);
       return validate(this.password, this.passwordOptions).valid;
     },
     validateConfirmPassword() {
-      return this.password == this.confirmPassword;
+      return this.password === this.confirmPassword;
     }
   }
 };

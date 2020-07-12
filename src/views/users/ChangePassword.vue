@@ -2,65 +2,63 @@
   <b-container>
     <b-row class="mb-3">
       <b-col>
-      <label for="new-password">New Password</label>
-      <b-input-group>
-        <b-input
-          id="new-password"
-          v-model="newPassword"
-          type="password"
-          placeholder="Enter new password"
-        ></b-input>
-        <b-form-invalid-feedback :state="validateNewPassword"
-          >{{ newPassword.length > 0 ? validation.newPassword : "" }}
-        </b-form-invalid-feedback>
-      </b-input-group>
-       </b-col>
+        <label for="new-password">New Password</label>
+        <b-input-group>
+          <b-input
+            id="new-password"
+            v-model="newPassword"
+            type="password"
+            placeholder="Enter new password"
+          ></b-input>
+          <b-form-invalid-feedback :state="validateNewPassword"
+            >{{ newPassword.length > 0 ? validation.newPassword : "" }}
+          </b-form-invalid-feedback>
+        </b-input-group>
+      </b-col>
     </b-row>
     <b-row class="mb-3">
-       <b-col>
-      <label for="confirm-password">Confirm New Password</label>
-      <b-input-group>
-        <b-input
-          id="confirm-password"
-          v-model="confirmPassword"
-          type="password"
-          placeholder="Confirm new password"
-        ></b-input>
-        <b-form-invalid-feedback :state="validateConfirmPassword"
-          >{{ validation.confirmPassword }}
-        </b-form-invalid-feedback>
-      </b-input-group>
-       </b-col>
+      <b-col>
+        <label for="confirm-password">Confirm New Password</label>
+        <b-input-group>
+          <b-input
+            id="confirm-password"
+            v-model="confirmPassword"
+            type="password"
+            placeholder="Confirm new password"
+          ></b-input>
+          <b-form-invalid-feedback :state="validateConfirmPassword"
+            >{{ validation.confirmPassword }}
+          </b-form-invalid-feedback>
+        </b-input-group>
+      </b-col>
     </b-row>
     <b-row class="mb-3">
-       <b-col>
-      <label for="password">Current Password</label>
-      <b-input-group>
-        <b-input
-          id="password"
-          v-model="password"
-          type="password"
-          placeholder="Enter your current password"
-        ></b-input>
-        <b-form-invalid-feedback :state="validatePassword"
-          >{{ password.length > 0 ? validation.password : "" }}
-        </b-form-invalid-feedback>
-      </b-input-group>
-       </b-col>
+      <b-col>
+        <label for="password">Current Password</label>
+        <b-input-group>
+          <b-input
+            id="password"
+            v-model="password"
+            type="password"
+            placeholder="Enter your current password"
+          ></b-input>
+          <b-form-invalid-feedback :state="validatePassword"
+            >{{ password.length > 0 ? validation.password : "" }}
+          </b-form-invalid-feedback>
+        </b-input-group>
+      </b-col>
     </b-row>
     <b-row>
-       <b-col>
-      <b-button
-        variant="outline-success"
-        @click="changePassword"
-        >Save New Password
-      </b-button>
-      <router-link to="/profile" class="ml-2">
-        <b-button to variant="outline-secondary">
-          Back to Profile
+      <b-col>
+        <b-button variant="outline-success" @click="changePassword"
+          >Save New Password
         </b-button>
-      </router-link>
-       </b-col>
+        <router-link to="/profile" class="ml-2">
+          <b-button to variant="outline-secondary">
+            Back to Profile
+          </b-button>
+        </router-link>
+      </b-col>
     </b-row>
   </b-container>
 </template>

@@ -289,6 +289,7 @@ export default {
 
       ApiService.post("/users/profile-set", {
         name: this.user.name,
+        slug: this.user.slug,
         urls: this.user.urls
       })
         .then(response => {
@@ -356,9 +357,9 @@ export default {
       return url.length == 0 || validateURL(url);
     },
     validateSlug() {
-      console.log(`sdsa`, this.user.slug);
+      // console.log(`sdsa`, this.user.slug);
       if (this.user.slug === undefined) return false;
-      if (this.user.slug) console.log(this.user.slug.length);
+      // if (this.user.slug) console.log(this.user.slug.length);
       return (
         this.user.slug &&
         this.user.slug.length > 0 &&

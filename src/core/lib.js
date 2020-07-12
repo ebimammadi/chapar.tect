@@ -7,7 +7,7 @@ const validateURL = str => {
   return true;
 };
 
-const validateSlug = slug => RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).test(slug);
+const validateSlug = slug => (/^[a-z0-9]+(?:-[a-z0-9]+)*$/).test(slug);
 
 const validateEmail = email => /\S+@\S+\.\S+/.test(email);
 //! Warning this email validation is not really complete!

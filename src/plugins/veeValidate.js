@@ -14,7 +14,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 // Install VeeValidate rules and localization
 Object.keys(rules).forEach(rule => {
   extend(rule, rules[rule]);
-});
+})
 
 localize("en", en);
 

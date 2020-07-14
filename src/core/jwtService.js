@@ -9,7 +9,7 @@ const parseToken = token => {
       .join("")
   );
   return JSON.parse(jsonPayload);
-};
+}
 
 const getToken = () => window.localStorage.getItem("token");
 const getRefreshToken = () => window.localStorage.getItem("refresh-token");
@@ -22,7 +22,7 @@ const deleteRefreshToken = () =>
 
 const decodeToken = () => {
   return parseToken(getToken());
-};
+}
 
 const isValidToken = () => {
   if (!getToken()) return false;

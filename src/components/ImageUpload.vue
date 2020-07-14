@@ -73,7 +73,7 @@ export default {
           url: event.target.result
         });
         //console.log(this.$refs.croppieRef.viewport)
-      };
+      }
       reader.readAsDataURL(files[0]);
     },
     crop() {
@@ -95,7 +95,7 @@ export default {
           })
           .catch(err => {
             console.log(`error in 'ImageUpload' component`, err);
-          });
+          })
       });
     }
   },

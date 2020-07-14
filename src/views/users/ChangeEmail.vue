@@ -99,7 +99,7 @@ export default {
         .finally(() => {
           this.email = "";
           this.password = "";
-        });
+        })
     }
   },
   created() {

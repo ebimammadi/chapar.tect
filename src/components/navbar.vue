@@ -63,7 +63,7 @@ export default {
           console.log(err);
           if (!err.status) this.setAlert({ message: `Network Error!` });
           this.$router.push("/login");
-        });
+        })
     }
   }
 };

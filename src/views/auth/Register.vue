@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import _ from "lodash";
+import _ from "lodash"
 import { validate } from "secure-password-validator";
 import { validateEmail } from "@/core/lib.js";
 import { mapActions } from "vuex";

@@ -5,7 +5,7 @@ const validateURL = str => {
     return false;
   }
   return true;
-};
+}
 
 const validateSlug = slug => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
 

@@ -59,7 +59,7 @@ export default {
           this.form.email = "";
           console.log(error);
           this.setAlert({ message: `Network Error!` });
-        })
+        });
     }
   },
   created() {

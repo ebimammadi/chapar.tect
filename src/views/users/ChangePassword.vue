@@ -108,7 +108,7 @@ export default {
         })
         .finally(() => {
           this.newPassword = this.confirmPassword = this.password = "";
-        })
+        });
     }
   },
   computed: {

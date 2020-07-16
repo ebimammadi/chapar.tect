@@ -52,7 +52,7 @@
           placeholder="Confirm Password"
         ></b-form-input>
         <b-form-invalid-feedback :state="validateConfirmPassword"
-          >{{  validation.confirmPassword  }}
+          >{{ validation.confirmPassword }}
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import _ from "lodash"
+import _ from "lodash";
 import { validate } from "secure-password-validator";
 import { validateEmail } from "@/core/lib.js";
 import { mapActions } from "vuex";

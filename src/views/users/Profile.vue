@@ -76,7 +76,7 @@
             variant="outline-secondary"
             class="ml-2"
             disabled
-            >Verified ✓</b-button
+            >✓</b-button
           >
           <router-link
             v-if="user.emailVerify"

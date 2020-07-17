@@ -9,7 +9,6 @@
 </template>
 
 <script>
-//import Rou
 import Navbar from "./components/navbar";
 import AlertBox from "./components/AlertBox";
 import OverlayLoader from "./components/OverlayLoader";

@@ -1,6 +1,25 @@
-export default [
+// /app
+//import productRoutes from "@/router/routes/products";
+//const childRoutes = [].concat(profileRoutes, userRoutes, productRoutes)
+const childApp = [
   {
-    path: "/profile",
+    path: "",
+    name: "app",
+    component: () => import("@/views/app/ParentApp.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "about",
+    name: "about app",
+    component: () => import("@/views/app/About.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "profile",
     component: () => import("@/views/app/profile/ProfileParent.vue"),
     meta: {
       requiresAuth: true
@@ -41,3 +60,17 @@ export default [
     ]
   }
 ];
+// const children = childApp.concat(profileRoutes, userRoutes);
+
+const appRoutes = [
+  {
+    path: "/app",
+    // name: "app",
+    component: () => import("@/views/app/App.vue"),
+    meta: {
+      requiresAuth: true
+    },
+    children: childApp
+  }
+];
+export default appRoutes;

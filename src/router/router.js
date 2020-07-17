@@ -6,30 +6,30 @@ Vue.use(Router);
 import Store from "@/store/index.js";
 import JwtService from "@/core/JwtService";
 
-import profileRoutes from "@/router/routes/profile";
-import loginGroupRoutes from "@/router/routes/loginGroup";
+import appRoutes from "@/router/routes/app";
+import entranceRoutes from "@/router/routes/entrance";
 
 const baseRoutes = [
   {
     path: "/",
     name: "home",
-    component: () => import("../views/Home.vue"),
+    component: () => import("@/views/Home.vue"),
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {
     path: "/about",
     name: "about",
-    component: () => import("../views/About.vue"),
+    component: () => import("@/views/About.vue"),
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {
     path: "/404",
     name: "404",
-    component: () => import("../views/404.vue"),
+    component: () => import("@/views/404.vue"),
     meta: {
       isPublic: true
     }
@@ -40,7 +40,7 @@ const baseRoutes = [
   }
 ];
 
-const routes = baseRoutes.concat(profileRoutes, loginGroupRoutes);
+const routes = baseRoutes.concat(entranceRoutes, appRoutes);
 
 const router = new Router({
   mode: "history",
@@ -50,7 +50,7 @@ const router = new Router({
 
 // router.beforeEach((to, from, next) => {
 // 	Store.commit('changeMessage', '');
-// 	console.log('called beforeeach route')
+// 	console.log('called beforeEach route')
 // 	next();
 // });
 
@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
       //! store redirect set
       next({
         name: "login"
-        //query: { redirec: to.fullPath}
+        //query: { redirect: to.fullPath}
       });
     } else next();
   } else next();

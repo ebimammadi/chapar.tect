@@ -9,13 +9,23 @@
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item>
-          <router-link :to="'/'">
-            Home
+          <router-link :to="'/app'">
+            App
           </router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link :to="'/about'">
-            About
+          <router-link :to="'/app/about'">
+            APP Panel
+          </router-link>
+        </b-nav-item>
+        <b-nav-item>
+          <router-link :to="'/app/users'">
+            Users !
+          </router-link>
+        </b-nav-item>
+        <b-nav-item>
+          <router-link :to="'/app/products'">
+            Products
           </router-link>
         </b-nav-item>
       </b-navbar-nav>
@@ -27,10 +37,10 @@
         </b-nav-item-dropdown> -->
 
         <b-nav-item-dropdown text="User" right>
-          <b-dropdown-item :to="'/profile'">
+          <b-dropdown-item :to="'app/profile'">
             Profile
           </b-dropdown-item>
-          <b-dropdown-item :to="'/profile/address'">
+          <b-dropdown-item :to="'app/profile/address'">
             Address
           </b-dropdown-item>
           <b-dropdown-item href="#" v-on:click="singOut">

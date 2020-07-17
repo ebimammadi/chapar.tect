@@ -72,7 +72,7 @@ export default {
           const token = response.headers["x-auth-token"];
           JwtService.setToken(token);
           this.setSingInStatus(true);
-          this.$router.push("/");
+          this.$router.push("/app");
         })
         .catch(
           error =>

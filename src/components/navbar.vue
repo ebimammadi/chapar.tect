@@ -37,10 +37,10 @@
         </b-nav-item-dropdown> -->
 
         <b-nav-item-dropdown text="User" right>
-          <b-dropdown-item :to="'app/profile'">
+          <b-dropdown-item :to="'/app/profile'">
             Profile
           </b-dropdown-item>
-          <b-dropdown-item :to="'app/profile/address'">
+          <b-dropdown-item :to="'/app/profile/address'">
             Address
           </b-dropdown-item>
           <b-dropdown-item href="#" v-on:click="singOut">

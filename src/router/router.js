@@ -7,7 +7,7 @@ import Store from "@/store/index.js";
 import JwtService from "@/core/JwtService";
 
 import appRoutes from "@/router/routes/app";
-import entranceRoutes from "@/router/routes/entrance";
+import entranceRoutes from "@/router/routes/auth";
 
 const baseRoutes = [
   {

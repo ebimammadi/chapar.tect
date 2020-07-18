@@ -1,14 +1,13 @@
 export default [
   {
-    path: "/profile",
-    redirect: "/profile/home",
+    path: "profile",
     component: () => import("@/views/app/profile/ProfileParent.vue"),
     meta: {
       requiresAuth: true
     },
     children: [
       {
-        path: "home",
+        path: "",
         name: "profile",
         component: () => import("@/views/app/profile/Profile.vue"),
         meta: {

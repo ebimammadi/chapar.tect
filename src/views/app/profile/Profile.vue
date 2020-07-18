@@ -80,20 +80,13 @@
           >
           <router-link
             v-if="user.emailVerify"
-            to="/profile/change-email"
+            :to="{name: 'change email' }"
             class="ml-2 float-right"
           >
             <b-button to variant="outline-secondary">
               Change Email
             </b-button>
           </router-link>
-          <!-- <b-button
-            
-            variant="outline-secondary"
-            class="ml-2"
-            v-b-toggle.email-collapse
-            >Change Email
-          </b-button> -->
           <b-button
             @click="confirmEmail"
             v-if="!user.emailVerify"
@@ -104,41 +97,6 @@
         </b-input-group>
       </b-col>
     </b-row>
-    <!-- <b-row class="mb-3">
-      <b-col>
-        <label for="phone">Mobile</label>
-        <b-input-group>
-          <b-input
-            id="phone"
-            disabled
-            v-model="user.mobile"
-            type="text"
-            placeholder="Enter mobile number"
-          ></b-input>
-          <b-button
-            v-if="user.mobileVerify"
-            variant="outline-secondary"
-            class="ml-2"
-            disabled
-            >Verified ✓</b-button
-          >
-          <b-button
-            v-if="user.mobileVerify"
-            variant="outline-secondary"
-            class="ml-2"
-            @click="changeEmail"
-            >Change</b-button
-          >
-          <b-button
-            v-if="!user.mobileVerify && user.mobile"
-            variant="outline-secondary"
-            class="ml-2"
-            @click="changeEmail"
-            >Verify Mobile?</b-button
-          >
-        </b-input-group>
-      </b-col>
-    </b-row> -->
     <b-row class="mb-3">
       <b-col>
         <label for="slug">Slug</label>
@@ -212,13 +170,13 @@
         <b-button @click="sendProfile" variant="outline-success"
           >Save Profile</b-button
         >
-        <router-link to="/profile/address" class="ml-2 float-right">
+        <router-link :to="{ name: 'address'}" class="ml-2 float-right">
           <b-button to variant="outline-secondary">
             Add/Edit Addresses
           </b-button>
         </router-link>
-        <router-link to="/profile/change-password" class="ml-2 float-right">
-          <b-button to variant="outline-secondary">
+        <router-link :to="{ name: 'change password'}" class="ml-2 float-right">
+          <b-button variant="outline-secondary">
             Change Password
           </b-button>
         </router-link>

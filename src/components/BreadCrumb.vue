@@ -6,7 +6,14 @@
 export default {
   computed: {
     items: function() {
-      const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+      const capitalize = str =>
+        str
+          .split(" ")
+          .map(
+            ([firstChar, ...rest]) =>
+              firstChar.toUpperCase() + rest.join("").toLowerCase()
+          )
+          .join(" ");
       const pathArray = this.$route.path.split("/");
       pathArray.shift();
       if (pathArray[0] == "") return {}; //on home page nothing to display

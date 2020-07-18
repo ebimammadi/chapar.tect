@@ -15,12 +15,12 @@
         </b-nav-item>
         <b-nav-item>
           <router-link :to="'/app/about'">
-            APP Panel
+            About App
           </router-link>
         </b-nav-item>
         <b-nav-item>
           <router-link :to="'/app/users'">
-            Users !
+            Users!
           </router-link>
         </b-nav-item>
         <b-nav-item>

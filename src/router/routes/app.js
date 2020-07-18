@@ -25,7 +25,7 @@ children = children.concat(profileRoutes, userRoutes);
 const appRoutes = [
   {
     path: "/app",
-    component: () => import("@/views/app/AppParrent.vue"),
+    component: () => import("@/views/app/AppParent.vue"),
     meta: {
       requiresAuth: true
     },

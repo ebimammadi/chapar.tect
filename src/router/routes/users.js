@@ -1,6 +1,6 @@
 export default [
   {
-    path: "/users",
+    path: "users",
     component: () => import("@/views/app/users/UsersParent.vue"),
     meta: {
       requiresAuth: true
@@ -17,7 +17,7 @@ export default [
       {
         path: "logs",
         name: "logs",
-        component: () => import("@/views/app/users/Logs.vue"),
+        component: () => import("@/views/app/users/UsersLogs.vue"),
         meta: {
           requiresAuth: true
         }

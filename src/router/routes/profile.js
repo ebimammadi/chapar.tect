@@ -24,7 +24,7 @@ export default [
       },
       {
         path: "change-email",
-        name: "change Email",
+        name: "change email",
         component: () => import("@/views/app/profile/ChangeEmail.vue"),
         meta: {
           requiresAuth: true
@@ -32,7 +32,7 @@ export default [
       },
       {
         path: "change-password",
-        name: "change Password",
+        name: "change password",
         component: () => import("@/views/app/profile/ChangePassword.vue"),
         meta: {
           requiresAuth: true

@@ -5,7 +5,9 @@
         <h1>
           Welcome to the Application Panel!
         </h1>
-        <p><br><br>The new features would be added to the application Panel.</p>
+        <p>
+          <br /><br />The new features would be added to the application Panel.
+        </p>
       </b-col>
     </b-row>
   </b-container>

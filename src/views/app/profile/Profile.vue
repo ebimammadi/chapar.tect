@@ -80,7 +80,7 @@
           >
           <router-link
             v-if="user.emailVerify"
-            :to="{name: 'change email' }"
+            :to="{ name: 'change email' }"
             class="ml-2 float-right"
           >
             <b-button to variant="outline-secondary">
@@ -170,12 +170,12 @@
         <b-button @click="sendProfile" variant="outline-success"
           >Save Profile</b-button
         >
-        <router-link :to="{ name: 'address'}" class="ml-2 float-right">
+        <router-link :to="{ name: 'address' }" class="ml-2 float-right">
           <b-button to variant="outline-secondary">
             Add/Edit Addresses
           </b-button>
         </router-link>
-        <router-link :to="{ name: 'change password'}" class="ml-2 float-right">
+        <router-link :to="{ name: 'change password' }" class="ml-2 float-right">
           <b-button variant="outline-secondary">
             Change Password
           </b-button>

@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <h1>Address Not Found!</h1>
-    <b-button variant="outline-primary">
+  <b-container>
+    <b-row class="mb-3">
+      <b-col>
+    <h1>Page Not Found!</h1>
+    <b-button variant="outline-primary mt-5">
       <router-link to="/">
         Home
       </router-link>
@@ -10,5 +12,7 @@
     <b-button variant="outline-primary" @click="$router.go(-1)"
       >Go Back</b-button
     >
-  </div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>

@@ -13,6 +13,7 @@ import Navbar from "./components/navbar"
 import AlertBox from "./components/AlertBox"
 import OverlayLoader from "./components/OverlayLoader"
 import BreadCrumb from "./components/BreadCrumb"
+
 export default {
   name: "App",
   components: {
@@ -30,7 +31,7 @@ export default {
 </script>
 
 <style lang="scss">
-//? I am not sure if this css identifier is really requiered!
+//? I am not sure if this css identifier is really required!
 // #vueApp {
 // }
 </style>

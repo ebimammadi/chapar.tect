@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import Navbar from "./components/navbar"
-import AlertBox from "./components/AlertBox"
-import OverlayLoader from "./components/OverlayLoader"
-import BreadCrumb from "./components/BreadCrumb"
+import Navbar from "@/components/Navbar"
+import AlertBox from "@/components/AlertBox"
+import OverlayLoader from "@/components/OverlayLoader"
+import BreadCrumb from "@/components/BreadCrumb"
 
 export default {
   name: "App",

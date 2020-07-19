@@ -14,7 +14,7 @@ const ApiService = {
 
     axios.interceptors.request.use(
       config => {
-        //TODO disable overlayshow in case of needed
+        //TODO disable overlayShow in case of needed
         Store.dispatch({ type: "setAlert", message: "" })
         Store.commit("changeOverlayShow", true)
         return config
@@ -35,7 +35,7 @@ const ApiService = {
         //console.log(`there is an error status:`,err.response.status)
         if (err.response.status == 403) {
           //! err.response.status =>400 a more strick rule
-          //!this chunck of code should be revised and developed 2020-0617
+          //!TODO: this chunk of code should be revised and developed 2020-0617
           if (!["login", "register"].includes(router.currentRoute.name))
             router.push("/login")
           //return;

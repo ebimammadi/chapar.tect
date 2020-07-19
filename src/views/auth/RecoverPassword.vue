@@ -75,6 +75,8 @@ export default {
       };
       ApiService.post("/users/recover-password", data)
         .then(response => {
+          if (response.data.message)
+            return this.setAlert({ message: response.data.message });
           this.setAlert({ message: "" });
           const token = response.headers["x-auth-token"];
           JwtService.setToken(token);

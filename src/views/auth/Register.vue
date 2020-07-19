@@ -121,6 +121,8 @@ export default {
         _.pick(this, ["name", "email", "password"])
       )
         .then(response => {
+          if (response.data.message)
+            return this.setAlert({ message: response.data.message });
           this.setAlert({ message: "" });
           const token = response.headers["x-auth-token"];
           JwtService.setToken(token);

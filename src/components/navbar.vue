@@ -19,13 +19,13 @@
           </router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link :to="'/app/users'">
-            Users!
-          </router-link>
-        </b-nav-item>
-        <b-nav-item>
           <router-link :to="'/app/products'">
             Products
+          </router-link>
+        </b-nav-item>
+        <b-nav-item v-if="isAdmin">
+          <router-link :to="'/app/users'">
+            Users!
           </router-link>
         </b-nav-item>
       </b-navbar-nav>
@@ -37,6 +37,7 @@
         </b-nav-item-dropdown> -->
 
         <b-nav-item-dropdown text="User" right>
+          <img :src="profilePhoto" />
           <b-dropdown-item :to="'/app/profile'">
             Profile
           </b-dropdown-item>
@@ -59,7 +60,6 @@ import { mapActions } from "vuex"
 import JwtService from "@/core/JwtService"
 import ApiService from "@/core/ApiService"
 export default {
-  name: "Navbar",
   components: {
     "app-logo": Logo
   },
@@ -68,12 +68,29 @@ export default {
     singOut: function() {
       JwtService.deleteToken()
       ApiService.get(`/users/logout`)
-        .then(() => this.$router.push("/login"))
+        .then( () => this.$router.push("/login"))
         .catch(err => {
           console.log(err)
           if (!err.status) this.setAlert({ message: `Network Error!` })
           this.$router.push("/login")
         })
+    }
+  },
+  computed: {
+    isGuarded2: function() {
+      return !this.$route.meta.isPublic
+    },
+    requiresAuth: function() {
+      return this.$route.meta.requiresAuth
+    },
+    isAdmin: function() {
+      try{
+        const { userRole } = JwtService.decodeToken()
+        if (userRole === "admin") return true
+        return false
+      }catch(_){
+        return false
+      }
     }
   }
 }

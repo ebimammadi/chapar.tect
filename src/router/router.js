@@ -1,6 +1,5 @@
 import Vue from "vue"
 import Router from "vue-router"
-
 Vue.use(Router)
 
 import Store from "@/store/index"
@@ -15,7 +14,7 @@ const baseRoutes = [
     name: "home",
     component: () => import("@/views/Home.vue"),
     meta: {
-      requiresAuth: false
+      
     }
   },
   {
@@ -28,10 +27,10 @@ const baseRoutes = [
   },
   {
     path: "/404",
-    name: "404",
+    name: "Page not found",
     component: () => import("@/views/404.vue"),
     meta: {
-      isPublic: true
+      
     }
   },
   {

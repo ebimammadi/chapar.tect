@@ -3,7 +3,8 @@ export default [
     path: "users",
     component: () => import("@/views/app/users/UsersParent.vue"),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      requiresAdmin: true
     },
     children: [
       {
@@ -11,7 +12,8 @@ export default [
         name: "list",
         component: () => import("@/views/app/users/UsersList.vue"),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          requiresAdmin: true
         }
       },
       {
@@ -19,9 +21,10 @@ export default [
         name: "logs",
         component: () => import("@/views/app/users/UsersLogs.vue"),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          requiresAdmin: true
         }
       }
     ]
   }
-];
+]

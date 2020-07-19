@@ -31,7 +31,6 @@
           placeholder="Repeat New Password"
         ></b-form-input>
       </b-form-group>
-
       <b-form-group>
         <b-button type="submit" variant="success">Set Password</b-button>
       </b-form-group>

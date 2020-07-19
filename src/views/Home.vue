@@ -7,9 +7,3 @@
     </b-row>
   </b-container>
 </template>
-
-<script>
-export default {
-  name: "Home"
-};
-</script>

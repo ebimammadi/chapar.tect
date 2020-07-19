@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import ApiService from "../core/ApiService";
-import { mapActions } from "vuex";
+import ApiService from "../core/ApiService"
+import { mapActions } from "vuex"
 
 export default {
   name: "Home",
@@ -29,7 +29,7 @@ export default {
       )
       .finally(function() {
         //test
-      });
+      })
   }
-};
+}
 </script>

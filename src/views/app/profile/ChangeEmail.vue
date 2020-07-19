@@ -56,10 +56,10 @@
 </template>
 
 <script>
-import { validate } from "secure-password-validator";
-import { mapActions } from "vuex";
-import { validateEmail } from "@/core/lib.js";
-import ApiService from "@/core/ApiService";
+import { validate } from "secure-password-validator"
+import { mapActions } from "vuex"
+import { validateEmail } from "@/core/lib.js"
+import ApiService from "@/core/ApiService"
 
 export default {
   data() {
@@ -72,15 +72,15 @@ export default {
           and you should have access to your new mailbox.`,
         password: `Current password is required.`
       }
-    };
+    }
   },
   methods: {
     ...mapActions(["setAlert"]),
     changeEmail() {
       if (!this.validateNewEmail)
-        return this.setAlert({ message: this.validation.email });
+        return this.setAlert({ message: this.validation.email })
       if (this.password.length < 8)
-        return this.setAlert({ message: `Your password seems invalid!` });
+        return this.setAlert({ message: `Your password seems invalid!` })
 
       ApiService.post("/users/email-set", {
         email: this.email,
@@ -90,16 +90,15 @@ export default {
           this.setAlert({
             message: response.data.message,
             variant: response.data.response_type
-          });
-          console.log(response);
+          })
         })
         .catch(err => {
-          console.log(err);
+          console.log(err)
         })
         .finally(() => {
-          this.email = "";
-          this.password = "";
-        });
+          this.email = ""
+          this.password = ""
+        })
     }
   },
   created() {
@@ -108,11 +107,11 @@ export default {
       .catch(
         error =>
           this.setAlert({ message: `Network Error!` }) && console.log(error)
-      );
+      )
   },
   computed: {
     validateNewEmail() {
-      return validateEmail(this.email);
+      return validateEmail(this.email)
     },
     validatePassword() {
       const options = {
@@ -123,9 +122,9 @@ export default {
         uppercase: true,
         lowercase: true,
         symbols: true
-      };
-      return validate(this.password, options).valid;
+      }
+      return validate(this.password, options).valid
     }
   }
-};
+}
 </script>

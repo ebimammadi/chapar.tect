@@ -1,17 +1,17 @@
 const validateURL = str => {
   try {
-    new URL(str);
+    new URL(str)
   } catch (_) {
-    return false;
+    return false
   }
-  return true;
-};
+  return true
+}
 
-const validateSlug = slug => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
+const validateSlug = slug => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)
 
-const validateEmail = email => /\S+@\S+\.\S+/.test(email);
+const validateEmail = email => /\S+@\S+\.\S+/.test(email)
 //! Warning this email validation is not really complete!
 //import * as EmailValidator from "email-validator";
 //https://ui.dev/validate-email-address-javascript/
 
-export { validateURL, validateEmail, validateSlug };
+export { validateURL, validateEmail, validateSlug }

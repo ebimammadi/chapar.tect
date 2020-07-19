@@ -53,11 +53,11 @@
 </template>
 
 <script>
-import Logo from "@/components/Logo.vue";
-import { mapActions } from "vuex";
+import Logo from "@/components/Logo.vue"
+import { mapActions } from "vuex"
 
-import JwtService from "@/core/JwtService";
-import ApiService from "@/core/ApiService";
+import JwtService from "@/core/JwtService"
+import ApiService from "@/core/ApiService"
 export default {
   name: "Navbar",
   components: {
@@ -66,15 +66,15 @@ export default {
   methods: {
     ...mapActions(["setAlert"]),
     singOut: function() {
-      JwtService.deleteToken();
+      JwtService.deleteToken()
       ApiService.get(`/users/logout`)
         .then(() => this.$router.push("/login"))
         .catch(err => {
-          console.log(err);
-          if (!err.status) this.setAlert({ message: `Network Error!` });
-          this.$router.push("/login");
-        });
+          console.log(err)
+          if (!err.status) this.setAlert({ message: `Network Error!` })
+          this.$router.push("/login")
+        })
     }
   }
-};
+}
 </script>

@@ -1,5 +1,5 @@
-import profileRoutes from "@/router/routes/profile";
-import userRoutes from "@/router/routes/users";
+import profileRoutes from "@/router/routes/profile"
+import userRoutes from "@/router/routes/users"
 
 let children = [
   {
@@ -18,9 +18,9 @@ let children = [
       requiresAuth: true
     }
   }
-];
+]
 
-children = children.concat(profileRoutes, userRoutes);
+children = children.concat(profileRoutes, userRoutes)
 
 const appRoutes = [
   {
@@ -31,6 +31,6 @@ const appRoutes = [
     },
     children: children
   }
-];
+]
 
-export default appRoutes;
+export default appRoutes

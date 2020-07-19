@@ -186,25 +186,25 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { validateURL, validateSlug } from "@/core/lib.js";
-import ApiService from "@/core/ApiService";
-import ImageUpload from "@/components/ImageUpload.vue";
+import { mapActions } from "vuex"
+import { validateURL, validateSlug } from "@/core/lib.js"
+import ApiService from "@/core/ApiService"
+import ImageUpload from "@/components/ImageUpload.vue"
 
 export default {
   data() {
     return {
       user: { urls: { facebook: "", website: "", instagram: "" } },
       validation: {
-        name: `Your 'Fullname' should be at least 5 charecters, including first name and last name.`,
-        slug: `'Slug' should contain only lowercase characther and numbers seperated by hyphon (-). For example if the name is 'John Smith Foods' you can use 'john-smith-foods'.`,
+        name: `Your 'Fullname' should be at least 5 characters, including first name and last name.`,
+        slug: `'Slug' should contain only lowercase characters and numbers separated by hyphen (-). For example if the name is 'John Smith Foods' you can use 'john-smith-foods'.`,
         urls: {
           website: `Website Address (URL) format is not valid. It should start with http:// or https://`,
           instagram: `Instagram Address (URL) format is not valid. It should start with https://`,
           facebook: `Facebook Address (URL) format is not valid. It should start with https://`
         }
       }
-    };
+    }
   },
   components: {
     ImageUpload
@@ -218,32 +218,32 @@ export default {
             return this.setAlert({
               message: response.data.message,
               variant: response.data.response_type
-            });
+            })
         })
         .catch(
           error =>
             this.setAlert({ message: `Network Error!` }) && console.log(error)
-        );
+        )
     },
     sendProfile() {
       if (!this.validateName)
-        return this.setAlert({ message: this.validation.name });
+        return this.setAlert({ message: this.validation.name })
 
       if (!this.validateSlug)
-        return this.setAlert({ message: this.validation.slug });
+        return this.setAlert({ message: this.validation.slug })
 
       if (!this.validateWebsite)
         return this.setAlert({
           message: this.validation.urls.website
-        });
+        })
       if (!this.validateFacebook)
         return this.setAlert({
           message: this.validation.urls.facebook
-        });
+        })
       if (!this.validateInstagram)
         return this.setAlert({
           message: this.validation.urls.instagram
-        });
+        })
 
       ApiService.post("/users/profile-set", {
         name: this.user.name,
@@ -251,22 +251,22 @@ export default {
         urls: this.user.urls
       })
         .then(response => {
-          console.log("response profile-set", response);
+          console.log("response profile-set", response)
           this.setAlert({
             message: response.data.message,
             variant: response.data.response_type
-          });
+          })
         })
         .catch(
           error =>
             this.setAlert({ message: `Network Error!` }) && console.log(error)
-        );
+        )
     },
     imageShow(url) {
-      this.user.profilePhotoUrl = url;
+      this.user.profilePhotoUrl = url
     },
     deleteImage() {
-      const pathArr = this.user.profilePhotoUrl.split("/");
+      const pathArr = this.user.profilePhotoUrl.split("/")
       ApiService.get(
         `/files/delete-image/${pathArr[pathArr.length - 2]}/${
           pathArr[pathArr.length - 1]
@@ -278,7 +278,7 @@ export default {
             (this.user.profilePhotoUrl = "") &&
             this.setAlert({ message: `Network Error!` }) &&
             console.log(error)
-        );
+        )
     }
   },
   created() {
@@ -287,7 +287,7 @@ export default {
       .catch(
         error =>
           this.setAlert({ message: `Network Error!` }) && console.log(error)
-      );
+      )
   },
   computed: {
     validateName() {
@@ -295,32 +295,32 @@ export default {
         this.user.name &&
         this.user.name.length > 5 &&
         this.user.name.split(" ").length > 1
-      );
+      )
     },
     validateWebsite() {
-      const url = this.user.urls.website;
-      return url.length == 0 || validateURL(url);
+      const url = this.user.urls.website
+      return url.length == 0 || validateURL(url)
     },
     validateFacebook() {
-      const url = this.user.urls.facebook;
-      return url.length == 0 || validateURL(url);
+      const url = this.user.urls.facebook
+      return url.length == 0 || validateURL(url)
     },
     validateInstagram() {
-      const url = this.user.urls.instagram;
-      return url.length == 0 || validateURL(url);
+      const url = this.user.urls.instagram
+      return url.length == 0 || validateURL(url)
     },
     validateSlug() {
       // console.log(`sdsa`, this.user.slug);
-      if (this.user.slug === undefined) return false;
+      if (this.user.slug === undefined) return false
       // if (this.user.slug) console.log(this.user.slug.length);
       return (
         this.user.slug &&
         this.user.slug.length > 0 &&
         validateSlug(this.user.slug)
-      );
+      )
     }
   }
-};
+}
 </script>
 
 <style scoped>

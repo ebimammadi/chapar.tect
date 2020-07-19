@@ -39,11 +39,11 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from "vuex"
 
-import ApiService from "@/core/ApiService";
-import JwtService from "@/core/JwtService";
-import Logo from "@/components/Logo.vue";
+import ApiService from "@/core/ApiService"
+import JwtService from "@/core/JwtService"
+import Logo from "@/components/Logo.vue"
 
 export default {
   name: "recover-password",
@@ -58,55 +58,54 @@ export default {
         password: "",
         repeatPassword: ""
       }
-    };
+    }
   },
 
   methods: {
     ...mapActions(["setAlert", "setSingInStatus"]),
     onSubmit: function() {
-      //!TODO: validation should be implemeneted using vuelidate
       if (this.form.password.length < 8)
-        return this.setAlert({ message: "Password is short!" });
+        return this.setAlert({ message: "Password is short!" })
       if (this.form.password != this.form.repeatPassword)
-        return this.setAlert({ message: "Password mismatch!" });
+        return this.setAlert({ message: "Password mismatch!" })
       const data = {
         password: this.form.password,
         code: this.$route.params.code
-      };
+      }
       ApiService.post("/users/recover-password", data)
         .then(response => {
           if (response.data.message)
-            return this.setAlert({ message: response.data.message });
-          this.setAlert({ message: "" });
-          const token = response.headers["x-auth-token"];
-          JwtService.setToken(token);
-          this.setSingInStatus(true);
-          this.$router.push("/app");
+            return this.setAlert({ message: response.data.message })
+          this.setAlert({ message: "" })
+          const token = response.headers["x-auth-token"]
+          JwtService.setToken(token)
+          this.setSingInStatus(true)
+          this.$router.push("/app")
         })
         .catch(
           error =>
             this.setAlert({ message: `Network Error!` }) && console.log(error)
-        );
+        )
     }
   },
   created() {
-    if (JwtService.getToken()) return this.$router.push("/"); //if we have loged in before
+    if (JwtService.getToken()) return this.$router.push("/") //if we have logged in before
 
     ApiService.get(
       `/users/recover-password-verify-code/${this.$route.params.code}`
     )
       .then(response => {
         if (!response.data.email) {
-          this.setAlert({ message: response.data.message });
+          this.setAlert({ message: response.data.message })
         } else {
-          this.form.email = response.data.email;
-          this.setAlert({ message: response.data.message, variant: "success" });
+          this.form.email = response.data.email
+          this.setAlert({ message: response.data.message, variant: "success" })
         }
       })
       .catch(
         error =>
           this.setAlert({ message: `Network Error!` }) && console.log(error)
-      );
+      )
   }
-};
+}
 </script>

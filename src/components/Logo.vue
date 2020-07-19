@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import Store from "@/store/index.js";
+import Store from "@/store/index.js"
 export default {
   computed: {
     appName: () => Store.getters.settings.app_name
   }
-};
+}
 </script>
 
 <style scoped>

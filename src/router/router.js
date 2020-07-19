@@ -1,13 +1,13 @@
-import Vue from "vue";
-import Router from "vue-router";
+import Vue from "vue"
+import Router from "vue-router"
 
-Vue.use(Router);
+Vue.use(Router)
 
-import Store from "@/store/index";
-import JwtService from "@/core/JwtService";
+import Store from "@/store/index"
+import JwtService from "@/core/JwtService"
 
-import appRoutes from "@/router/routes/app";
-import entranceRoutes from "@/router/routes/auth";
+import appRoutes from "@/router/routes/app"
+import entranceRoutes from "@/router/routes/auth"
 
 const baseRoutes = [
   {
@@ -38,21 +38,21 @@ const baseRoutes = [
     path: "*",
     redirect: "/404"
   }
-];
+]
 
-const routes = baseRoutes.concat(entranceRoutes, appRoutes);
+const routes = baseRoutes.concat(entranceRoutes, appRoutes)
 
 const router = new Router({
   mode: "history",
   routes: routes,
   linkExactActiveClass: "active-link"
-});
+})
 
 //clear AlertBox
 router.beforeEach((to, from, next) => {
-  Store.dispatch({ type: "setAlert", message: "" });
-  next();
-});
+  Store.dispatch({ type: "setAlert", message: "" })
+  next()
+})
 
 //control login
 router.beforeEach((to, from, next) => {
@@ -60,22 +60,22 @@ router.beforeEach((to, from, next) => {
     if (!JwtService.isValidToken()) {
       //!  redirect set it to store! need to develop
       //query: { redirect: to.fullPath}
-      next({ name: "login" });
-    } else next();
-  } else next();
-});
+      next({ name: "login" })
+    } else next()
+  } else next()
+})
 
 //control admin access
 router.beforeEach((to, from, next) => {
   if (to.matched.some(path => path.meta.requiresAdmin)) {
-    const { userRole } = JwtService.decodeToken();
+    const { userRole } = JwtService.decodeToken()
     if (userRole !== "admin") {
-      console.log(`Guarded!`);
-      next({ name: "home" });
-    } else next();
-  } else next();
-});
+      console.log(`Guarded!`)
+      next({ name: "home" })
+    } else next()
+  } else next()
+})
 
 //TODO control supplier access
 
-export default router;
+export default router

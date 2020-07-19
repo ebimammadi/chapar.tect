@@ -7,14 +7,14 @@
 </template>
 
 <script>
-import Store from "@/store/index.js";
+import Store from "@/store/index.js"
 
 export default {
   computed: {
     message: () => Store.getters.getMessage,
     variant: () => Store.getters.getVariant
   }
-};
+}
 </script>
 
 <style scoped>

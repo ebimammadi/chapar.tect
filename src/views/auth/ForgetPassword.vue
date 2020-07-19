@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import ApiService from "@/core/ApiService";
-import JwtService from "@/core/JwtService";
+import { mapActions } from "vuex"
+import ApiService from "@/core/ApiService"
+import JwtService from "@/core/JwtService"
 
-import Logo from "@/components/Logo.vue";
+import Logo from "@/components/Logo.vue"
 
 export default {
   components: {
@@ -42,29 +42,29 @@ export default {
       form: {
         email: ""
       }
-    };
+    }
   },
   methods: {
     ...mapActions(["setAlert"]),
     onSubmit: function() {
       ApiService.post("/users/forget-password", { email: this.form.email })
         .then(response => {
-          this.form.email = "";
+          this.form.email = ""
           this.setAlert({
             message: response.data.message,
             variant: response.data.response_type
-          });
+          })
         })
         .catch(error => {
-          this.form.email = "";
-          console.log(error);
-          this.setAlert({ message: `Network Error!` });
-        });
+          this.form.email = ""
+          console.log(error)
+          this.setAlert({ message: `Network Error!` })
+        })
     }
   },
   created() {
     //if we have logged-in before
-    if (JwtService.getToken()) return this.$router.push("/");
+    if (JwtService.getToken()) return this.$router.push("/")
   }
-};
+}
 </script>

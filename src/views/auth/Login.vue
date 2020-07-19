@@ -40,12 +40,12 @@
 </template>
 
 <script>
-import _ from "lodash";
+import _ from "lodash"
 
-import { mapActions } from "vuex";
-import ApiService from "@/core/ApiService";
-import JwtService from "@/core/JwtService";
-import Logo from "@/components/Logo.vue";
+import { mapActions } from "vuex"
+import ApiService from "@/core/ApiService"
+import JwtService from "@/core/JwtService"
+import Logo from "@/components/Logo.vue"
 
 export default {
   name: "login",
@@ -58,39 +58,40 @@ export default {
         email: "",
         password: ""
       }
-    };
+    }
   },
   methods: {
     ...mapActions(["setAlert", "setSingInStatus"]),
     onSubmit: function() {
-      const data = _.pick(this.form, ["email", "password"]);
+      const data = _.pick(this.form, ["email", "password"])
       ApiService.post("/users/login", data)
         .then(response => {
           if (response.data.message)
-            return this.setAlert({ message: response.data.message });
-          this.setAlert({ message: "" });
-          const token = response.headers["x-auth-token"];
-          JwtService.setToken(token);
-          this.setSingInStatus(true);
-          this.$router.push("/app");
+            return this.setAlert({ message: response.data.message })
+          this.setAlert({ message: "" })
+          const token = response.headers["x-auth-token"]
+          JwtService.setToken(token)
+          this.setSingInStatus(true)
+          this.$router.push("/app")
         })
         .catch(
           error =>
             this.setAlert({ message: `Network Error!` }) && console.log(error)
-        );
+        )
     }
   },
   created() {
     //if we have logged in before
     //Todo update this chunk
-    console.log(`login JwtService.getToken()`, JwtService.isValidToken());
-    JwtService.deleteToken(); //!
-    if (JwtService.isValidToken()) return this.$router.push("/");
+
+    console.log(`login JwtService.getToken()`, JwtService.isValidToken())
+    JwtService.deleteToken() //!
+    if (JwtService.isValidToken()) return this.$router.push("/")
   },
   mounted() {
     //JwtService.deleteToken(); //remove the tokens
   }
-};
+}
 </script>
 
 <style>

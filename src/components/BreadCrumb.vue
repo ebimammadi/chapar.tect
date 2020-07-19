@@ -13,14 +13,14 @@ export default {
             ([firstChar, ...rest]) =>
               firstChar.toUpperCase() + rest.join("").toLowerCase()
           )
-          .join(" ");
-      const pathArray = this.$route.path.split("/");
-      pathArray.shift();
-      if (pathArray[0] == "") return {}; //on home page nothing to display
+          .join(" ")
+      const pathArray = this.$route.path.split("/")
+      pathArray.shift()
+      if (pathArray[0] == "") return {} //on home page nothing to display
       let breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
-        let text = "";
-        if (this.$route.matched[idx].name === undefined) text = path;
-        else text = this.$route.matched[idx].name;
+        let text = ""
+        if (this.$route.matched[idx].name === undefined) text = path
+        else text = this.$route.matched[idx].name
 
         breadcrumbArray.push({
           path: path,
@@ -28,12 +28,12 @@ export default {
             ? "/" + breadcrumbArray[idx - 1].path + "/" + path
             : "/" + path,
           text: capitalize(text)
-        });
-        return breadcrumbArray;
-      }, []);
-      breadcrumbs.unshift({ text: "Home", to: { name: "home" } });
-      return breadcrumbs;
+        })
+        return breadcrumbArray
+      }, [])
+      breadcrumbs.unshift({ text: "Home", to: { name: "home" } })
+      return breadcrumbs
     }
   }
-};
+}
 </script>

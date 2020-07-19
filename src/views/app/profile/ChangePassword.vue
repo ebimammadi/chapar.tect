@@ -64,9 +64,9 @@
 </template>
 
 <script>
-import { validate } from "secure-password-validator";
-import { mapActions } from "vuex";
-import ApiService from "@/core/ApiService";
+import { validate } from "secure-password-validator"
+import { mapActions } from "vuex"
+import ApiService from "@/core/ApiService"
 
 export default {
   data() {
@@ -80,17 +80,17 @@ export default {
         confirmPassword: `'Confirm New Password' Should match the new password`,
         password: `Current password is required.`
       }
-    };
+    }
   },
   methods: {
     ...mapActions(["setAlert"]),
     changePassword() {
       if (!this.validateNewPassword)
-        return this.setAlert({ message: this.validation.newPassword });
+        return this.setAlert({ message: this.validation.newPassword })
       if (!this.validateConfirmPassword)
-        return this.setAlert({ message: this.validation.confirmPassword });
+        return this.setAlert({ message: this.validation.confirmPassword })
       if (!this.validatePassword)
-        return this.setAlert({ message: this.validation.password });
+        return this.setAlert({ message: this.validation.password })
 
       ApiService.post("/users/password-set", {
         newPassword: this.newPassword,
@@ -100,15 +100,15 @@ export default {
           this.setAlert({
             message: response.data.message,
             variant: response.data.response_type
-          });
-          console.log(response);
+          })
+          console.log(response)
         })
         .catch(err => {
-          console.log(err);
+          console.log(err)
         })
         .finally(() => {
-          this.newPassword = this.confirmPassword = this.password = "";
-        });
+          this.newPassword = this.confirmPassword = this.password = ""
+        })
     }
   },
   computed: {
@@ -121,17 +121,17 @@ export default {
         uppercase: true,
         lowercase: true,
         symbols: true
-      };
+      }
     },
     validateNewPassword() {
-      return validate(this.newPassword, this.passwordOptions).valid;
+      return validate(this.newPassword, this.passwordOptions).valid
     },
     validateConfirmPassword() {
-      return this.newPassword == this.confirmPassword;
+      return this.newPassword == this.confirmPassword
     },
     validatePassword() {
-      return validate(this.password, this.passwordOptions).valid;
+      return validate(this.password, this.passwordOptions).valid
     }
   }
-};
+}
 </script>

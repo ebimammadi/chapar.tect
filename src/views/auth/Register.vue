@@ -74,13 +74,13 @@
 </template>
 
 <script>
-import _ from "lodash";
-import { validate } from "secure-password-validator";
-import { validateEmail } from "@/core/lib.js";
-import { mapActions } from "vuex";
-import ApiService from "@/core/ApiService";
-import JwtService from "@/core/JwtService";
-import Logo from "@/components/Logo.vue";
+import _ from "lodash"
+import { validate } from "secure-password-validator"
+import { validateEmail } from "@/core/lib.js"
+import { mapActions } from "vuex"
+import ApiService from "@/core/ApiService"
+import JwtService from "@/core/JwtService"
+import Logo from "@/components/Logo.vue"
 
 export default {
   components: {
@@ -101,20 +101,20 @@ export default {
         at least one lowercase, uppercase, number and special character.`,
         confirmPassword: `'Confirm Password' Should match the 'Password'.`
       }
-    };
+    }
   },
 
   methods: {
     ...mapActions(["setAlert", "setSingInStatus"]),
     onSubmit: function() {
       if (!this.validateName)
-        return this.setAlert({ message: this.validation.name });
+        return this.setAlert({ message: this.validation.name })
       if (!this.validateEmail)
-        return this.setAlert({ message: this.validation.email });
+        return this.setAlert({ message: this.validation.email })
       if (!this.validatePassword)
-        return this.setAlert({ message: this.validation.password });
+        return this.setAlert({ message: this.validation.password })
       if (!this.validateConfirmPassword)
-        return this.setAlert({ message: this.validation.confirmPassword });
+        return this.setAlert({ message: this.validation.confirmPassword })
 
       ApiService.post(
         "/users/register",
@@ -122,22 +122,22 @@ export default {
       )
         .then(response => {
           if (response.data.message)
-            return this.setAlert({ message: response.data.message });
-          this.setAlert({ message: "" });
-          const token = response.headers["x-auth-token"];
-          JwtService.setToken(token);
-          this.setSingInStatus(true);
-          this.$router.push("/app");
+            return this.setAlert({ message: response.data.message })
+          this.setAlert({ message: "" })
+          const token = response.headers["x-auth-token"]
+          JwtService.setToken(token)
+          this.setSingInStatus(true)
+          this.$router.push("/app")
         })
         .catch(
           error =>
             this.setAlert({ message: `Network Error!` }) && console.log(error)
-        );
+        )
     }
   },
   created() {
-    //if we have loged in before
-    if (JwtService.getToken()) return this.$router.push("/");
+    //if we have logged in before
+    if (JwtService.getToken()) return this.$router.push("/")
   },
   computed: {
     passwordOptions() {
@@ -149,22 +149,22 @@ export default {
         uppercase: true,
         lowercase: true,
         symbols: true
-      };
+      }
     },
     validateName() {
       return (
         this.name && this.name.length > 5 && this.name.split(" ").length > 1
-      );
+      )
     },
     validateEmail() {
-      return validateEmail(this.email);
+      return validateEmail(this.email)
     },
     validatePassword() {
-      return validate(this.password, this.passwordOptions).valid;
+      return validate(this.password, this.passwordOptions).valid
     },
     validateConfirmPassword() {
-      return this.password === this.confirmPassword;
+      return this.password === this.confirmPassword
     }
   }
-};
+}
 </script>

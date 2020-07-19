@@ -4,11 +4,11 @@
 </template>
 
 <script>
-import Loading from "vue-loading-overlay";
+import Loading from "vue-loading-overlay"
 // Import stylesheet
-import "vue-loading-overlay/dist/vue-loading.css";
+import "vue-loading-overlay/dist/vue-loading.css"
 
-import Store from "@/store/index.js";
+import Store from "@/store/index.js"
 
 export default {
   components: {
@@ -16,8 +16,8 @@ export default {
   },
   computed: {
     overlayShow: function() {
-      return Store.getters.overlayShow;
+      return Store.getters.overlayShow
     }
   }
-};
+}
 </script>

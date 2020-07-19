@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import ApiService from "@/core/ApiService";
-import Logo from "@/components/Logo.vue";
+import { mapActions } from "vuex"
+import ApiService from "@/core/ApiService"
+import Logo from "@/components/Logo.vue"
 
 export default {
   components: {
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       verified: false
-    };
+    }
   },
   methods: {
     ...mapActions(["setAlert"])
@@ -43,12 +43,12 @@ export default {
         return this.setAlert({
           message: response.data.message,
           variant: response.data.response_type
-        });
+        })
       })
       .catch(
         error =>
           this.setAlert({ message: `Network Error!` }) && console.log(error)
-      );
+      )
   }
-};
+}
 </script>

@@ -31,7 +31,7 @@ const isValidToken = () => {
     if (now > exp) return false
     return true
   } catch (err) {
-    console.log(err)
+    console.log(`err`,err)
     return false
   }
 }

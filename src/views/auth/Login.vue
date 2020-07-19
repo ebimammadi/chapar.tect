@@ -84,7 +84,7 @@ export default {
     //if we have logged in before
     //Todo update this chunk
 
-    console.log(`login JwtService.getToken()`, JwtService.isValidToken())
+    //console.log(`login JwtService.getToken()`, JwtService.isValidToken())
     JwtService.deleteToken() //!
     if (JwtService.isValidToken()) return this.$router.push("/")
   },

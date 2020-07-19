@@ -23,6 +23,7 @@ export default {
     BreadCrumb
   },
   computed: {
+    //!TODO need to refactor this part
     isGuarded: function() {
       return !this.$route.meta.isPublic
     }

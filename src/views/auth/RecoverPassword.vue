@@ -6,7 +6,7 @@
       <b-form-group label="Email address:" label-for="email">
         <b-form-input
           id="email"
-          v-model="form.email"
+          v-model="email"
           type="email"
           required
           disabled
@@ -16,20 +16,26 @@
       <b-form-group label="Password:" label-for="password">
         <b-form-input
           id="password"
-          v-model="form.password"
+          v-model="password"
           type="password"
           required
           placeholder="New Password"
         ></b-form-input>
+        <b-form-invalid-feedback :state="validatePassword"
+          >{{ password.length > 0 ? validation.password : "" }}
+        </b-form-invalid-feedback>
       </b-form-group>
       <b-form-group label="Repeat Password:" label-for="repeat-password">
         <b-form-input
           id="repeat-password"
-          v-model="form.repeatPassword"
+          v-model="confirmPassword"
           type="password"
           required
           placeholder="Repeat New Password"
         ></b-form-input>
+        <b-form-invalid-feedback :state="validateConfirmPassword"
+          >{{ validation.confirmPassword }}
+        </b-form-invalid-feedback>
       </b-form-group>
       <b-form-group>
         <b-button type="submit" variant="success">Set Password</b-button>
@@ -40,6 +46,7 @@
 
 <script>
 import { mapActions } from "vuex"
+import { validate as validatePassword } from "secure-password-validator"
 
 import ApiService from "@/core/ApiService"
 import JwtService from "@/core/JwtService"
@@ -52,11 +59,13 @@ export default {
   },
   data() {
     return {
-      form: {
-        name: "",
-        email: "",
-        password: "",
-        repeatPassword: ""
+      email: "",
+      password: "",
+      confirmPassword: "",
+      validation: {
+        password: `The 'Password' should be at least 8 characters, with
+        at least one lowercase, uppercase, number and special character.`,
+        confirmPassword: `'Confirm Password' Should match the 'Password'.`
       }
     }
   },
@@ -64,12 +73,12 @@ export default {
   methods: {
     ...mapActions(["setAlert", "setSingInStatus"]),
     onSubmit: function() {
-      if (this.form.password.length < 8)
+      if (this.password.length < 8)
         return this.setAlert({ message: "Password is short!" })
-      if (this.form.password != this.form.repeatPassword)
+      if (this.password != this.confirmPassword)
         return this.setAlert({ message: "Password mismatch!" })
       const data = {
-        password: this.form.password,
+        password: this.password,
         code: this.$route.params.code
       }
       ApiService.post("/users/recover-password", data)
@@ -98,7 +107,7 @@ export default {
         if (!response.data.email) {
           this.setAlert({ message: response.data.message })
         } else {
-          this.form.email = response.data.email
+          this.email = response.data.email
           this.setAlert({ message: response.data.message, variant: "success" })
         }
       })
@@ -106,6 +115,25 @@ export default {
         error =>
           this.setAlert({ message: `Network Error!` }) && console.log(error)
       )
+  },
+  computed: {
+    passwordOptions() {
+      return {
+        minLength: 8,
+        maxLength: 255,
+        digits: true,
+        letters: true,
+        uppercase: true,
+        lowercase: true,
+        symbols: true
+      }
+    },
+    validatePassword() {
+      return validatePassword(this.password, this.passwordOptions).valid
+    },
+    validateConfirmPassword() {
+      return this.password === this.confirmPassword
+    }
   }
 }
 </script>

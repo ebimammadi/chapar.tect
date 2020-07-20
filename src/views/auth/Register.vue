@@ -75,7 +75,7 @@
 
 <script>
 import _ from "lodash"
-import { validate } from "secure-password-validator"
+import { validate as validatePassword } from "secure-password-validator"
 import { validateEmail } from "@/core/lib.js"
 import { mapActions } from "vuex"
 import ApiService from "@/core/ApiService"
@@ -160,7 +160,7 @@ export default {
       return validateEmail(this.email)
     },
     validatePassword() {
-      return validate(this.password, this.passwordOptions).valid
+      return validatePassword(this.password, this.passwordOptions).valid
     },
     validateConfirmPassword() {
       return this.password === this.confirmPassword

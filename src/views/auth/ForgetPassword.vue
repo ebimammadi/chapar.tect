@@ -14,7 +14,7 @@
       </b-form-group>
 
       <b-form-group>
-        <b-button type="submit" variant="success">Send Log In Link</b-button>
+        <b-button type="submit" variant="success">Send Recovery Link</b-button>
       </b-form-group>
 
       <b-form-group class="mt-10 align-center">

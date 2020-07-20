@@ -73,15 +73,15 @@ export default {
   methods: {
     ...mapActions(["setAlert", "setSingInStatus"]),
     onSubmit: function() {
-      if (this.password.length < 8)
-        return this.setAlert({ message: "Password is short!" })
-      if (this.password != this.confirmPassword)
-        return this.setAlert({ message: "Password mismatch!" })
-      const data = {
+      if (!this.validatePassword)
+        return this.setAlert({ message: this.validation.password })
+      if (!this.validateConfirmPassword)
+        return this.setAlert({ message: this.validation.confirmPassword })
+      const payload = {
         password: this.password,
         code: this.$route.params.code
       }
-      ApiService.post("/users/recover-password", data)
+      ApiService.post("/users/recover-password", payload)
         .then(response => {
           if (response.data.message)
             return this.setAlert({ message: response.data.message })

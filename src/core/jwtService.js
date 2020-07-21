@@ -14,11 +14,9 @@ const parseToken = token => {
 const getToken = () => window.localStorage.getItem("token")
 const getRefreshToken = () => window.localStorage.getItem("refresh-token")
 const setToken = token => window.localStorage.setItem("token", token)
-const setRefreshToken = token =>
-  window.localStorage.setItem("refresh-token", token)
+const setRefreshToken = token => window.localStorage.setItem("refresh-token", token)
 const deleteToken = () => window.localStorage.removeItem("token")
-const deleteRefreshToken = () =>
-  window.localStorage.removeItem("refresh-token")
+const deleteRefreshToken = () => window.localStorage.removeItem("refresh-token")
 
 const decodeToken = () => parseToken(getToken())
 

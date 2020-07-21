@@ -39,7 +39,7 @@
         </b-nav-item>
         <b-nav-item v-if="isAdmin">
           <router-link :to="'/app/users'">
-            Users!
+            Users
           </router-link>
         </b-nav-item>
       </b-navbar-nav>
@@ -93,8 +93,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters( ["userInfo"]),
+    ...mapGetters( ["userInfo","profilePhotoUrl"]),
     isGuarded2: function() {
+      //Todo remove this property (if it is redundant)
       return !this.$route.meta.isPublic
     },
     requiresAuth: function() {
@@ -119,12 +120,7 @@ export default {
       }
     },
     profilePhoto: function() {
-      try {
-        const { profilePhotoUrl } = JwtService.decodeToken()
-        return profilePhotoUrl
-      }catch(_){
-        return ''
-      }
+      return this.profilePhotoUrl
     }
   }
 }

@@ -210,7 +210,7 @@ export default {
     ImageUpload
   },
   methods: {
-    ...mapActions(["setAlert","SetProfilePhotoUrl"]),
+    ...mapActions(["setAlert","setProfilePhotoUrl"]),
     confirmEmail() {
       ApiService.get("/users/send-verification-link")
         .then(response => {
@@ -264,7 +264,7 @@ export default {
     },
     imageShow(url) {
       this.user.profilePhotoUrl = url
-      this.SetProfilePhotoUrl(url)
+      this.setProfilePhotoUrl(url)
     },
     deleteImage() {
       const pathArr = this.user.profilePhotoUrl.split("/")
@@ -275,7 +275,7 @@ export default {
       )
         .then(() => {
           this.user.profilePhotoUrl = ""
-          this.SetProfilePhotoUrl("") 
+          this.setProfilePhotoUrl("") 
         })
         .catch(
           error =>

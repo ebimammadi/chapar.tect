@@ -70,7 +70,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["setAlert", "setSingInStatus", "SetProfilePhotoUrl"]),
+    ...mapActions(["setAlert", "setSingInStatus", "setProfilePhotoUrl"]),
     onSubmit: function() {
       if (!this.validatePassword)
         return this.setAlert({ message: this.validation.password })
@@ -88,7 +88,7 @@ export default {
           const token = response.headers["x-auth-token"]
           JwtService.setToken(token)
           const { profilePhotoUrl } = JwtService.decodeToken()
-          this.SetProfilePhotoUrl(profilePhotoUrl)
+          this.setProfilePhotoUrl(profilePhotoUrl)
           this.setSingInStatus(true)
           this.$router.push("/app")
         })

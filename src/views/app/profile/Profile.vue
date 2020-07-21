@@ -16,8 +16,8 @@
         >
         <image-upload
           v-if="!user.profilePhotoUrl"
-          crop_width="800"
-          crop_height="800"
+          crop_width="400"
+          crop_height="400"
           unique="true"
           usage="profile"
           placeholder="Select Profile Photo"
@@ -41,23 +41,6 @@
             {{ validation.name }}
           </b-form-invalid-feedback>
         </b-input-group>
-      </b-col>
-    </b-row>
-    <b-row class="mb-3">
-      <b-col>
-        <label for="user-role">User Role</label>
-        <b-input-group>
-          <b-input
-            id="user-role"
-            v-model="user.userRole"
-            type="text"
-            disabled
-          ></b-input>
-          <b-form-invalid-feedback :state="validateName">
-            {{ validation.name }}
-          </b-form-invalid-feedback>
-        </b-input-group>
-        <!-- <a href="http://chapar-tech-api.herokuapp.com/users/user-list" target="_blank">Users</a> -->
       </b-col>
     </b-row>
     <b-row class="mb-3">
@@ -99,6 +82,30 @@
     </b-row>
     <b-row class="mb-3">
       <b-col>
+        <label for="user-role">User Role</label>
+        <b-input-group>
+          <b-input
+            id="user-role"
+            v-model="user.userRole"
+            type="text"
+            disabled
+          ></b-input>
+          <b-form-invalid-feedback :state="validateName">
+            {{ validation.name }}
+          </b-form-invalid-feedback>
+        </b-input-group>
+        <!-- <a href="http://chapar-tech-api.herokuapp.com/users/user-list" target="_blank">Users</a> -->
+      </b-col>
+    </b-row>
+    <b-row class="mb-3" v-if="user.userRole =='user'">
+      <b-col>
+        <b-button @click="sendSupplierRequest"  variant="outline-secondary">
+          Become a supplier ?
+        </b-button>
+      </b-col>
+    </b-row>
+    <b-row class="mb-3" v-if="user.userRole !='user'">
+      <b-col>
         <label for="slug">Slug</label>
         <b-input-group>
           <b-input
@@ -114,7 +121,7 @@
         </b-input-group>
       </b-col>
     </b-row>
-    <b-row class="mb-3">
+    <b-row class="mb-3" v-if="user.userRole !='user'">
       <b-col>
         <label for="website">Website Address</label>
         <b-input-group>
@@ -131,7 +138,7 @@
         </b-input-group>
       </b-col>
     </b-row>
-    <b-row class="mb-3">
+    <b-row class="mb-3" v-if="user.userRole !='user'">
       <b-col>
         <label for="facebook">Facebook Address</label>
         <b-input-group>
@@ -148,7 +155,7 @@
         </b-input-group>
       </b-col>
     </b-row>
-    <b-row class="mb-3">
+    <b-row class="mb-3" v-if="user.userRole !='user'">
       <b-col>
         <label for="instagram">Instagram Address</label>
         <b-input-group>
@@ -165,6 +172,7 @@
         </b-input-group>
       </b-col>
     </b-row>
+    
     <b-row class="mt-5 mb-3">
       <b-col>
         <b-button @click="sendProfile" variant="outline-success"
@@ -261,6 +269,10 @@ export default {
           error =>
             this.setAlert({ message: `Network Error!` }) && console.log(error)
         )
+    },
+    sendSupplierRequest() {
+      //TODO add the request and send the request to the backend and 
+      this.setAlert({message: 'Under Construction! Comming very soon', variant: 'danger'})
     },
     imageShow(url) {
       this.user.profilePhotoUrl = url

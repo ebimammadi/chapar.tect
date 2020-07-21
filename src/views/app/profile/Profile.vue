@@ -210,7 +210,7 @@ export default {
     ImageUpload
   },
   methods: {
-    ...mapActions(["setAlert"]),
+    ...mapActions(["setAlert","SetProfilePhotoUrl"]),
     confirmEmail() {
       ApiService.get("/users/send-verification-link")
         .then(response => {
@@ -264,6 +264,7 @@ export default {
     },
     imageShow(url) {
       this.user.profilePhotoUrl = url
+      this.SetProfilePhotoUrl(url)
     },
     deleteImage() {
       const pathArr = this.user.profilePhotoUrl.split("/")
@@ -272,7 +273,10 @@ export default {
           pathArr[pathArr.length - 1]
         }`
       )
-        .then(() => (this.user.profilePhotoUrl = ""))
+        .then(() => {
+          this.user.profilePhotoUrl = ""
+          this.SetProfilePhotoUrl("") 
+        })
         .catch(
           error =>
             (this.user.profilePhotoUrl = "") &&
@@ -310,9 +314,7 @@ export default {
       return url.length == 0 || validateURL(url)
     },
     validateSlug() {
-      // console.log(`sdsa`, this.user.slug);
       if (this.user.slug === undefined) return false
-      // if (this.user.slug) console.log(this.user.slug.length);
       return (
         this.user.slug &&
         this.user.slug.length > 0 &&

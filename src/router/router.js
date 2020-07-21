@@ -57,7 +57,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (to.matched.some(path => path.meta.requiresAuth)) {
     if (!JwtService.isValidToken()) {
-      //!  redirect set it to store! need to develop
+      //Todo redirect set it to store! need to develop
       //query: { redirect: to.fullPath}
       next({ name: "login" })
     } else next()
@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(path => path.meta.requiresAdmin)) {
     const { userRole } = JwtService.decodeToken()
     if (userRole !== "admin") {
-      console.log(`Guarded!`)
+      console.warn(`Guarded!`)
       next({ name: "home" })
     } else next()
   } else next()

@@ -1,7 +1,7 @@
 import Vue from "vue"
 import axios from "axios"
 
-import Store from "../store"
+import Store from "../store/index"
 import router from "../router/router"
 
 const ApiService = {

@@ -9,10 +9,13 @@
 </template>
 
 <script>
+import ApiService from '@/core/ApiService'
 import Navbar from "@/components/Navbar"
 import AlertBox from "@/components/AlertBox"
 import OverlayLoader from "@/components/OverlayLoader"
 import BreadCrumb from "@/components/BreadCrumb"
+
+import { mapActions } from 'vuex'
 
 export default {
   name: "App",
@@ -27,6 +30,20 @@ export default {
     isGuarded: function() {
       return !this.$route.meta.isPublic
     }
+  },
+  mounted(){
+    ApiService.get("/users/me")
+      .then(response =>{
+        const url = (response.data.profilePhotoUrl === undefined) ? "" : response.data.profilePhotoUrl
+        this.setProfilePhotoUrl(url)
+      })
+      .catch(
+        error =>
+          this.setAlert({ message: `Network Error!` }) && console.log(error)
+      )
+  },
+  methods: {
+    ...mapActions(["setAlert", "setProfilePhotoUrl"])
   }
 }
 </script>

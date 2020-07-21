@@ -41,11 +41,12 @@
 
 <script>
 import _ from "lodash"
-
 import { mapActions } from "vuex"
+
+import Logo from "@/components/Logo.vue"
 import ApiService from "@/core/ApiService"
 import JwtService from "@/core/JwtService"
-import Logo from "@/components/Logo.vue"
+import Store from "@/store/index"
 
 export default {
   name: "login",
@@ -61,7 +62,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["setAlert", "setSingInStatus"]),
+    ...mapActions(["setAlert", "setSingInStatus", "setProfilePhotoUrl"]),
     onSubmit: function() {
       const data = _.pick(this.form, ["email", "password"])
       ApiService.post("/users/login", data)
@@ -71,6 +72,8 @@ export default {
           this.setAlert({ message: "" })
           const token = response.headers["x-auth-token"]
           JwtService.setToken(token)
+          const { profilePhotoUrl } = JwtService.decodeToken()
+          this.setProfilePhotoUrl(profilePhotoUrl)
           this.setSingInStatus(true)
           this.$router.push("/app")
         })
@@ -81,9 +84,9 @@ export default {
     }
   },
   created() {
+    Store.commit("changeProfilePhotoUrl", '')
     //if we have logged in before
     //Todo update this chunk
-
     //console.log(`login JwtService.getToken()`, JwtService.isValidToken())
     JwtService.deleteToken() //!
     if (JwtService.isValidToken()) return this.$router.push("/")

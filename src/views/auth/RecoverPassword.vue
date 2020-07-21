@@ -12,7 +12,6 @@
           disabled
         ></b-form-input>
       </b-form-group>
-
       <b-form-group label="Password:" label-for="password">
         <b-form-input
           id="password"
@@ -71,7 +70,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["setAlert", "setSingInStatus"]),
+    ...mapActions(["setAlert", "setSingInStatus", "SetProfilePhotoUrl"]),
     onSubmit: function() {
       if (!this.validatePassword)
         return this.setAlert({ message: this.validation.password })
@@ -88,6 +87,8 @@ export default {
           this.setAlert({ message: "" })
           const token = response.headers["x-auth-token"]
           JwtService.setToken(token)
+          const { profilePhotoUrl } = JwtService.decodeToken()
+          this.SetProfilePhotoUrl(profilePhotoUrl)
           this.setSingInStatus(true)
           this.$router.push("/app")
         })

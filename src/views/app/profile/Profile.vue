@@ -5,7 +5,7 @@
         <img
           v-if="user.profilePhotoUrl"
           :src="user.profilePhotoUrl"
-          width="150"
+          width="150" class="rounded"
         />
         <b-button
           v-if="user.profilePhotoUrl"

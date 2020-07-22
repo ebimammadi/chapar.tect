@@ -16,6 +16,8 @@ export default {
           .join(" ")
       const pathArray = this.$route.path.split("/")
       pathArray.shift()
+      if (pathArray[pathArray.length-1] == "") pathArray.pop()//handles the last slash
+      
       if (pathArray[0] == "") return {} //on home page nothing to display
       let breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
         let text = ""

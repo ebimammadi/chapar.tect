@@ -36,7 +36,7 @@ export default {
   created(){
     ApiService.get("/users/user-list")
       .then(response => (this.usersRaw = response.data))
-      .catch(err => console.log(`err9999`,err))
+      .catch(err => console.log(err))
   },
   computed: {
     users() {

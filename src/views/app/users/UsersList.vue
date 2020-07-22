@@ -17,6 +17,7 @@
 
 <script>
 import ApiService from "@/core/ApiService"
+import { mapActions } from "vuex"
 
 export default {
   data(){
@@ -29,21 +30,24 @@ export default {
       ]
     }
   },
+  methods: {
+    ...mapActions(["setAlert"])
+  },
   created(){
     ApiService.get("/users/user-list")
       .then(response => (this.usersRaw = response.data))
-      .catch(error => this.setAlert( { message: `Network Error!` }) && console.log(error) )
+      .catch(err => console.log(`err9999`,err))
   },
   computed: {
     users() {
       if (this.usersRaw.length == 0) return []
       const items = this.usersRaw.map( item => {
         item.status = item.isActive ? 'Active' : 'In-active'
-        item.contact = item.email //+ item.mobile
+        item.contact = item.email
         item.nameSlot = {
           "name": item.name,
           "avatar": item.profilePhotoUrl
-          } //''item.name + ` <b-avatar :src=${item.profilePhotoUrl} />`
+          }
         return item
       })
       return items

@@ -4,7 +4,7 @@
     <nav-bar v-if="isGuarded" />
     <bread-crumb v-if="isGuarded" />
     <alert-box />
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 

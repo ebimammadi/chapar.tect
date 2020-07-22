@@ -19,28 +19,28 @@ const ApiService = {
         Store.commit("changeOverlayShow", true)
         return config
       },
-      err => {
-        return Promise.reject(err)
-      }
+      err => Promise.reject(err)
     )
 
     axios.interceptors.response.use(
       config => {
         Store.commit("changeOverlayShow", false)
-        //console.log("interceptor");
         return config
       },
       err => {
+        // ? https://github.com/axios/axios#handling-errors
         Store.commit("changeOverlayShow", false)
-        //console.log(`there is an error status:`,err.response.status)
-        if (err.response.status == 403) {
-          //! err.response.status =>400 a more strick rule
-          //!TODO: this chunk of code should be revised and developed 2020-0617
-          if (!["login", "register"].includes(router.currentRoute.name))
-            router.push("/login")
-          //return;
-        }
-        return Promise.reject(err)
+        Store.dispatch({ type: "setAlert", message: "Network Error!" })
+        if (err.response) {
+          if (err.response.status == 403) { // err.response.status =>400 a more strick rule
+            if (!["login", "register"].includes(router.currentRoute.name))
+              router.push("/login")
+            return Promise.reject(err.response)
+          }
+        } else if (err.request) {
+          return Promise.reject(err.request)
+        } else return Promise.reject(err.message)
+        return Promise.reject(err.config)
       }
     )
   },

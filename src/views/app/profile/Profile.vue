@@ -42,6 +42,11 @@
           </b-form-invalid-feedback>
         </b-input-group>
       </b-col>
+    </b-row> 
+    <b-row>
+      <b-col>
+        <hr/>
+      </b-col>
     </b-row>
     <b-row class="mb-3">
       <b-col>
@@ -78,6 +83,11 @@
             >Confirm Email
           </b-button>
         </b-input-group>
+      </b-col>
+    </b-row>
+    <b-row class="mb-3">
+      <b-col>
+        <hr/>
       </b-col>
     </b-row>
     <b-row class="mb-3">

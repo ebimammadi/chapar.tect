@@ -68,7 +68,7 @@
             </b-button>
           </template>
         </b-table>
-        <modal-confirm :title="modalTitle" :body="modalBody" :_id="modalID" @ok="userActivateToggle" />
+        <modal-confirm :title="modalTitle" :body="modalBody" :_id="modalId" @ok="userActivateToggle" />
         <!-- <button v-b-modal="'mainModal'">Show Modal</button> -->
       </b-col>
     </b-row>
@@ -77,7 +77,6 @@
 
 <script>
 import ModalConfirm from "@/components/ModalConfirm"
-// import Vue from "vue"
 import ApiService from "@/core/ApiService"
 import { mapActions } from "vuex"
 
@@ -89,7 +88,7 @@ export default {
     return {
       modalTitle: "",
       modalBody: "",
-      modalID: "",
+      modalId: "",
       usersRaw: [],
       fields: [
         { key: "nameSlot", label: "User" },
@@ -102,19 +101,27 @@ export default {
   methods: {
     ...mapActions(["setAlert"]),
     userActivateToggle(_id){
-       console.log(`process id `,_id) //call backend
-      // console.log(_id)
-      // this.usersRaw.map(item => {
-      //   if (item._id == _id) item.name = item.name + " @@"
-      //   return item
-      // }) 
+      _id = _id._id
+      const item = this.usersRaw.find( item => item._id === _id )
+      const request = item.isActive ? '/users/user-deactivate' : '/users/user-activate'
+      ApiService.post(request, { _id })
+        .then(response => {
+          this.setAlert({message: response.data.message, variant: response.data.response_type})
+          if (response.data.response_type === "success"){
+            this.usersRaw.map(item => {
+              if (item._id === _id) item.isActive = !item.isActive
+              return item
+            })
+          }
+        })
+        .catch(err => console.log(err))
     },
     userActivateShowModal(_id){
       const item = this.usersRaw.find( item => item._id === _id)
       const action = item.isActive ? `suspend` : `activate`
       this.modalTitle = item.isActive ? `Suspend User` : `Activate User`
       this.modalBody = `Are you sure to ${action} user <b>${item.name} (${item.email})</b> ?`
-      this.modalID = _id
+      this.modalId = _id
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     }
   },

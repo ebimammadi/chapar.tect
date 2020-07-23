@@ -130,7 +130,7 @@ export default {
         item.contact = {
           email: item.email,
           emailVerify: (item.emailVerify == "true"),
-          emailTooltip: "Email" + ( (item.emailVerify == "true") ?` is verified.` : ` Not verified yet!` ),
+          emailTooltip: (item.emailVerify == "true") ?`Verified Email.` : `Not verified yet!` ,
           mobile: item.mobile ?? "",
           mobileVerify: (item.mobileVerify == "true"),
           mobileTooltip: "Mobile" + ( (item.mobileVerify == "true") ?` is verified.` : ` Not verified yet!` ),

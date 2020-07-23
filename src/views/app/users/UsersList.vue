@@ -103,7 +103,7 @@ export default {
     userActivateToggle(_id){
       _id = _id._id
       const item = this.usersRaw.find( item => item._id === _id )
-      const request = item.isActive ? '/users/user-deactivate' : '/users/user-activate'
+      const request = item.isActive ? '/users/user-suspend' : '/users/user-activate'
       ApiService.post(request, { _id })
         .then(response => {
           this.setAlert({message: response.data.message, variant: response.data.response_type})

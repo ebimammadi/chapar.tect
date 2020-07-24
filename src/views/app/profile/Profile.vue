@@ -282,7 +282,7 @@ export default {
     },
     sendSupplierRequest() {
       //TODO add the request and send the request to the backend and 
-      this.setAlert({message: 'Under Construction! Comming very soon', variant: 'danger'})
+      this.setAlert({message: 'Under Construction! Coming very soon', variant: 'danger'})
     },
     imageShow(url) {
       this.user.profilePhotoUrl = url

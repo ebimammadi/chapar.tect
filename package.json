@@ -16,6 +16,7 @@
     "lodash": "^4.17.19",
     "secure-password-validator": "^1.0.2",
     "vue": "^2.6.11",
+    "vue-bootstrap-toggle": "^1.1.4",
     "vue-croppie": "^2.0.2",
     "vue-loading-overlay": "^3.3.2",
     "vue-router": "^3.2.0",

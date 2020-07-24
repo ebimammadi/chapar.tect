@@ -46,15 +46,6 @@
             disabled
             >✓</b-button
           >
-          <router-link
-            v-if="user.emailVerify"
-            :to="{ name: 'change email' }"
-            class="ml-2 float-right"
-          >
-            <b-button to variant="outline-secondary">
-              Change Email
-            </b-button>
-          </router-link>
         </b-input-group>
       </b-col>
     </b-row>
@@ -74,13 +65,6 @@
             disabled
           ></b-input>
         </b-input-group>
-      </b-col>
-    </b-row>
-    <b-row class="mb-3" v-if="user.userRole =='user'">
-      <b-col>
-        <b-button @click="sendSupplierRequest"  variant="outline-secondary">
-          Become a supplier ?
-        </b-button>
       </b-col>
     </b-row>
     <b-row class="mb-3" v-if="user.userRole !='user'">
@@ -137,22 +121,6 @@
           >
           </b-input>
         </b-input-group>
-      </b-col>
-    </b-row>
-    
-    <b-row class="mt-5 mb-3">
-      <b-col>
-        
-        <router-link :to="{ name: 'address' }" class="ml-2 float-right">
-          <b-button to variant="outline-secondary">
-            Add/Edit Addresses
-          </b-button>
-        </router-link>
-        <router-link :to="{ name: 'change password' }" class="ml-2 float-right">
-          <b-button variant="outline-secondary">
-            Change Password
-          </b-button>
-        </router-link>
       </b-col>
     </b-row>
   </b-container>

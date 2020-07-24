@@ -3,6 +3,9 @@
     <b-row class="mb-3">
       <b-col>
         <h1 class="mb-3">User list</h1>
+        <!-- <p v-b-tooltip.hover title="Registration Time" class="mt-2">
+              <b-icon-clock> </b-icon-clock> {{ data.value.date }}
+            </p> -->
         <b-table 
           ref="userTable"
           responsive
@@ -13,18 +16,20 @@
           :fields="fields"
         >
           <template v-slot:cell(nameSlot)="data">
-            <b-avatar :src="data.value.avatar" />
-            {{ data.value.name }} 
-            <p v-b-tooltip.hover title="Registration Time" class="mt-2">
-              <b-icon-clock> </b-icon-clock> {{ data.value.date }}
-              <!-- <b-tooltip target="registration"></b-tooltip> -->
-            </p>
+            <b-avatar :src="data.item.profilePhotoUrl" />
+            {{ data.item.name }}
+            <router-link 
+              variant="primary" 
+              v-b-tooltip.hover title="View Profile"
+              :to="{ name: 'user profile', params: { user: data.item.email } }"
+            >
+                <b-icon-eye />                  
+            </router-link>
           </template>
-          <!-- Contact column -->
-          <template v-slot:cell(contact)="data">
+          <!-- EmailSlot column -->
+          <template v-slot:cell(emailSlot)="data">
             <span v-b-tooltip.hover :title="data.value.emailTooltip" >
               {{ data.value.email }} 
-              
               <b-icon-check-all 
                 v-if="data.value.emailVerify" 
                 variant="success"
@@ -36,6 +41,9 @@
               > 
               </b-icon-exclamation-circle>
             </span> 
+            
+          </template>
+          <template v-slot:cell(mobileSlot)="data">
             <span v-if="data.value.mobile.length>0" v-b-tooltip.hover :title="data.value.mobileTooltip" >
               {{ data.value.mobile }} 
               <b-icon-check-all 
@@ -48,7 +56,7 @@
                 variant="warning"
               > 
               </b-icon-exclamation-circle>
-            </span> 
+            </span>
           </template>
           <!-- <template v-slot:cell(role)="data">
             <p>{{ data.value }}</p>
@@ -66,6 +74,9 @@
               <b-icon-pause v-if="data.value.status == `Active`"> </b-icon-pause>
               <b-icon-play v-if="data.value.status != `Active`"> </b-icon-play>
             </b-button>
+          </template>
+          <template v-slot:cell(date)="data">
+            {{ data.value | dateTime }}
           </template>
         </b-table>
         <modal-confirm :title="modalTitle" :body="modalBody" :_id="modalId" @ok="userActivateToggle" />
@@ -92,9 +103,11 @@ export default {
       usersRaw: [],
       fields: [
         { key: "nameSlot", label: "User" },
-        { key: "contact" , label: "Email/Mobile" },  
+        { key: "emailSlot" , label: "Email" },  
+        { key: "mobileSlot" , label: "Mobile" },  
         { key: "userRole", label: "Role" },
         { key: "status", label: "Status" },
+        { key: "date", label: "Reg. Time"}
       ]
     }
   },
@@ -134,19 +147,17 @@ export default {
     users() {
       if (this.usersRaw.length == 0) return []
       const items = this.usersRaw.map( item => {
-        item.contact = {
+        item.emailSlot = {
           email: item.email,
           emailVerify: (item.emailVerify == "true"),
           emailTooltip: (item.emailVerify == "true") ?`Verified Email.` : `Not verified yet!` ,
+        }
+         item.mobileSlot = {
           mobile: item.mobile ?? "",
           mobileVerify: (item.mobileVerify == "true"),
           mobileTooltip: "Mobile" + ( (item.mobileVerify == "true") ?` is verified.` : ` Not verified yet!` ),
         }
-        item.nameSlot = {
-          "name": item.name,
-          "avatar": item.profilePhotoUrl,
-          "date": item.date.split("T")[0]+'-'+(item.date.split("T")[1]).slice(0,5)
-        }
+        
         item.status = {
           "status": item.isActive ? `Active` : `Inactive`,
           "verb": item.isActive ? `Suspend` : `Activate`,

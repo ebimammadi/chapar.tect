@@ -9,7 +9,10 @@
 </template>
 
 <script>
-import ApiService from '@/core/ApiService'
+import Vue from "vue"
+Vue.filter("dateTime", (date) => date.split("T")[0] + '-' + (date.split("T")[1]).slice(0,5))
+
+import ApiService from "@/core/ApiService"
 import Navbar from "@/components/Navbar"
 import AlertBox from "@/components/AlertBox"
 import OverlayLoader from "@/components/OverlayLoader"

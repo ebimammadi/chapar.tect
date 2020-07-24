@@ -28,7 +28,7 @@ export default [
       {
         path: "profile/:user",
         name: "user profile",
-        component: () => import("@/views/app/users/UsersLogs.vue"),
+        component: () => import("@/views/app/users/UsersProfile.vue"),
         meta: {
           requiresAuth: true,
           requiresAdmin: true

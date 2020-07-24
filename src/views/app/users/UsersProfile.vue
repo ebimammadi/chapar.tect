@@ -37,9 +37,6 @@
             type="text"
             placeholder="Enter fullname"
           ></b-input>
-          <b-form-invalid-feedback :state="validateName">
-            {{ validation.name }}
-          </b-form-invalid-feedback>
         </b-input-group>
       </b-col>
     </b-row> 
@@ -100,11 +97,7 @@
             type="text"
             disabled
           ></b-input>
-          <b-form-invalid-feedback :state="validateName">
-            {{ validation.name }}
-          </b-form-invalid-feedback>
         </b-input-group>
-        <!-- <a href="http://chapar-tech-api.herokuapp.com/users/user-list" target="_blank">Users</a> -->
       </b-col>
     </b-row>
     <b-row class="mb-3" v-if="user.userRole =='user'">
@@ -125,9 +118,6 @@
             placeholder="Enter Slug"
           >
           </b-input>
-          <b-form-invalid-feedback :state="validateSlug">
-            {{ validation.slug }}
-          </b-form-invalid-feedback>
         </b-input-group>
       </b-col>
     </b-row>
@@ -142,9 +132,6 @@
             placeholder="Enter Website Address"
           >
           </b-input>
-          <b-form-invalid-feedback :state="validateWebsite">
-            {{ validation.urls.website }}
-          </b-form-invalid-feedback>
         </b-input-group>
       </b-col>
     </b-row>
@@ -159,9 +146,6 @@
             placeholder="Enter Facebook Page"
           >
           </b-input>
-          <b-form-invalid-feedback :state="validateFacebook">
-            {{ validation.urls.facebook }}
-          </b-form-invalid-feedback>
         </b-input-group>
       </b-col>
     </b-row>
@@ -176,9 +160,6 @@
             placeholder="Enter Instagram Page"
           >
           </b-input>
-          <b-form-invalid-feedback :state="validateInstagram">
-            {{ validation.urls.instagram }}
-          </b-form-invalid-feedback>
         </b-input-group>
       </b-col>
     </b-row>
@@ -205,7 +186,6 @@
 
 <script>
 import { mapActions } from "vuex"
-import { validateURL, validateSlug } from "@/core/lib.js"
 import ApiService from "@/core/ApiService"
 import ImageUpload from "@/components/ImageUpload.vue"
 
@@ -213,15 +193,7 @@ export default {
   data() {
     return {
       user: { urls: { facebook: "", website: "", instagram: "" } },
-      validation: {
-        name: `Your 'Fullname' should be at least 5 characters, including first name and last name.`,
-        slug: `'Slug' should contain only lowercase characters and numbers separated by hyphen (-). For example if the name is 'John Smith Foods' you can use 'john-smith-foods'.`,
-        urls: {
-          website: `Website Address (URL) format is not valid. It should start with http:// or https://`,
-          instagram: `Instagram Address (URL) format is not valid. It should start with https://`,
-          facebook: `Facebook Address (URL) format is not valid. It should start with https://`
-        }
-      }
+      
     }
   },
   components: {
@@ -229,120 +201,18 @@ export default {
   },
   methods: {
     ...mapActions(["setAlert","setProfilePhotoUrl"]),
-    confirmEmail() {
-      ApiService.get("/users/send-verification-link")
-        .then(response => {
-          if (response.data.message)
-            return this.setAlert({
-              message: response.data.message,
-              variant: response.data.response_type
-            })
-        })
-        .catch(
-          error =>
-            this.setAlert({ message: `Network Error!` }) && console.log(error)
-        )
-    },
-    sendProfile() {
-      if (!this.validateName)
-        return this.setAlert({ message: this.validation.name })
-
-      if (!this.validateSlug)
-        return this.setAlert({ message: this.validation.slug })
-
-      if (!this.validateWebsite)
-        return this.setAlert({
-          message: this.validation.urls.website
-        })
-      if (!this.validateFacebook)
-        return this.setAlert({
-          message: this.validation.urls.facebook
-        })
-      if (!this.validateInstagram)
-        return this.setAlert({
-          message: this.validation.urls.instagram
-        })
-
-      ApiService.post("/users/profile-set", {
-        name: this.user.name,
-        slug: this.user.slug,
-        urls: this.user.urls
-      })
-        .then(response => {
-          console.log("response profile-set", response)
-          this.setAlert({
-            message: response.data.message,
-            variant: response.data.response_type
-          })
-        })
-        .catch(
-          error =>
-            this.setAlert({ message: `Network Error!` }) && console.log(error)
-        )
-    },
-    sendSupplierRequest() {
-      //TODO add the request and send the request to the backend and 
-      this.setAlert({message: 'Under Construction! Coming very soon', variant: 'danger'})
-    },
     imageShow(url) {
       this.user.profilePhotoUrl = url
       this.setProfilePhotoUrl(url)
-    },
-    deleteImage() {
-      const pathArr = this.user.profilePhotoUrl.split("/")
-      ApiService.get(
-        `/files/delete-image/${pathArr[pathArr.length - 2]}/${
-          pathArr[pathArr.length - 1]
-        }`
-      )
-        .then(() => {
-          this.user.profilePhotoUrl = ""
-          this.setProfilePhotoUrl("") 
-        })
-        .catch(
-          error =>
-            (this.user.profilePhotoUrl = "") &&
-            this.setAlert({ message: `Network Error!` }) &&
-            console.log(error)
-        )
     }
   },
   created() {
-    ApiService.get("/users/profile-get")
+    ApiService.get(`/users/profile-get-by-email/${this.$route.params.user}`)
       .then(response => (this.user = response.data))
       .catch(
         error =>
           this.setAlert({ message: `Network Error!` }) && console.log(error)
       )
-  },
-  computed: {
-    validateName() {
-      return (
-        this.user.name &&
-        this.user.name.length > 5 &&
-        this.user.name.split(" ").length > 1
-      )
-    },
-    validateWebsite() {
-      const url = this.user.urls.website
-      return url.length == 0 || validateURL(url)
-    },
-    validateFacebook() {
-      const url = this.user.urls.facebook
-      return url.length == 0 || validateURL(url)
-    },
-    validateInstagram() {
-      const url = this.user.urls.instagram
-      return url.length == 0 || validateURL(url)
-    },
-    validateSlug() {
-      if (this.user.slug === undefined) return false
-      return (
-        this.user.slug &&
-        this.user.slug.length > 0 &&
-        validateSlug(this.user.slug)
-      )
-    }
   }
 }
 </script>

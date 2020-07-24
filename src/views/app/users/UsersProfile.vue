@@ -7,23 +7,6 @@
           :src="user.profilePhotoUrl"
           width="150" class="rounded"
         />
-        <b-button
-          v-if="user.profilePhotoUrl"
-          @click="deleteImage"
-          variant="outline-secondary"
-          class="ml-1 mt-1 align-bottom"
-          >Remove/Change Photo</b-button
-        >
-        <image-upload
-          v-if="!user.profilePhotoUrl"
-          crop_width="400"
-          crop_height="400"
-          unique="true"
-          usage="profile"
-          placeholder="Select Profile Photo"
-          @url="imageShow"
-        >
-        </image-upload>
       </b-col>
     </b-row>
     <b-row class="mb-3">
@@ -72,13 +55,6 @@
               Change Email
             </b-button>
           </router-link>
-          <b-button
-            @click="confirmEmail"
-            v-if="!user.emailVerify"
-            variant="outline-secondary"
-            class="ml-2"
-            >Confirm Email
-          </b-button>
         </b-input-group>
       </b-col>
     </b-row>
@@ -166,9 +142,7 @@
     
     <b-row class="mt-5 mb-3">
       <b-col>
-        <b-button @click="sendProfile" variant="outline-success"
-          >Save Profile</b-button
-        >
+        
         <router-link :to="{ name: 'address' }" class="ml-2 float-right">
           <b-button to variant="outline-secondary">
             Add/Edit Addresses
@@ -187,7 +161,6 @@
 <script>
 import { mapActions } from "vuex"
 import ApiService from "@/core/ApiService"
-import ImageUpload from "@/components/ImageUpload.vue"
 
 export default {
   data() {
@@ -195,9 +168,6 @@ export default {
       user: { urls: { facebook: "", website: "", instagram: "" } },
       
     }
-  },
-  components: {
-    ImageUpload
   },
   methods: {
     ...mapActions(["setAlert","setProfilePhotoUrl"]),

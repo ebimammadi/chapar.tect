@@ -12,17 +12,12 @@ import entranceRoutes from "@/router/routes/auth"
 //app routes
 import appRoutes from "@/router/routes/app"
 
-
-
-
-
 const baseRoutes = [
   {
     path: "/",
     name: "home",
     component: () => import("@/views/Home.vue"),
     meta: {
-      
     }
   },
   {
@@ -38,7 +33,6 @@ const baseRoutes = [
     name: "Page not found",
     component: () => import("@/views/404.vue"),
     meta: {
-      
     }
   },
   {

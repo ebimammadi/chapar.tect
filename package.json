@@ -11,7 +11,6 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
-    "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "lodash": "^4.17.19",
     "secure-password-validator": "^1.0.2",

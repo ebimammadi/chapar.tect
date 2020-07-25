@@ -4,16 +4,28 @@
 
 <script>
 export default {
-  computed: {
-    items: function() {
-      const capitalize = str =>
-        str
-          .split(" ")
+  methods: {
+    capitalizeName (str, seperator = " ") {
+      return str
+          .split(seperator)
           .map(
             ([firstChar, ...rest]) =>
               firstChar.toUpperCase() + rest.join("").toLowerCase()
           )
           .join(" ")
+    } 
+  },
+  computed: {
+    
+    items: function() {
+      // const capitalize = str =>
+      //   str
+      //     .split(" ")
+      //     .map(
+      //       ([firstChar, ...rest]) =>
+      //         firstChar.toUpperCase() + rest.join("").toLowerCase()
+      //     )
+      //     .join(" ")
       const pathArray = this.$route.path.split("/")
       pathArray.shift()
       if (pathArray[pathArray.length-1] == "") pathArray.pop()//handles the last slash
@@ -30,12 +42,19 @@ export default {
             to: breadcrumbArray[idx - 1]
               ? "/" + breadcrumbArray[idx - 1].path + "/" + path
               : "/" + path,
-            text: capitalize(text)
+            text: this.capitalizeName(text)
           })
         }
         return breadcrumbArray
       }, [])
       breadcrumbs.unshift({ text: "Home", to: { name: "home" } })
+
+      //suplier/:slug
+      if ( this.$route.name == "supplier public page") {
+        breadcrumbs.pop()
+        const item = this.capitalizeName(this.$route.params.slug,"-")
+        breadcrumbs.push({ text: item })
+      }
       return breadcrumbs
     }
   }

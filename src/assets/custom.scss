@@ -57,3 +57,7 @@ h2,h3 {
   padding: 20px;
   text-align: left;
 }
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}

@@ -9,8 +9,12 @@
 </template>
 
 <script>
+import jQuery from "jquery"
+window.jQuery = jQuery
+
 import Vue from "vue"
-Vue.filter("dateTime", (date) => date.split("T")[0] + '-' + (date.split("T")[1]).slice(0,5))
+Vue.filter("dateTime", (date) => date.split("T")[0] + ',' + (date.split("T")[1]).slice(0,5) )
+Vue.filter("titleize", (str) => str.replace(/(?:^|\s|-)\S/g, x => x.toUpperCase()) ) 
 
 import ApiService from "@/core/ApiService"
 import Navbar from "@/components/Navbar"

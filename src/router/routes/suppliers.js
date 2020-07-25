@@ -1,6 +1,6 @@
 export default [
   {
-    path: "supplier",
+    path: "/supplier",
     component: () => import("@/views/suppliers/SuppliersParent.vue"),
     meta: {
       requiresAuth: true,
@@ -8,7 +8,7 @@ export default [
     },
     children: [
       {
-        path: "",
+        path: "list",
         name: "suppliers list",
         component: () => import("@/views/suppliers/SuppliersList.vue"),
         meta: {

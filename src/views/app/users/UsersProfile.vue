@@ -17,8 +17,9 @@
             v-focus
             id="name"
             v-model="user.name"
-            type="text"
+            type="text" 
             placeholder="Enter fullname"
+            disabled
           ></b-input>
         </b-input-group>
       </b-col>

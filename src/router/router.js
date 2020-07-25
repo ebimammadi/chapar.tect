@@ -5,8 +5,16 @@ Vue.use(Router)
 import Store from "@/store/index"
 import JwtService from "@/core/JwtService"
 
-import appRoutes from "@/router/routes/app"
+//public routes
+import supplierRoutes from "@/router/routes/suppliers"
+//login routes
 import entranceRoutes from "@/router/routes/auth"
+//app routes
+import appRoutes from "@/router/routes/app"
+
+
+
+
 
 const baseRoutes = [
   {
@@ -39,7 +47,7 @@ const baseRoutes = [
   }
 ]
 
-const routes = baseRoutes.concat(entranceRoutes, appRoutes)
+const routes = baseRoutes.concat(entranceRoutes, appRoutes, supplierRoutes)
 
 const router = new Router({
   mode: "history",

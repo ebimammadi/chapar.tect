@@ -8,7 +8,7 @@ export default [
     },
     children: [
       {
-        path: "list",
+        path: "",
         name: "suppliers list",
         component: () => import("@/views/suppliers/SuppliersList.vue"),
         meta: {
@@ -16,7 +16,7 @@ export default [
       },
       {
         path: ":slug",
-        name: "supplier slug",
+        name: "supplier public page",
         component: () => import("@/views/suppliers/SuppliersPage.vue"),
         meta: {
         }

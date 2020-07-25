@@ -26,7 +26,7 @@
             <router-link v-if="data.item.userRole != 'user' "
               variant="primary" 
               v-b-tooltip.hover title="View slug"
-              :to="{ name: 'supplier slug', params: { slug: data.item.slug } }"
+              :to="{ name: 'supplier public page', params: { slug: data.item.slug } }"
             >
               <b-icon-eye />                  
             </router-link>

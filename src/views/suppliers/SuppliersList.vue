@@ -2,7 +2,7 @@
   <b-container>
     <b-row class="mb-3">
       <b-col>
-        <h1>Supplier page<br> under construction</h1>
+        <h1>Supplier List<br> under construction</h1>
       </b-col>
     </b-row>
   </b-container>

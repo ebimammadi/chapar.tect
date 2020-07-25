@@ -31,6 +31,20 @@
               <b-icon-eye />                  
             </router-link>
           </template>
+          <!-- userRole column -->
+          <template v-slot:cell(userRole)="data">
+            {{ data.item.userRole | titleize }}
+            <b-button @click="userSetAsSupplierShowConfirm(data.item._id)"
+              variant="link"
+              size="sm"
+              :id="`setRole`+ data.item._id" 
+              >
+              <b-icon-pencil />
+            </b-button>
+            <b-tooltip :target="`setRole`+ data.item._id"> 
+              Set as Supplier
+            </b-tooltip>
+          </template>
           <!-- EmailSlot column -->
           <template v-slot:cell(emailSlot)="data" v-bind:style="{ verticalAlign: 'middle' }">
             <span v-b-tooltip.hover :title="data.value.emailTooltip">
@@ -58,9 +72,6 @@
               /> 
             </span>
           </template>
-          <template v-slot:cell(userRole)="data">
-            {{ data.item.userRole | titleize }}
-          </template>
           <!-- status column -->
           <template v-slot:cell(status)="data">
             {{ data.value.status | titleize }}
@@ -82,9 +93,10 @@
         <modal-confirm 
           :title="modal.title" 
           :body="modal.body" 
-          :_id="modalId" 
-          @ok="userActivateToggle" 
+          :_id="modal._id" 
+          @ok="handleConfirmOk(modal.function)"
         />
+         <!-- @ok="userActivateToggle"  -->
       </b-col>
     </b-row>
   </b-container>
@@ -103,14 +115,13 @@ export default {
   },
   data(){
     return {
-      modal: {},
-      modalId: "",
+      modal: { _id: "", title: "", body:"", function:"" },
       usersRaw: [],
       fields: [
         { key: "nameSlot", label: "User" },
+        { key: "userRole", label: "Role" },
         { key: "emailSlot" , label: "Email" },  
         { key: "mobileSlot" , label: "Mobile" },  
-        { key: "userRole", label: "Role" },
         { key: "status", label: "Status" },
         { key: "date", label: "Reg. Time"},
       ]
@@ -118,8 +129,10 @@ export default {
   },
   methods: {
     ...mapActions(["setAlert"]),
+    handleConfirmOk(function_name) {
+      this[function_name](this.modal._id)
+    },
     userActivateToggle(_id){
-      _id = _id._id
       const item = this.usersRaw.find( item => item._id === _id )
       const request = item.isActive ? '/users/user-suspend' : '/users/user-activate'
       ApiService.post(request, { _id })
@@ -139,9 +152,29 @@ export default {
       const action = item.isActive ? `suspend` : `activate`
       this.modal.title = item.isActive ? `Suspend User` : `Activate User`
       this.modal.body = `Are you sure to ${action} user <b>${item.name} (${item.email})</b>?`
-      this.modalId = _id
-      //this.modal._id = _id
-      console.log(this.modal._id)
+      this.modal._id = _id
+      this.modal.function = "userActivateToggle"
+      this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
+    },
+    userSetAsSupplier(_id){
+      ApiService.post('/users/user-set-role', { _id, userRole: 'suppliers!' })
+        .then(response => {
+          this.setAlert({message: response.data.message, variant: response.data.response_type})
+          if (response.data.response_type === "success"){
+            this.usersRaw.map(item => {
+              if (item._id === _id) item.isActive = !item.isActive
+              return item
+            })
+          }
+        })
+        .catch(err => console.log(err))
+    },
+    userSetAsSupplierShowConfirm(_id){
+      const item = this.usersRaw.find( item => item._id === _id)
+      this.modal.title = `Set Role As Supplier`
+      this.modal.body = `Are you sure to grant the role 'supplier' to the user <b>${item.name} (${item.email})</b>?`
+      this.modal._id = _id
+      this.modal.function = "userSetAsSupplier"
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     }
   },

@@ -61,3 +61,8 @@ h2,h3 {
 .table > tbody > tr > td {
   vertical-align: middle;
 }
+
+.b-icon:hover {
+  transition: all 0.3s ease-out;
+  transform: scale(1.3) ;
+}

@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="dark">
+  <b-navbar toggleable="lg" type="dark" :variant="isSignedIn ? 'dark': 'secondary' ">
     <b-navbar-brand>
       <app-logo />
     </b-navbar-brand>
@@ -80,7 +80,7 @@ export default {
     "app-logo": Logo
   },
   methods: {
-    ...mapActions(["setAlert"]),
+    ...mapActions(["setAlert", "setProfilePhotoUrl"]),
     singOut: function() {
       JwtService.deleteToken()
       ApiService.get(`/users/logout`)
@@ -90,6 +90,7 @@ export default {
           if (!err.status) this.setAlert({ message: `Network Error!` })
           this.$router.push("/login")
         })
+        .finally( () => this.setProfilePhotoUrl('') )//Store.commit("changeProfilePhotoUrl", '') )
     }
   },
   computed: {

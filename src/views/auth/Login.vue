@@ -84,7 +84,7 @@ export default {
     }
   },
   created() {
-    Store.commit("changeProfilePhotoUrl", '')
+    this.setProfilePhotoUrl('') //? Todo check this if required or redundant!
     //if we have logged in before
     //Todo update this chunk
     //console.log(`login JwtService.getToken()`, JwtService.isValidToken())

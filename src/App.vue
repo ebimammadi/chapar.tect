@@ -1,3 +1,9 @@
+//Todo: activate supplier public page
+//Todo: activate product pages
+//Todo: about this app page
+//Todo: tickets page //ticket subject, id, status, customer, create date, last update, updates[{user,date,body,attach}]
+//Todo: tickets routes: /app/tickets/ [add, :id]
+//Todo: contact us address& contact info& submit form(message, email/mobile)
 <template>
   <div id="vueApp" v-cloak>
     <overlay-loader />

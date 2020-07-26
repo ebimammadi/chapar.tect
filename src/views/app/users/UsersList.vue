@@ -25,10 +25,10 @@
             </router-link>
             <router-link v-if="data.item.userRole != 'user' "
               variant="primary" 
-              v-b-tooltip.hover title="View slug"
+              v-b-tooltip.hover title="View Store"
               :to="{ name: 'supplier public page', params: { slug: data.item.slug } }"
             >
-              <b-icon-eye />                  
+              <b-icon-shop />                  
             </router-link>
           </template>
           <!-- userRole column -->

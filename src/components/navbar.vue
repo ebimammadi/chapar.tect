@@ -7,7 +7,7 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav v-if="!isSignedIn">
+      <b-navbar-nav v-if="!isInAppPanel">
         
         <b-nav-item>
           <router-link :to="'/products'">
@@ -29,8 +29,13 @@
             Contact Us
           </router-link>
         </b-nav-item>
+        <b-nav-item >
+          <router-link :to="'/app'">
+            App Panel
+          </router-link>
+        </b-nav-item>
       </b-navbar-nav>
-      <b-navbar-nav v-if="isSignedIn">
+      <b-navbar-nav v-if="isInAppPanel">
         <b-nav-item>
           <router-link :to="'/app/tickets'">
             Tickets
@@ -115,8 +120,12 @@ export default {
         return false
       }
     },
+    isInAppPanel: function(){
+      return this.$route.path.startsWith('/app/')
+    },
     isSignedIn: function(){
       try {
+        console.log()
         const decoded = JwtService.decodeToken()
         if (decoded.email) return true
         return false
@@ -124,6 +133,7 @@ export default {
         return false
       }
     },
+
     profilePhoto: function() {
       return this.profilePhotoUrl
     }

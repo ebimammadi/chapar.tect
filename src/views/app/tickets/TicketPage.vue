@@ -2,7 +2,7 @@
   <b-container>
     <b-row class="mb-3">
       <b-col>
-        <h1>Supplier page<br> under construction</h1>
+        <h1>Ticket detail page<br> under construction ;)</h1>
       </b-col>
     </b-row>
   </b-container>
@@ -27,7 +27,7 @@ export default {
     }
   },
   created() {
-    ApiService.get(`/users/profile-get-by-email/${this.$route.params.slug}`)
+    ApiService.get(`/tickets/${this.$route.params.ticketId}`)
       .then(response => (this.user = response.data))
       .catch(
         error =>

@@ -1,5 +1,6 @@
-import profileRoutes from "@/router/routes/profile"
-import userRoutes from "@/router/routes/users"
+import profileRoutes from "@/router/routes/app/profile"
+import userRoutes from "@/router/routes/app/users"
+import ticketRoutes from "@/routers/routes/app/ticket"
 
 let children = [
   {
@@ -20,7 +21,7 @@ let children = [
   }
 ]
 
-children = children.concat(profileRoutes, userRoutes)
+children = children.concat(profileRoutes, userRoutes, ticketRoutes)
 
 const appRoutes = [
   {

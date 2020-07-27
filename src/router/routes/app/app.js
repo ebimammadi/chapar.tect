@@ -1,6 +1,6 @@
 import profileRoutes from "@/router/routes/app/profile"
 import userRoutes from "@/router/routes/app/users"
-import ticketRoutes from "@/routers/routes/app/ticket"
+import ticketRoutes from "@/router/routes/app/ticket"
 
 let children = [
   {

@@ -2,7 +2,46 @@
   <b-container>
     <b-row class="mb-3">
       <b-col>
-        <h1>Supplier List<br> under construction</h1>
+        <h1>Ticket List</h1>
+        <b-table 
+          responsive
+          striped
+          hover
+          stacked="sm"
+          :items="tickets"
+          :fields="fields"
+          :class="'table'"
+        >
+          <template v-slot:cell(subject)="data">
+            <router-link
+              variant="primary" 
+              v-b-tooltip.hover title="View Ticket Details"
+              :to="{ name: 'ticket page', params: { ticketId: data.item.ticketId } }"
+            >
+            {{ data.item.subject }}</router-link>
+          </template>
+          <template v-slot:cell(ownerEmail)="data">
+            {{ data.item.ownerName }}, {{ data.item.ownerEmail}} 
+            <router-link 
+              variant="primary" 
+              v-b-tooltip.hover title="View User Profile"
+              :to="{ name: 'user profile', params: { user: data.item.ownerEmail } }"
+            >
+              <b-icon-person />                  
+            </router-link>
+          </template>
+          <template v-slot:cell(updated_at)="data">
+            {{ data.item.updated_at | dateTime }} 
+          </template>
+          <template v-slot:cell(date)="data">
+            {{ data.item.date | dateTime }} 
+          </template>
+        </b-table>
+        <!-- <modal-confirm :title="modal.title" 
+          :body="modal.body" 
+          :_id="modal._id" 
+          @ok="handleConfirmOk(modal.function)"
+        /> -->
       </b-col>
     </b-row>
   </b-container>
@@ -12,27 +51,40 @@
 import { mapActions } from "vuex"
 import ApiService from "@/core/ApiService"
 
+// import ModalConfirm from "@/components/ModalConfirm"
+
 export default {
-  data() {
+  // components: {
+  //   ModalConfirm,
+  // },
+  data(){
     return {
-      user: { urls: { facebook: "", website: "", instagram: "" } },
-      
+      modal: { _id: "", title: "", body:"", function:"" },
+      ticketsRaw: [],
+      fields: [
+        { key: "subject" , label: "Subject" },  
+        { key: "ownerEmail", label: "User" },
+        { key: "status" , label: "Status" },  
+        { key: "date", label: "Creation Time" },
+        { key: "updated_at", label: "Update Time" }
+      ]
     }
   },
   methods: {
-    ...mapActions(["setAlert","setProfilePhotoUrl"]),
-    imageShow(url) {
-      this.user.profilePhotoUrl = url
-      this.setProfilePhotoUrl(url)
-    }
+    ...mapActions(["setAlert","setProfilePhotoUrl"])
   },
   created() {
-    ApiService.get(`/users/profile-get-by-email/${this.$route.params.slug}`)
-      .then(response => (this.user = response.data))
+    ApiService.get(`/tickets/ticket-list`)
+      .then(response => (this.ticketsRaw = response.data))
       .catch(
         error =>
           this.setAlert({ message: `Network Error!` }) && console.log(error)
       )
+  },
+  computed: {
+    tickets() {
+      return this.ticketsRaw
+    }
   }
 }
 </script>

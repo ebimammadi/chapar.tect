@@ -37,13 +37,13 @@
       </b-navbar-nav>
       <b-navbar-nav v-if="isInAppPanel">
         <b-nav-item>
-          <router-link :to="'/app/tickets'">
-            Tickets
+          <router-link :to="'/app/products'">
+            Products
           </router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link :to="'/app/products'">
-            Products
+          <router-link :to="'/app/tickets'">
+            Tickets
           </router-link>
         </b-nav-item>
         <b-nav-item v-if="isAdmin">

@@ -96,7 +96,6 @@
           :_id="modal._id" 
           @ok="handleConfirmOk(modal.function)"
         />
-         <!-- @ok="userActivateToggle"  -->
       </b-col>
     </b-row>
   </b-container>
@@ -180,8 +179,8 @@ export default {
   },
   created(){
     ApiService.get("/users/user-list")
-      .then(response => (this.usersRaw = response.data))
-      .catch(err => console.log(err))
+      .then( response => (this.usersRaw = response.data) )
+      .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
   },
   computed: {
     users() {

@@ -17,8 +17,8 @@ export default [
         }
       },
       {
-        path: "logs",
-        name: "logs",
+        path: "logs/:email",
+        name: "user logs",
         component: () => import("@/views/app/users/UsersLogs.vue"),
         meta: {
           requiresAuth: true,

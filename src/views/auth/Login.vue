@@ -46,7 +46,7 @@ import { mapActions } from "vuex"
 import Logo from "@/components/Logo.vue"
 import ApiService from "@/core/ApiService"
 import JwtService from "@/core/JwtService"
-import Store from "@/store/index"
+// import Store from "@/store/index"
 
 export default {
   name: "login",

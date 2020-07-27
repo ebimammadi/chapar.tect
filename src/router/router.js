@@ -10,7 +10,7 @@ import supplierRoutes from "@/router/routes/suppliers"
 //login routes
 import entranceRoutes from "@/router/routes/auth"
 //app routes
-import appRoutes from "@/router/routes/app"
+import appRoutes from "@/router/routes/app/app"
 
 const baseRoutes = [
   {

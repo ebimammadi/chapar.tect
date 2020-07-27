@@ -49,6 +49,12 @@ export default {
       }, [])
       breadcrumbs.unshift({ text: "Home", to: { name: "home" } })
 
+      // /users/profile/:user
+      if ( this.$route.name == "user profile") {
+        breadcrumbs.pop()
+        const item = `Profile (${this.$route.params.user})`
+        breadcrumbs.push({ text: item })
+      }
       // /suplier/:slug
       if ( this.$route.name == "supplier public page") {
         breadcrumbs.pop()
@@ -58,7 +64,7 @@ export default {
       // /app/tickets/:ticketId
       if ( this.$route.name == "ticket page") {
         breadcrumbs.pop()
-        const item = this.$route.params.ticketId//this.capitalizeName(this.$route.params.ticket,"-")
+        const item = this.$route.params.ticketId
         breadcrumbs.push({ text: item })
       }
       return breadcrumbs

@@ -126,7 +126,7 @@ export default {
       }
     },
     isInAppPanel: function(){
-      return this.$route.path.startsWith('/app/')
+      return this.$route.path.startsWith('/app')
     },
     profilePhoto: function() {
       return this.profilePhotoUrl

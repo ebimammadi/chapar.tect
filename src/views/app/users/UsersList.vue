@@ -16,25 +16,13 @@
           <template v-slot:cell(nameSlot)="data">
             <b-avatar :src="data.item.profilePhotoUrl" />
             {{ data.item.name }}
-            <router-link 
-              variant="primary" 
-              v-b-tooltip.hover title="View Profile"
-              :to="{ name: 'user profile', params: { user: data.item.email } }"
-            >
-              <b-icon-person />                  
-            </router-link>
-            <router-link v-if="data.item.userRole != 'user' "
-              variant="primary" 
-              v-b-tooltip.hover title="View Store"
-              :to="{ name: 'supplier public page', params: { slug: data.item.slug } }"
-            >
-              <b-icon-shop />                  
-            </router-link>
           </template>
           <!-- userRole column -->
           <template v-slot:cell(userRole)="data">
             {{ data.item.userRole | titleize }}
-            <b-button @click="userSetAsSupplierShowConfirm(data.item._id)"
+            <b-button 
+              v-if="data.item.userRole == 'user' && data.item.emailVerify == 'true' && data.item.mobileVerify == 'true' " 
+              @click="userSetAsSupplierShowConfirm(data.item._id)"
               variant="link"
               size="sm"
               :id="`setRole`+ data.item._id" 
@@ -44,6 +32,21 @@
             <b-tooltip :target="`setRole`+ data.item._id"> 
               Set as Supplier
             </b-tooltip>
+            <span
+              v-if="data.item.userRole == 'user' && (data.item.emailVerify != 'true' || data.item.mobileVerify != 'true') " 
+              size="sm"
+              v-b-tooltip.hover title="Unable to become a Supplier: email/&mobile not verifed"
+              >
+              <b-icon-info-circle />
+            </span>
+            
+            <router-link v-if="data.item.userRole != 'user' "
+              variant="primary" 
+              v-b-tooltip.hover title="View Store"
+              :to="{ name: 'supplier public page', params: { slug: data.item.slug } }"
+            >
+              <b-icon-shop />                  
+            </router-link>
           </template>
           <!-- EmailSlot column -->
           <template v-slot:cell(emailSlot)="data" v-bind:style="{ verticalAlign: 'middle' }">
@@ -87,7 +90,25 @@
             </b-tooltip>
           </template>
           <template v-slot:cell(date)="data">
-            {{ data.item.date | dateTime }} <b-icon-list-check />
+            {{ data.item.date | dateTime }} 
+          </template>
+          <template v-slot:cell(logs)="data">
+            <router-link 
+              variant="primary" 
+              v-b-tooltip.hover title="View Recent Logs"
+              :to="{ name: 'user logs', params: { email: data.item.email } }"
+            >
+            <b-icon-list-check /> 
+            </router-link>
+          </template>
+          <template v-slot:cell(profile)="data">
+            <router-link 
+              variant="primary" 
+              v-b-tooltip.hover title="View Profile"
+              :to="{ name: 'user profile', params: { user: data.item.email } }"
+            >
+              <b-icon-person />                  
+            </router-link>
           </template>
         </b-table>
         <modal-confirm 
@@ -123,6 +144,8 @@ export default {
         { key: "mobileSlot" , label: "Mobile" },  
         { key: "status", label: "Status" },
         { key: "date", label: "Reg. Time"},
+        { key: "logs", label: "Logs"},
+        { key: "profile", label: "Profile"},
       ]
     }
   },

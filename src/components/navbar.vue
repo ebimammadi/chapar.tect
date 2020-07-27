@@ -21,11 +21,11 @@
         </b-nav-item>
         <b-nav-item >
           <router-link :to="'/about'">
-            About
+            About Us
           </router-link>
         </b-nav-item>
         <b-nav-item >
-          <router-link :to="'/contact-us'">
+          <router-link :to="'/contact'">
             Contact Us
           </router-link>
         </b-nav-item>
@@ -104,10 +104,6 @@ export default {
   },
   computed: {
     ...mapGetters( ["userInfo","profilePhotoUrl"]),
-    isGuarded2: function() {
-      //Todo remove this property (if it is redundant)
-      return !this.$route.meta.isPublic
-    },
     requiresAuth: function() {
       return this.$route.meta.requiresAuth
     },
@@ -120,12 +116,8 @@ export default {
         return false
       }
     },
-    isInAppPanel: function(){
-      return this.$route.path.startsWith('/app/')
-    },
     isSignedIn: function(){
       try {
-        console.log()
         const decoded = JwtService.decodeToken()
         if (decoded.email) return true
         return false
@@ -133,7 +125,9 @@ export default {
         return false
       }
     },
-
+    isInAppPanel: function(){
+      return this.$route.path.startsWith('/app/')
+    },
     profilePhoto: function() {
       return this.profilePhotoUrl
     }

@@ -16,7 +16,7 @@ export default [
       },
       {
         path: ":ticketId",
-        name: "ticket id public page",
+        name: "ticket page",
         component: () => import("@/views/app/tickets/TicketPage.vue"),
         meta: {
         }

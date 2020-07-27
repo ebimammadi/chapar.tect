@@ -49,10 +49,16 @@ export default {
       }, [])
       breadcrumbs.unshift({ text: "Home", to: { name: "home" } })
 
-      //suplier/:slug
+      // /suplier/:slug
       if ( this.$route.name == "supplier public page") {
         breadcrumbs.pop()
         const item = this.capitalizeName(this.$route.params.slug,"-")
+        breadcrumbs.push({ text: item })
+      }
+      // /app/tickets/:ticketId
+      if ( this.$route.name == "ticket page") {
+        breadcrumbs.pop()
+        const item = this.$route.params.ticketId//this.capitalizeName(this.$route.params.ticket,"-")
         breadcrumbs.push({ text: item })
       }
       return breadcrumbs

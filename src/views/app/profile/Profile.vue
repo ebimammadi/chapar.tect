@@ -269,7 +269,6 @@ export default {
         urls: this.user.urls
       })
         .then(response => {
-          console.log("response profile-set", response)
           this.setAlert({
             message: response.data.message,
             variant: response.data.response_type

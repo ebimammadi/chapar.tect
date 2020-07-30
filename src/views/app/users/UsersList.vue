@@ -25,17 +25,19 @@
               @click="userSetAsSupplierShowConfirm(data.item._id)"
               variant="link"
               size="sm"
-              :id="`setRole`+ data.item._id" 
+
+              v-b-tooltip.hover title="Set as Supplier"
               >
               <b-icon-pencil />
             </b-button>
-            <b-tooltip :target="`setRole`+ data.item._id"> 
+                          <!-- :id="`setRole`+ data.item._id"  -->
+            <!-- <b-tooltip :target="`setRole`+ data.item._id"> 
               Set as Supplier
-            </b-tooltip>
+            </b-tooltip> -->
             <span
               v-if="data.item.userRole == 'user' && (data.item.emailVerify != 'true' || data.item.mobileVerify != 'true') " 
               size="sm"
-              v-b-tooltip.hover title="Unable to become a Supplier: email/&mobile not verifed"
+              v-b-tooltip.hover title="User info incomplete!"
               >
               <b-icon-info-circle />
             </span>

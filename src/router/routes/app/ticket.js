@@ -3,8 +3,7 @@ export default [
     path: "tickets",
     component: () => import("@/views/app/tickets/TicketParent.vue"),
     meta: {
-      requiresAuth: true,
-      requiresAdmin: true
+      requiresAuth: true
     },
     children: [
       {

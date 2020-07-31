@@ -3,6 +3,28 @@
     <b-row class="mb-3">
       <b-col>
         <h1 class="mb-3">User list</h1>
+        <b-form inline class="mb-3">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="usersRaw.count || 0"
+            :per-page="usersRaw.perPage"
+            class="mb-2 mr-sm-3 mb-sm-0"
+          ></b-pagination>
+          <b-input 
+            v-model="search"
+            type="search"
+            placeholder="Search name/email"
+            class="mb-2 mr-sm-3 mb-sm-0"
+            debounce="1000"
+          ></b-input>
+          <label class="mr-sm-1" for="inline-form-custom-select-pref">Role</label>
+          <b-form-select
+            v-model="userRole"
+            class="mb-2 mr-sm-3 mb-sm-0"
+            :options="userRoleOptions"
+            :value="null"
+          ></b-form-select>
+        </b-form>
         <b-table 
           responsive
           striped
@@ -12,6 +34,12 @@
           :fields="fields"
           :class="'table'"
         >
+          <template v-slot:head(logs)>
+            <b-icon-list-check v-b-tooltip.hover title="View Recent Logs" />
+          </template>   
+          <template v-slot:head(profile)>
+            <b-icon-person v-b-tooltip.hover title="View User Profile"/>
+          </template>       
           <!-- userSlot column -->
           <template v-slot:cell(nameSlot)="data">
             <b-avatar :src="data.item.profilePhotoUrl" />
@@ -25,17 +53,13 @@
               @click="userSetAsSupplierShowConfirm(data.item._id)"
               variant="link"
               size="sm"
-
               v-b-tooltip.hover title="Set as Supplier"
               >
               <b-icon-pencil />
             </b-button>
-                          <!-- :id="`setRole`+ data.item._id"  -->
-            <!-- <b-tooltip :target="`setRole`+ data.item._id"> 
-              Set as Supplier
-            </b-tooltip> -->
             <span
-              v-if="data.item.userRole == 'user' && (data.item.emailVerify != 'true' || data.item.mobileVerify != 'true') " 
+              v-if="data.item.userRole == 'user' && 
+                  (data.item.emailVerify != 'true' || data.item.mobileVerify != 'true') " 
               size="sm"
               v-b-tooltip.hover title="User info incomplete!"
               >
@@ -51,30 +75,19 @@
             </router-link>
           </template>
           <!-- EmailSlot column -->
-          <template v-slot:cell(emailSlot)="data" v-bind:style="{ verticalAlign: 'middle' }">
+          <template v-slot:cell(emailSlot)="data">
             <span v-b-tooltip.hover :title="data.value.emailTooltip">
-              <b-icon-check-all 
-                v-if="data.value.emailVerify" 
-                variant="success"
-              /> 
-              <b-icon-exclamation-circle 
-                v-if="!data.value.emailVerify" 
-                variant="warning"
-              /> {{ data.value.email }} 
+              <b-icon-check-all v-if="data.value.emailVerify" variant="success" /> 
+              <b-icon-exclamation-circle v-if="!data.value.emailVerify" variant="warning"/> 
+              {{ data.item.email }} 
             </span> 
           </template>
           <!-- MobileSlot column -->
           <template v-slot:cell(mobileSlot)="data">
-            <span v-if="data.value.mobile.length>0" v-b-tooltip.hover :title="data.value.mobileTooltip" >
-              {{ data.value.mobile }} 
-              <b-icon-check-all 
-                v-if="data.value.mobileVerify" 
-                variant="success"
-              /> 
-              <b-icon-exclamation-circle 
-                v-if="!data.value.mobileVerify" 
-                variant="warning"
-              /> 
+            <span v-if="data.item.mobile.length>0" v-b-tooltip.hover :title="data.value.mobileTooltip" >
+              {{ data.item.mobile }} 
+              <b-icon-check-all v-if="data.value.mobileVerify" variant="success" /> 
+              <b-icon-exclamation-circle v-if="!data.value.mobileVerify" variant="warning" /> 
             </span>
           </template>
           <!-- status column -->
@@ -126,10 +139,9 @@
 
 <script>
 import ModalConfirm from "@/components/ModalConfirm"
-// import BootstrapToggle from 'vue-bootstrap-toggle'
-
 import ApiService from "@/core/ApiService"
 import { mapActions } from "vuex"
+// imebrahiport _ from "lodash"
 
 export default {
   components: {
@@ -138,7 +150,7 @@ export default {
   data(){
     return {
       modal: { _id: "", title: "", body:"", function:"" },
-      usersRaw: [],
+      usersRaw: { users: [] },
       fields: [
         { key: "nameSlot", label: "User" },
         { key: "userRole", label: "Role" },
@@ -146,8 +158,14 @@ export default {
         { key: "mobileSlot" , label: "Mobile" },  
         { key: "status", label: "Status" },
         { key: "date", label: "Reg. Time"},
-        { key: "logs", label: "Logs"},
-        { key: "profile", label: "Profile"},
+        { key: "logs", label: ""},
+        { key: "profile", label: ""},
+      ],
+      userRoleOptions: [
+        { text: 'All User Roles', value: '' }, 
+        { text: 'Users', value: 'user' },
+        { text: 'Suppliers', value: 'supplier' },
+        { text: 'Admins', value: 'admin' }
       ]
     }
   },
@@ -157,13 +175,15 @@ export default {
       this[function_name](this.modal._id)
     },
     userActivateToggle(_id){
-      const item = this.usersRaw.find( item => item._id === _id )
+      
+      const item = this.usersRaw.users.find( item => item._id === _id )
+      console.log(this.usersRaw.users)
       const request = item.isActive ? '/users/user-suspend' : '/users/user-activate'
       ApiService.post(request, { _id })
         .then(response => {
           this.setAlert({message: response.data.message, variant: response.data.response_type})
           if (response.data.response_type === "success"){
-            this.usersRaw.map(item => {
+            this.usersRaw.users.map(item => {
               if (item._id === _id) item.isActive = !item.isActive
               return item
             })
@@ -172,20 +192,21 @@ export default {
         .catch(err => console.log(err))
     },
     userActivateShowModal(_id){
-      const item = this.usersRaw.find( item => item._id === _id)
+      const item = this.usersRaw.users.find( item => item._id === _id)
       const action = item.isActive ? `suspend` : `activate`
       this.modal.title = item.isActive ? `Suspend User` : `Activate User`
-      this.modal.body = `Are you sure to ${action} user <b>${item.name} (${item.email})</b>?`
+      this.modal.body = `Are you sure to ${action} the user <b>${item.name} (${item.email})</b>?`
       this.modal._id = _id
       this.modal.function = "userActivateToggle"
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
     userSetAsSupplier(_id){
-      ApiService.post('/users/user-set-role', { _id, userRole: 'suppliers!' })
+      console.log(_id)
+      ApiService.post('/users/user-set-role', { _id, userRole: 'supplier' })
         .then(response => {
           this.setAlert({message: response.data.message, variant: response.data.response_type})
           if (response.data.response_type === "success"){
-            this.usersRaw.map(item => {
+            this.usersRaw.users.map(item => {
               if (item._id === _id) item.isActive = !item.isActive
               return item
             })
@@ -194,33 +215,38 @@ export default {
         .catch(err => console.log(err))
     },
     userSetAsSupplierShowConfirm(_id){
-      const item = this.usersRaw.find( item => item._id === _id)
+      const item = this.usersRaw.users.find( item => item._id === _id)
       this.modal.title = `Set Role As Supplier`
       this.modal.body = `Are you sure to grant the role 'supplier' to the user <b>${item.name} (${item.email})</b>?`
       this.modal._id = _id
       this.modal.function = "userSetAsSupplier"
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
+    },
+    invokeUsers() {
+      const page = this.$route.query.page || 1
+      const search = this.$route.query.search || ''
+      const userRole = this.$route.query.userRole || ''
+      ApiService.get(`/users/user-list?page=${page}&search=${search}&userRole=${userRole}`)
+        .then( response => (this.usersRaw = response.data) )
+        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
     }
   },
   created(){
-    ApiService.get("/users/user-list")
-      .then( response => (this.usersRaw = response.data) )
-      .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+    this.invokeUsers()
   },
   computed: {
     users() {
-      if (this.usersRaw.length == 0) return []
-      const items = this.usersRaw.map( item => {
+      if (!this.usersRaw.users || this.usersRaw.users.length == 0) return []
+      const items = this.usersRaw.users.map( item => {
         item.emailSlot = {
-          email: item.email,
           emailVerify: (item.emailVerify == "true"),
           emailTooltip: item.emailVerify == "true" ? `Verified Email.` : `Not verified yet!`,
         }
          item.mobileSlot = {
-          mobile: item.mobile ?? "",
           mobileVerify: (item.mobileVerify == "true"),
           mobileTooltip: item.mobileVerify == "true" ?`Verified Mobile` : `Not verified yet!`,
         }
+        item.mobile = item.mobile || ''
         item.status = {
           status: item.isActive ? `Active` : `Suspended`,
           verb: item.isActive ? `Suspend` : `Activate`
@@ -228,7 +254,40 @@ export default {
         return item
       })
       return items
+    },
+    currentPage: {
+      get() {
+        return this.$route.query.page || 1
+      },
+      set(newPage) {
+        this.$router.push({ query: { ...this.$route.query, page: newPage }})
+        this.invokeUsers()
+      }
+    },
+    search: {
+      get() {
+        return this.$route.query.search || ''
+      },
+      set(search) {
+        this.$router.push({ query: { ...this.$route.query, search:search }})
+        this.invokeUsers()
+      }
+    },
+    userRole: {
+      get() {
+        return this.$route.query.userRole || ''
+      },
+      set(newRoleSelected) {
+        this.$router.push({ query: { ...this.$route.query, userRole: newRoleSelected }})
+        this.invokeUsers()
+      }
     }
-  }
+  },
+  // watch: {
+    
+  //   $route() {
+  //     console.log("test")
+  //   }
+  // }
 }
 </script>

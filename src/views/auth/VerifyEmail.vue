@@ -12,7 +12,8 @@
 
       <b-form-group class="mt-10 align-center">
         Go to the
-        <router-link to="/login">Sign In</router-link> page
+        <router-link to="/app">Application Panel</router-link> 
+        or visit the <router-link to="/">Home Page</router-link>.
       </b-form-group>
     </b-form>
 

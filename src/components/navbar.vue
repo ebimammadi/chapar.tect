@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" :variant="isSignedIn ? 'dark': 'secondary' ">
+  <b-navbar toggleable="lg" type="dark" :variant="isSignedIn ? '': 'dark' ">
     <b-navbar-brand>
       <app-logo />
     </b-navbar-brand>
@@ -31,7 +31,7 @@
         </b-nav-item>
         <b-nav-item >
           <router-link :to="'/app'">
-            App Panel
+            App Panel <b-icon-gear />
           </router-link>
         </b-nav-item>
       </b-navbar-nav>

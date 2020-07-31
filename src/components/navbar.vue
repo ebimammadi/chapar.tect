@@ -70,7 +70,7 @@
             Address
           </b-dropdown-item>
           <b-dropdown-item href="#" v-on:click="singOut">
-            Sign Out
+            Sign Out <b-icon-box-arrow-right />
           </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>

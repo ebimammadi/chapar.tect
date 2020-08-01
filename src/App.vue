@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import jQuery from "jquery"
-window.jQuery = jQuery
+// import jQuery from "jquery"
+// window.jQuery = jQuery
 
 import Vue from "vue"
 Vue.filter("dateTime", (date) => date.split("T")[0] + ',' + (date.split("T")[1]).slice(0,5) )

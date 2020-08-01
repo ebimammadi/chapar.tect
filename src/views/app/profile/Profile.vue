@@ -50,37 +50,24 @@
     </b-row>
     <b-row class="mb-3">
       <b-col>
-        <label for="email">Username</label>
+        <label for="email">Username (email)</label>
         <b-input-group>
-          <b-input
-            id="email"
-            disabled
-            v-model="user.email"
-            type="email"
-            placeholder="Enter email address"
-          ></b-input>
-          <b-button
-            v-if="user.emailVerify"
-            variant="outline-secondary"
-            class="ml-2"
-            disabled
-            >✓</b-button
-          >
-          <router-link
-            v-if="user.emailVerify"
-            :to="{ name: 'change email' }"
-            class="ml-2 float-right"
-          >
-            <b-button to variant="outline-secondary">
-              Change Email
-            </b-button>
-          </router-link>
-          <b-button
-            @click="confirmEmail"
-            v-if="!user.emailVerify"
-            variant="outline-secondary"
-            class="ml-2"
-            >Confirm Email
+          <b-input id="email" disabled v-model="user.email" type="email" placeholder="Enter email address" />
+          <b-button v-if="user.emailVerify" variant="outline-secondary" class="ml-2" disabled>✓</b-button>
+          <b-button @click="confirmEmail" v-if="!user.emailVerify" variant="outline-secondary" class="ml-2">
+            Confirm Email
+          </b-button>
+        </b-input-group>
+      </b-col>
+    </b-row>
+    <b-row class="mb-3">
+      <b-col>
+        <label for="mobile">Mobile Number</label>
+        <b-input-group>
+          <b-input id="mobile" disabled v-model="user.mobile" placeholder="Mobile number" />
+          <b-button v-if="user.mobileVerify" variant="outline-secondary" class="ml-2" disabled>✓</b-button>
+          <b-button @click="confirmMobile" v-if="!user.mobileVerify" variant="outline-secondary" class="ml-2">
+            Verify Mobile
           </b-button>
         </b-input-group>
       </b-col>
@@ -182,22 +169,30 @@
         </b-input-group>
       </b-col>
     </b-row>
-    
-    <b-row class="mt-5 mb-3">
+    <b-row class="mb-3" v-if="user.userRole !='user'">
       <b-col>
-        <b-button @click="sendProfile" variant="outline-success"
-          >Save Profile</b-button
-        >
-        <router-link :to="{ name: 'address' }" class="ml-2 float-right">
-          <b-button to variant="outline-secondary">
-            Add/Edit Addresses
-          </b-button>
+        <router-link :to="{ name: 'address' }" class="float-right">
+            Add/Edit Postal Addresses
         </router-link>
-        <router-link :to="{ name: 'change password' }" class="ml-2 float-right">
-          <b-button variant="outline-secondary">
-            Change Password
-          </b-button>
+      </b-col>
+    </b-row>
+    <b-row class="mt-3">
+      <b-col>
+        <b-button @click="sendProfile" variant="outline-success" class="mr-3 mt-2 mb-2">
+          Save Profile
+        </b-button>
+        
+        <router-link :to="{ name: 'change password'}" class="ml-2 mt-2 mb-2 float-right">
+          <b-button variant="outline-secondary"><b-icon-key /> Change Password</b-button>
         </router-link>
+        <router-link :to="{ name: 'change mobile'}" class="ml-2 mt-2 mb-2 float-right" >
+          <b-button to variant="outline-secondary"><b-icon-phone/> Change Mobile</b-button>
+        </router-link>
+        <router-link :to="{ name: 'change email'}" class="ml-2 mt-2 mb-2 float-right">
+          <b-button to variant="outline-secondary"><b-icon-envelope/> Change Email</b-button>
+        </router-link>
+
+        
       </b-col>
     </b-row>
   </b-container>
@@ -229,6 +224,23 @@ export default {
   },
   methods: {
     ...mapActions(["setAlert","setProfilePhotoUrl"]),
+    confirmMobile() {
+      ApiService.get("/users/send-verification-sms")
+        .then(response => {
+          if (response.data.message){//!condition met 
+            this.$router.push({ name: 'verify mobile' })
+          }
+
+            // return this.setAlert({
+            //   message: response.data.message,
+            //   variant: response.data.response_type
+            // })
+        })
+        .catch(
+          error =>
+            this.setAlert({ message: `Network Error!` }) && console.log(error)
+        )
+    },
     confirmEmail() {
       ApiService.get("/users/send-verification-link")
         .then(response => {

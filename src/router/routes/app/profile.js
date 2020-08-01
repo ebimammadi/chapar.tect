@@ -31,6 +31,22 @@ export default [
         }
       },
       {
+        path: "change-mobile",
+        name: "change mobile",
+        component: () => import("@/views/app/profile/ChangeMobile.vue"),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "verify-mobile",
+        name: "verify mobile",
+        component: () => import("@/views/app/profile/VerifyMobile.vue"),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: "change-password",
         name: "change password",
         component: () => import("@/views/app/profile/ChangePassword.vue"),

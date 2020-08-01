@@ -63,33 +63,21 @@ export default {
     ...mapActions(["setAlert"]),
     verifyMobile() {
       if (!this.validateCode)
-        return this.setAlert({ message: this.validation.mobile })
+        return this.setAlert({ message: this.validation.code })
       
       ApiService.post("/users/receive-verification-sms", {
         mobile: this.mobile,
         code: this.code
       })
-        .then(response => {
-          this.setAlert({
-            message: response.data.message,
-            variant: response.data.response_type
-          })
-        })
-        .catch(err => {
-          console.log(err)
-        })
-        .finally(() => {
-          this.code = ""
-        })
+        .then(response => { this.setAlert({ message: response.data.message, variant: response.data.response_type}) })
+        .catch(error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+        .finally(() => {this.code = "" })
     }
   },
   created() {
     ApiService.get("/users/profile-get")
       .then(response => (this.mobile = response.data.mobile))
-      .catch(
-        error =>
-          this.setAlert({ message: `Network Error!` }) && console.log(error)
-      )
+      .catch(error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
   },
   computed: {
     validateCode() {

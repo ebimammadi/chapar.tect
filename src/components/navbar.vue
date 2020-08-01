@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" :variant="isSignedIn ? '': 'dark' ">
+  <b-navbar toggleable="lg" type="dark" :variant="isInAppPanel ? 'warning': 'dark' ">
     <b-navbar-brand>
       <app-logo />
     </b-navbar-brand>
@@ -8,7 +8,6 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav v-if="!isInAppPanel">
-        
         <b-nav-item>
           <router-link :to="'/products'">
             Products

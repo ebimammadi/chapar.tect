@@ -31,17 +31,15 @@
       >
     </b-row>
 
-    <b-row
-      ><b-col>
+    <b-row>
+      <b-col>
         <b-button variant="outline-success" @click="verifyMobile"
           >Verify Mobile
         </b-button>
-        <router-link :to="{ name: 'profile' }" class="ml-2">
-          <b-button to variant="outline-secondary">
+        <router-link :to="{ name: 'profile' }" class="ml-5">
             Back to Profile
-          </b-button>
-        </router-link></b-col
-      >
+        </router-link>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -67,7 +65,7 @@ export default {
       if (!this.validateCode)
         return this.setAlert({ message: this.validation.mobile })
       
-      ApiService.post("/users/mobile-verify", {
+      ApiService.post("/users/receive-verification-sms", {
         mobile: this.mobile,
         code: this.code
       })

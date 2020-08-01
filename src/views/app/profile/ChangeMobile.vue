@@ -44,10 +44,8 @@
         <b-button variant="outline-success" @click="changeMobile"
           >Save Mobile
         </b-button>
-        <router-link :to="{ name: 'profile' }" class="ml-2">
-          <b-button to variant="outline-secondary">
+        <router-link :to="{ name: 'profile' }" class="ml-5">
             Back to Profile
-          </b-button>
         </router-link></b-col
       >
     </b-row>

@@ -225,16 +225,12 @@ export default {
   methods: {
     ...mapActions(["setAlert","setProfilePhotoUrl"]),
     confirmMobile() {
-      ApiService.get("/users/send-verification-sms")
+      ApiService.post("/users/send-verification-sms",{ mobile: this.user.mobile } )
         .then(response => {
-          if (response.data.message){//!condition met 
-            this.$router.push({ name: 'verify mobile' })
+          if (response.data.message == "success"){ //!condition met 
+            return this.$router.push({ name: 'verify mobile' })
           }
-
-            // return this.setAlert({
-            //   message: response.data.message,
-            //   variant: response.data.response_type
-            // })
+          return this.setAlert({ message: response.data.message,})
         })
         .catch(
           error =>

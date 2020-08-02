@@ -8,7 +8,7 @@
           @click="deleteImage"
           variant="outline-secondary"
           class="ml-1 mt-1 align-bottom"
-          >Remove&Change Photo</b-button
+          >Remove/Change Photo</b-button
         >
         <image-upload
           v-if="!user.profilePhotoUrl"
@@ -45,7 +45,7 @@
     </b-row>
     <b-row class="mb-3">
       <b-col>
-        <label for="email">Username (email)</label>
+        <label for="email">Username (Email)</label>
         <b-input-group>
           <b-input id="email" disabled v-model="user.email" type="email" placeholder="Enter email address" />
           <b-button v-if="user.emailVerify" variant="outline-secondary" class="ml-2" disabled>✓</b-button>
@@ -57,7 +57,7 @@
     </b-row>
     <b-row class="mb-3">
       <b-col>
-        <label for="mobile">Mobile Number</label>
+        <label for="mobile">Mobile Number </label>
         <b-input-group>
           <b-input id="mobile" disabled v-model="user.mobile" placeholder="Use 'Change Mobile' to set your mobile number" />
           <b-button v-if="user.mobileVerify" variant="outline-secondary" class="ml-2" disabled>✓</b-button>

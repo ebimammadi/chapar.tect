@@ -51,7 +51,7 @@
           <template v-slot:cell(userRole)="data">
             {{ data.item.userRole | titleize }}
             <b-button 
-              v-if="data.item.userRole == 'user' && data.item.emailVerify == 'true' && data.item.mobileVerify == 'true' " 
+              v-if="data.item.userRole == 'user' && data.item.emailVerify  && data.item.mobileVerify " 
               @click="userSetAsSupplierShowConfirm(data.item._id)"
               variant="link"
               size="sm"
@@ -61,7 +61,7 @@
             </b-button>
             <span
               v-if="data.item.userRole == 'user' && 
-                  (data.item.emailVerify != 'true' || data.item.mobileVerify != 'true') " 
+                  (!data.item.emailVerify  || !data.item.mobileVerify ) " 
               size="sm"
               v-b-tooltip.hover title="User info incomplete!"
               >
@@ -202,14 +202,12 @@ export default {
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
     userSetAsSupplier(_id){
-      //Todo check this
-      console.log(_id)
       ApiService.post('/users/user-set-role', { _id, userRole: 'supplier' })
         .then(response => {
           this.setAlert({message: response.data.message, variant: response.data.response_type})
-          if (response.data.response_type === "success"){
+          if (response.data.response_type === "success") {
             this.usersRaw.users.map(item => {
-              if (item._id === _id) item.isActive = !item.isActive
+              if (item._id === _id) item.userRole = 'supplier'
               return item
             })
           }

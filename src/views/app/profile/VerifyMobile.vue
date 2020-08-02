@@ -41,9 +41,9 @@
         <b-button variant="outline-success" @click="verifyMobile"
           >Verify Mobile
         </b-button>
-        <router-link :to="{ name: 'profile' }" class="ml-5">
+        <!-- <router-link :to="{ name: 'profile' }" class="ml-5">
             Back to Profile
-        </router-link>
+        </router-link> -->
       </b-col>
     </b-row>
     <modal-confirm 

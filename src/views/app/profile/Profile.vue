@@ -26,15 +26,8 @@
       <b-col>
         <label for="name">Fullname</label>
         <b-input-group>
-          <b-input
-            v-focus
-            id="name"
-            v-model="user.name"
-            placeholder="Enter fullname"
-          ></b-input>
-          <b-form-invalid-feedback :state="validateName">
-            {{ validation.name }}
-          </b-form-invalid-feedback>
+          <b-input v-focus id="name" v-model="user.name" placeholder="Enter fullname" />
+          <b-form-invalid-feedback :state="validateName">{{ validation.name }}</b-form-invalid-feedback>
         </b-input-group>
       </b-col>
     </b-row> 
@@ -76,30 +69,21 @@
       <b-col>
         <label for="user-role">Access Role</label>
         <b-input-group>
-          <b-input
-            id="user-role"
-            v-model="user.userRole"
-            type="text"
-            disabled
-          ></b-input>
-          <b-form-invalid-feedback :state="validateUserRole">
-            {{ validation.userRole }}
-          </b-form-invalid-feedback>
+          <b-input id="user-role" v-model="user.userRole" type="text" disabled/>
+          <b-form-invalid-feedback :state="validateUserRole">{{ validation.userRole }}</b-form-invalid-feedback>
         </b-input-group>
-        <!-- <a href="http://chapar-tech-api.herokuapp.com/users/user-list" target="_blank">Users</a> -->
       </b-col>
     </b-row>
     <b-row class="mb-3" v-if="user.userRole =='user' && user.mobileVerify && user.emailVerify">
       <b-col>
-        <b-button @click="sendSupplierRequest"  variant="outline-secondary">
-          Ask to be a supplier ?
+        <b-button @click="sendSupplierRequestModal"  variant="outline-secondary">
+          Request to be a supplier ?
         </b-button>
       </b-col>
     </b-row>
     <b-row class="mb-3" >
       <b-col>
         <hr/>
-        <!-- <b-button v-b-toggle:addresses variant="link">Web and postal addresses</b-button> -->
         <a v-b-toggle href="#addresses" @click.prevent>Web and postal addresses</a> 
       </b-col>
     </b-row>
@@ -108,16 +92,8 @@
         <b-col>
           <label for="slug">Slug (your shop short-name at our pages)</label>
           <b-input-group>
-            <b-input
-              id="slug"
-              type="text"
-              v-model="user.slug"
-              placeholder="Enter Slug"
-            >
-            </b-input>
-            <b-form-invalid-feedback :state="validateSlug">
-              {{ validation.slug }}
-            </b-form-invalid-feedback>
+            <b-input id="slug" type="text" v-model="user.slug" placeholder="Enter Slug" />
+            <b-form-invalid-feedback :state="validateSlug"> {{ validation.slug }} </b-form-invalid-feedback>
           </b-input-group>
         </b-col>
       </b-row>
@@ -125,16 +101,8 @@
         <b-col>
           <label for="website">Website Address</label>
           <b-input-group>
-            <b-input
-              id="website"
-              type="url"
-              v-model="user.urls.website"
-              placeholder="Enter Website Address"
-            >
-            </b-input>
-            <b-form-invalid-feedback :state="validateWebsite">
-              {{ validation.urls.website }}
-            </b-form-invalid-feedback>
+            <b-input id="website" type="url" v-model="user.urls.website" placeholder="Enter Website Address" />
+            <b-form-invalid-feedback :state="validateWebsite"> {{ validation.urls.website }} </b-form-invalid-feedback>
           </b-input-group>
         </b-col>
       </b-row>
@@ -142,13 +110,7 @@
         <b-col>
           <label for="facebook">Facebook Address</label>
           <b-input-group>
-            <b-input
-              id="facebook"
-              type="url"
-              v-model="user.urls.facebook"
-              placeholder="Enter Facebook Page"
-            >
-            </b-input>
+            <b-input id="facebook" type="url" v-model="user.urls.facebook" placeholder="Enter Facebook Page"/>
             <b-form-invalid-feedback :state="validateFacebook">
               {{ validation.urls.facebook }}
             </b-form-invalid-feedback>
@@ -159,20 +121,12 @@
         <b-col>
           <label for="instagram">Instagram Address</label>
           <b-input-group>
-            <b-input
-              id="instagram"
-              type="url"
-              v-model="user.urls.instagram"
-              placeholder="Enter Instagram Page"
-            >
-            </b-input>
-            <b-form-invalid-feedback :state="validateInstagram">
-              {{ validation.urls.instagram }}
-            </b-form-invalid-feedback>
+            <b-input id="instagram" type="url" v-model="user.urls.instagram" placeholder="Enter Instagram Page" />
+            <b-form-invalid-feedback :state="validateInstagram">{{ validation.urls.instagram }}</b-form-invalid-feedback>
           </b-input-group>
         </b-col>
       </b-row>
-      <b-row class="mb-3" v-if="user.userRole !='user'">
+      <b-row class="mb-3" >
         <b-col>
           <router-link :to="{ name: 'address' }" class="float-right">
               Add/Edit Postal Addresses
@@ -197,6 +151,11 @@
         </router-link>
       </b-col>
     </b-row>
+    <modal-confirm 
+      :title="modal.title" 
+      :body="modal.body" 
+      @ok="handleConfirmOk(modal.function)"
+    />
   </b-container>
 </template>
 
@@ -205,10 +164,12 @@ import { mapActions } from "vuex"
 import { validateURL, validateSlug } from "@/core/lib.js"
 import ApiService from "@/core/ApiService"
 import ImageUpload from "@/components/ImageUpload.vue"
+import ModalConfirm from "@/components/ModalConfirm"
 
 export default {
   data() {
     return {
+      modal: { _id: "", title: "", body:"", function:"" },
       user: { urls: { facebook: "", website: "", instagram: "" } },
       validation: {
         userRole: `To become a supplier and start selling, you need to verify you email and mobile number!`,
@@ -224,22 +185,45 @@ export default {
     }
   },
   components: {
-    ImageUpload
+    ImageUpload, ModalConfirm
   },
   methods: {
     ...mapActions(["setAlert","setProfilePhotoUrl"]),
+    handleConfirmOk(function_name) {
+      this[function_name](this.modal._id)
+    },
+    sendSupplierRequestModal(){
+      this.modal.title = `Are you sure to become a supplier?`
+      this.modal.body = `Please note that, you should comply with the terms (terms link), and keep your page updated.`
+      this.modal.function = "sendSupplierRequest"
+      this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
+    },
+    sendSupplierRequest(){
+      //todo fetch _id from token
+      ApiService.post("/users/send-request-supplier",{ _id: this.user.mobile } )
+        .then(response => {
+          this.setAlert({ message: response.data.message, variant: response.data.response_type})
+        })
+        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error))
+    },
     confirmMobile() {
+      this.modal.title = `Confirm to Send a new code`
+      this.modal.body = `Are you sure you want to send a code to this number <b>${this.user.mobile}</b>?`
+      this.modal.function = "sendCode"
+      this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
+    },
+    sendCode() {
       ApiService.post("/users/send-verification-sms",{ mobile: this.user.mobile } )
         .then(response => {
-          if (response.data.message == "success"){ //!condition met 
-            return this.$router.push({ name: 'verify mobile' })
+          if (response.data.response_type == "success"){ 
+            this.$router.push({ 
+              name: 'verify mobile', 
+              params: { message: response.data.message, variant: response.data.response_type }
+            })
           }
-          return this.setAlert({ message: response.data.message,})
+          this.setAlert({ message: response.data.message})
         })
-        .catch(
-          error =>
-            this.setAlert({ message: `Network Error!` }) && console.log(error)
-        )
+        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error))
     },
     confirmEmail() {
       ApiService.get("/users/send-verification-link")
@@ -286,45 +270,33 @@ export default {
             variant: response.data.response_type
           })
         })
-        .catch(
-          error =>
-            this.setAlert({ message: `Network Error!` }) && console.log(error)
-        )
-    },
-    sendSupplierRequest() {
-      //TODO add the request and send the request to the backend and 
-      this.setAlert({message: 'Under Construction! Coming very soon', variant: 'danger'})
+        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error))
     },
     imageShow(url) {
       this.user.profilePhotoUrl = url
       this.setProfilePhotoUrl(url)
     },
     deleteImage() {
-      const pathArr = this.user.profilePhotoUrl.split("/")
-      ApiService.get(
-        `/files/delete-image/${pathArr[pathArr.length - 2]}/${
-          pathArr[pathArr.length - 1]
-        }`
-      )
-        .then(() => {
+      const [ , , server, filename] = this.user.profilePhotoUrl.split("/")
+      //`/files/delete-image/${pathArr[pathArr.length - 2]}/${
+        //   pathArr[pathArr.length - 1]
+        // }`
+      ApiService.get(`/files/delete-image/${server}/${filename}`)
+        .then(() => { 
           this.user.profilePhotoUrl = ""
           this.setProfilePhotoUrl("") 
         })
-        .catch(
-          error =>
-            (this.user.profilePhotoUrl = "") &&
-            this.setAlert({ message: `Network Error!` }) &&
-            console.log(error)
-        )
+        .catch( error => {
+          this.user.profilePhotoUrl = "" 
+          this.setAlert({ message: `Network Error!` }) 
+          console.log(error)
+        })
     }
   },
   created() {
     ApiService.get("/users/profile-get")
       .then(response => (this.user = response.data))
-      .catch(
-        error =>
-          this.setAlert({ message: `Network Error!` }) && console.log(error)
-      )
+      .catch( error =>this.setAlert({ message: `Network Error!` }) && console.log(error))
   },
   computed: {
     validateName() {
@@ -335,7 +307,7 @@ export default {
       )
     },
     validateUserRole() {
-      return (this.user.userRole != 'user')
+      return !(this.user.userRole == 'user' && (!this.user.emailVerify || !this.user.mobileVerify ) )
     },
     validateWebsite() {
       const url = this.user.urls.website

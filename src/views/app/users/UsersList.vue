@@ -1,10 +1,11 @@
 <template>
-  <b-container>
+  <b-container v-if="usersRaw.count">
     <b-row class="mb-3">
       <b-col>
         <h1 class="mb-3">User list</h1>
         <b-form inline class="mb-3">
           <b-pagination
+            use-router
             v-model="currentPage"
             :total-rows="usersRaw.count || 0"
             :per-page="usersRaw.perPage"
@@ -24,6 +25,7 @@
             :options="userRoleOptions"
             :value="null"
           ></b-form-select>
+          <div class="mb-2 mr-sm-3 mb-sm-0">Total: <b>{{ usersRaw.count }}</b></div>
         </b-form>
         <b-table 
           responsive
@@ -77,17 +79,17 @@
           <!-- EmailSlot column -->
           <template v-slot:cell(emailSlot)="data">
             <span v-b-tooltip.hover :title="data.value.emailTooltip">
-              <b-icon-check-all v-if="data.value.emailVerify" variant="success" /> 
-              <b-icon-exclamation-circle v-if="!data.value.emailVerify" variant="warning"/> 
               {{ data.item.email }} 
+              <b-icon-check-all v-if="data.item.emailVerify" variant="success" /> 
+              <b-icon-exclamation-circle v-if="!data.item.emailVerify" variant="warning"/> 
             </span> 
           </template>
           <!-- MobileSlot column -->
           <template v-slot:cell(mobileSlot)="data">
             <span v-if="data.item.mobile.length>0" v-b-tooltip.hover :title="data.value.mobileTooltip" >
               {{ data.item.mobile }} 
-              <b-icon-check-all v-if="data.value.mobileVerify" variant="success" /> 
-              <b-icon-exclamation-circle v-if="!data.value.mobileVerify" variant="warning" /> 
+              <b-icon-check-all v-if="data.item.mobileVerify" variant="success" /> 
+              <b-icon-exclamation-circle v-if="!data.item.mobileVerify" variant="warning" /> 
             </span>
           </template>
           <!-- status column -->
@@ -106,18 +108,18 @@
           </template>
           <template v-slot:cell(date)="data">
             {{ data.item.date | dateTime }} 
-          </template>
-          <template v-slot:cell(logs)="data">
-            <router-link 
+          <!-- </template> -->
+          <!-- <template v-slot:cell(logs)="data"> -->
+            <router-link class="ml-2"
               variant="primary" 
               v-b-tooltip.hover title="View Recent Logs"
               :to="{ name: 'user logs', params: { email: data.item.email } }"
             >
             <b-icon-list-check /> 
             </router-link>
-          </template>
-          <template v-slot:cell(profile)="data">
-            <router-link 
+          <!-- </template> -->
+          <!-- <template v-slot:cell(profile)="data"> -->
+            <router-link class="ml-2"
               variant="primary" 
               v-b-tooltip.hover title="View Profile"
               :to="{ name: 'user profile', params: { user: data.item.email } }"
@@ -141,7 +143,6 @@
 import ModalConfirm from "@/components/ModalConfirm"
 import ApiService from "@/core/ApiService"
 import { mapActions } from "vuex"
-// imebrahiport _ from "lodash"
 
 export default {
   components: {
@@ -158,8 +159,8 @@ export default {
         { key: "mobileSlot" , label: "Mobile" },  
         { key: "status", label: "Status" },
         { key: "date", label: "Reg. Time"},
-        { key: "logs", label: ""},
-        { key: "profile", label: ""},
+        // { key: "logs", label: ""},
+        // { key: "profile", label: ""},
       ],
       userRoleOptions: [
         { text: 'All User Roles', value: '' }, 
@@ -175,8 +176,8 @@ export default {
       this[function_name](this.modal._id)
     },
     userActivateToggle(_id){
-      
       const item = this.usersRaw.users.find( item => item._id === _id )
+      //TODO check it
       console.log(this.usersRaw.users)
       const request = item.isActive ? '/users/user-suspend' : '/users/user-activate'
       ApiService.post(request, { _id })
@@ -201,6 +202,7 @@ export default {
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
     userSetAsSupplier(_id){
+      //Todo check this
       console.log(_id)
       ApiService.post('/users/user-set-role', { _id, userRole: 'supplier' })
         .then(response => {
@@ -223,15 +225,13 @@ export default {
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
     invokeUsers() {
-      const page = this.$route.query.page || 1
-      const search = this.$route.query.search || ''
-      const userRole = this.$route.query.userRole || ''
-      ApiService.get(`/users/user-list?page=${page}&search=${search}&userRole=${userRole}`)
+      ApiService.get(`/users/user-list?page=${this.currentPage}&search=${this.search}&userRole=${this.userRole}`)
         .then( response => (this.usersRaw = response.data) )
         .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
     }
   },
   created(){
+    //this.currentPage
     this.invokeUsers()
   },
   computed: {
@@ -239,12 +239,10 @@ export default {
       if (!this.usersRaw.users || this.usersRaw.users.length == 0) return []
       const items = this.usersRaw.users.map( item => {
         item.emailSlot = {
-          emailVerify: (item.emailVerify == "true"),
-          emailTooltip: item.emailVerify == "true" ? `Verified Email.` : `Not verified yet!`,
+          emailTooltip: item.emailVerify == true ? `Verified Email.` : `Not verified yet!`,
         }
          item.mobileSlot = {
-          mobileVerify: (item.mobileVerify == "true"),
-          mobileTooltip: item.mobileVerify == "true" ?`Verified Mobile` : `Not verified yet!`,
+          mobileTooltip: item.mobileVerify == true ? `Verified Mobile.` : `Not verified yet!`,
         }
         item.mobile = item.mobile || ''
         item.status = {
@@ -256,11 +254,11 @@ export default {
       return items
     },
     currentPage: {
-      get() {
-        return this.$route.query.page || 1
+      get() { 
+        return this.$route.query.page || 1 
       },
       set(newPage) {
-        this.$router.push({ query: { ...this.$route.query, page: newPage }})
+        this.$router.push({ query: { ...this.$route.query, page: newPage }}).catch(()=>{})
         this.invokeUsers()
       }
     },
@@ -269,7 +267,7 @@ export default {
         return this.$route.query.search || ''
       },
       set(search) {
-        this.$router.push({ query: { ...this.$route.query, search:search }})
+        this.$router.push({ query: { ...this.$route.query, search:search }}).catch(()=>{})
         this.invokeUsers()
       }
     },
@@ -278,16 +276,10 @@ export default {
         return this.$route.query.userRole || ''
       },
       set(newRoleSelected) {
-        this.$router.push({ query: { ...this.$route.query, userRole: newRoleSelected }})
+        this.$router.push({ query: { ...this.$route.query, userRole: newRoleSelected }}).catch(()=>{})
         this.invokeUsers()
       }
     }
   },
-  // watch: {
-    
-  //   $route() {
-  //     console.log("test")
-  //   }
-  // }
 }
 </script>

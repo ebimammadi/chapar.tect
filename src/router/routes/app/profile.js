@@ -43,8 +43,9 @@ export default [
         name: "verify mobile",
         component: () => import("@/views/app/profile/VerifyMobile.vue"),
         meta: {
-          requiresAuth: true
-        }
+          requiresAuth: true,
+        },
+        props: true
       },
       {
         path: "change-password",

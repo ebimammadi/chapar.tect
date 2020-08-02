@@ -163,6 +163,7 @@
 import { mapActions } from "vuex"
 import { validateURL, validateSlug } from "@/core/lib.js"
 import ApiService from "@/core/ApiService"
+import JwtService from "@/core/JwtService"
 import ImageUpload from "@/components/ImageUpload.vue"
 import ModalConfirm from "@/components/ModalConfirm"
 
@@ -200,7 +201,8 @@ export default {
     },
     sendSupplierRequest(){
       //todo fetch _id from token
-      ApiService.post("/users/send-request-supplier",{ _id: this.user.mobile } )
+      const { _id } = JwtService.decodeToken()
+      ApiService.post("/users/send-request-supplier",{ _id } )
         .then(response => {
           this.setAlert({ message: response.data.message, variant: response.data.response_type})
         })

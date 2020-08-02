@@ -190,7 +190,7 @@ export default {
             })
           }
         })
-        .catch(err => console.log(err))
+        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
     },
     userActivateShowModal(_id){
       const item = this.usersRaw.users.find( item => item._id === _id)
@@ -214,7 +214,7 @@ export default {
             })
           }
         })
-        .catch(err => console.log(err))
+        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
     },
     userSetAsSupplierShowConfirm(_id){
       const item = this.usersRaw.users.find( item => item._id === _id)

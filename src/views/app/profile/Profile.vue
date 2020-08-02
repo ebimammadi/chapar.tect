@@ -1,18 +1,14 @@
-<template>
-  <b-container>
+<template >
+  <b-container v-if="this.user.name && this.user.name.length>0">
     <b-row class="mb-3">
       <b-col>
-        <img
-          v-if="user.profilePhotoUrl"
-          :src="user.profilePhotoUrl"
-          width="150" class="rounded"
-        />
+        <img v-if="user.profilePhotoUrl" :src="user.profilePhotoUrl" width="150" class="rounded" />
         <b-button
           v-if="user.profilePhotoUrl"
           @click="deleteImage"
           variant="outline-secondary"
           class="ml-1 mt-1 align-bottom"
-          >Remove/Change Photo</b-button
+          >Remove&Change Photo</b-button
         >
         <image-upload
           v-if="!user.profilePhotoUrl"
@@ -34,7 +30,6 @@
             v-focus
             id="name"
             v-model="user.name"
-            type="text"
             placeholder="Enter fullname"
           ></b-input>
           <b-form-invalid-feedback :state="validateName">
@@ -64,9 +59,9 @@
       <b-col>
         <label for="mobile">Mobile Number</label>
         <b-input-group>
-          <b-input id="mobile" disabled v-model="user.mobile" placeholder="Mobile number" />
+          <b-input id="mobile" disabled v-model="user.mobile" placeholder="Use 'Change Mobile' to set your mobile number" />
           <b-button v-if="user.mobileVerify" variant="outline-secondary" class="ml-2" disabled>✓</b-button>
-          <b-button @click="confirmMobile" v-if="!user.mobileVerify" variant="outline-secondary" class="ml-2">
+          <b-button v-if="!user.mobileVerify && user.mobile" @click="confirmMobile" variant="outline-secondary" class="ml-2">
             Verify Mobile
           </b-button>
         </b-input-group>
@@ -79,7 +74,7 @@
     </b-row>
     <b-row class="mb-3">
       <b-col>
-        <label for="user-role">User Role</label>
+        <label for="user-role">Access Role</label>
         <b-input-group>
           <b-input
             id="user-role"
@@ -87,112 +82,119 @@
             type="text"
             disabled
           ></b-input>
-          <b-form-invalid-feedback :state="validateName">
-            {{ validation.name }}
+          <b-form-invalid-feedback :state="validateUserRole">
+            {{ validation.userRole }}
           </b-form-invalid-feedback>
         </b-input-group>
         <!-- <a href="http://chapar-tech-api.herokuapp.com/users/user-list" target="_blank">Users</a> -->
       </b-col>
     </b-row>
-    <b-row class="mb-3" v-if="user.userRole =='user'">
+    <b-row class="mb-3" v-if="user.userRole =='user' && user.mobileVerify && user.emailVerify">
       <b-col>
         <b-button @click="sendSupplierRequest"  variant="outline-secondary">
-          Become a supplier ?
+          Ask to be a supplier ?
         </b-button>
       </b-col>
     </b-row>
-    <b-row class="mb-3" v-if="user.userRole !='user'">
+    <b-row class="mb-3" >
       <b-col>
-        <label for="slug">Slug</label>
-        <b-input-group>
-          <b-input
-            id="slug"
-            type="text"
-            v-model="user.slug"
-            placeholder="Enter Slug"
-          >
-          </b-input>
-          <b-form-invalid-feedback :state="validateSlug">
-            {{ validation.slug }}
-          </b-form-invalid-feedback>
-        </b-input-group>
+        <hr/>
+        <!-- <b-button v-b-toggle:addresses variant="link">Web and postal addresses</b-button> -->
+        <a v-b-toggle href="#addresses" @click.prevent>Web and postal addresses</a> 
       </b-col>
     </b-row>
-    <b-row class="mb-3" v-if="user.userRole !='user'">
-      <b-col>
-        <label for="website">Website Address</label>
-        <b-input-group>
-          <b-input
-            id="website"
-            type="url"
-            v-model="user.urls.website"
-            placeholder="Enter Website Address"
-          >
-          </b-input>
-          <b-form-invalid-feedback :state="validateWebsite">
-            {{ validation.urls.website }}
-          </b-form-invalid-feedback>
-        </b-input-group>
-      </b-col>
-    </b-row>
-    <b-row class="mb-3" v-if="user.userRole !='user'">
-      <b-col>
-        <label for="facebook">Facebook Address</label>
-        <b-input-group>
-          <b-input
-            id="facebook"
-            type="url"
-            v-model="user.urls.facebook"
-            placeholder="Enter Facebook Page"
-          >
-          </b-input>
-          <b-form-invalid-feedback :state="validateFacebook">
-            {{ validation.urls.facebook }}
-          </b-form-invalid-feedback>
-        </b-input-group>
-      </b-col>
-    </b-row>
-    <b-row class="mb-3" v-if="user.userRole !='user'">
-      <b-col>
-        <label for="instagram">Instagram Address</label>
-        <b-input-group>
-          <b-input
-            id="instagram"
-            type="url"
-            v-model="user.urls.instagram"
-            placeholder="Enter Instagram Page"
-          >
-          </b-input>
-          <b-form-invalid-feedback :state="validateInstagram">
-            {{ validation.urls.instagram }}
-          </b-form-invalid-feedback>
-        </b-input-group>
-      </b-col>
-    </b-row>
-    <b-row class="mb-3" v-if="user.userRole !='user'">
-      <b-col>
-        <router-link :to="{ name: 'address' }" class="float-right">
-            Add/Edit Postal Addresses
-        </router-link>
-      </b-col>
-    </b-row>
+      <b-collapse id="addresses">
+      <b-row class="mb-3" v-if="user.userRole !='user'">
+        <b-col>
+          <label for="slug">Slug (your shop short-name at our pages)</label>
+          <b-input-group>
+            <b-input
+              id="slug"
+              type="text"
+              v-model="user.slug"
+              placeholder="Enter Slug"
+            >
+            </b-input>
+            <b-form-invalid-feedback :state="validateSlug">
+              {{ validation.slug }}
+            </b-form-invalid-feedback>
+          </b-input-group>
+        </b-col>
+      </b-row>
+      <b-row class="mb-3" v-if="user.userRole !='user'">
+        <b-col>
+          <label for="website">Website Address</label>
+          <b-input-group>
+            <b-input
+              id="website"
+              type="url"
+              v-model="user.urls.website"
+              placeholder="Enter Website Address"
+            >
+            </b-input>
+            <b-form-invalid-feedback :state="validateWebsite">
+              {{ validation.urls.website }}
+            </b-form-invalid-feedback>
+          </b-input-group>
+        </b-col>
+      </b-row>
+      <b-row class="mb-3" v-if="user.userRole !='user'">
+        <b-col>
+          <label for="facebook">Facebook Address</label>
+          <b-input-group>
+            <b-input
+              id="facebook"
+              type="url"
+              v-model="user.urls.facebook"
+              placeholder="Enter Facebook Page"
+            >
+            </b-input>
+            <b-form-invalid-feedback :state="validateFacebook">
+              {{ validation.urls.facebook }}
+            </b-form-invalid-feedback>
+          </b-input-group>
+        </b-col>
+      </b-row>
+      <b-row class="mb-3" v-if="user.userRole !='user'">
+        <b-col>
+          <label for="instagram">Instagram Address</label>
+          <b-input-group>
+            <b-input
+              id="instagram"
+              type="url"
+              v-model="user.urls.instagram"
+              placeholder="Enter Instagram Page"
+            >
+            </b-input>
+            <b-form-invalid-feedback :state="validateInstagram">
+              {{ validation.urls.instagram }}
+            </b-form-invalid-feedback>
+          </b-input-group>
+        </b-col>
+      </b-row>
+      <b-row class="mb-3" v-if="user.userRole !='user'">
+        <b-col>
+          <router-link :to="{ name: 'address' }" class="float-right">
+              Add/Edit Postal Addresses
+          </router-link>
+        </b-col>
+      </b-row>
+    </b-collapse>
+    <b-row ><b-col><hr/></b-col></b-row>
     <b-row class="mt-3">
       <b-col>
         <b-button @click="sendProfile" variant="outline-success" class="mr-3 mt-2 mb-2">
           Save Profile
         </b-button>
-        
-        <router-link :to="{ name: 'change password'}" class="ml-2 mt-2 mb-2 float-right">
-          <b-button variant="outline-secondary"><b-icon-key /> Change Password</b-button>
-        </router-link>
         <router-link :to="{ name: 'change mobile'}" class="ml-2 mt-2 mb-2 float-right" >
           <b-button to variant="outline-secondary"><b-icon-phone/> Change Mobile</b-button>
         </router-link>
         <router-link :to="{ name: 'change email'}" class="ml-2 mt-2 mb-2 float-right">
           <b-button to variant="outline-secondary"><b-icon-envelope/> Change Email</b-button>
         </router-link>
-
-        
+        <router-link :to="{ name: 'change password'}" class="ml-2 mt-2 mb-2 float-right">
+          <b-button variant="outline-secondary"><b-icon-key /> Change Password</b-button>
+        </router-link>
       </b-col>
     </b-row>
   </b-container>
@@ -209,8 +211,10 @@ export default {
     return {
       user: { urls: { facebook: "", website: "", instagram: "" } },
       validation: {
+        userRole: `To become a supplier and start selling, you need to verify you email and mobile number!`,
         name: `Your 'Fullname' should be at least 5 characters, including first name and last name.`,
-        slug: `'Slug' should contain only lowercase characters and numbers separated by hyphen (-). For example if the name is 'John Smith Foods' you can use 'john-smith-foods'.`,
+        slug: `'Slug' should contain only lowercase characters and numbers separated by hyphen (-). 
+          For example if the name is 'John Smith Foods' you can use 'john-smith-foods'.`,
         urls: {
           website: `Website Address (URL) format is not valid. It should start with http:// or https://`,
           instagram: `Instagram Address (URL) format is not valid. It should start with https://`,
@@ -329,6 +333,9 @@ export default {
         this.user.name.length > 5 &&
         this.user.name.split(" ").length > 1
       )
+    },
+    validateUserRole() {
+      return (this.user.userRole != 'user')
     },
     validateWebsite() {
       const url = this.user.urls.website

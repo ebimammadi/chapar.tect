@@ -59,8 +59,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (to.matched.some(path => path.meta.requiresAuth)) {
     if (!JwtService.isValidToken()) {
-      //Todo redirect set it to store! need to develop
-      //query: { redirect: to.fullPath}
+      Store.commit("changeRouteTo", to.fullPath)
       next({ name: "login" })
     } else next()
   } else next()

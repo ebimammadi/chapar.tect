@@ -41,7 +41,7 @@
 
 <script>
 import _ from "lodash"
-import { mapActions } from "vuex"
+import { mapActions, mapGetters } from "vuex"
 
 import Logo from "@/components/Logo.vue"
 import ApiService from "@/core/ApiService"
@@ -62,20 +62,23 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["setAlert", "setSingInStatus", "setProfilePhotoUrl"]),
+    ...mapActions(["setAlert", "setSingInStatus", "setProfilePhotoUrl", "setRouteTo"]),
     onSubmit: function() {
       const data = _.pick(this.form, ["email", "password"])
       ApiService.post("/users/login", data)
         .then(response => {
-          if (response.data.message)
-            return this.setAlert({ message: response.data.message })
+          if (response.data.message) return this.setAlert({ message: response.data.message })
           this.setAlert({ message: "" })
           const token = response.headers["x-auth-token"]
           JwtService.setToken(token)
           const { profilePhotoUrl } = JwtService.decodeToken()
           this.setProfilePhotoUrl(profilePhotoUrl)
           this.setSingInStatus(true)
-          this.$router.push("/app")
+          if (this.routeTo !== "") {
+            this.$router.push(this.routeTo)
+            this.setRouteTo("")
+          }
+          else this.$router.push("/app")
         })
         .catch(
           error =>
@@ -84,12 +87,18 @@ export default {
     }
   },
   created() {
-    this.setProfilePhotoUrl('') //? Todo check this if required or redundant!
+    //console.log(this.$router.from)
+    ///this.$router
+
+    //this.setProfilePhotoUrl('') //? Todo check this if required or redundant!
     //if we have logged in before
     //Todo update this chunk
     //console.log(`login JwtService.getToken()`, JwtService.isValidToken())
     JwtService.deleteToken() //!
     if (JwtService.isValidToken()) return this.$router.push("/")
+  },
+  computed: {
+    ...mapGetters( ["routeTo"]),
   },
   mounted() {
     //JwtService.deleteToken(); //remove the tokens

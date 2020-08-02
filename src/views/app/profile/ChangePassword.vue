@@ -53,9 +53,7 @@
         <b-button variant="outline-success" @click="changePassword"
           >Save New Password
         </b-button>
-        <router-link :to="{ name: 'profile' }" class="ml-5">
-            Back to Profile
-        </router-link>
+        <!-- <router-link :to="{ name: 'profile' }" class="ml-5">Back to Profile</router-link> -->
       </b-col>
     </b-row>
   </b-container>

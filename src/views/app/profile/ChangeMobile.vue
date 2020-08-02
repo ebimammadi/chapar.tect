@@ -8,46 +8,35 @@
         </b-input-group>
       </b-col>
     </b-row>
-    <b-row class="mb-3"
-      ><b-col>
+    <b-row class="mb-3">
+      <b-col>
         <label for="new-mobile">New Mobile Number</label>
         <b-input-group>
-          <b-input
-            id="new-mobile"
-            v-model="mobile"
-            placeholder="Enter new mobile number"
-          ></b-input>
+          <b-input id="new-mobile" v-model="mobile" placeholder="Enter new mobile number" />
           <b-form-invalid-feedback :state="validateNewMobile"
             >{{ mobile.length > 0 ? validation.mobile : "" }}
           </b-form-invalid-feedback>
-        </b-input-group></b-col
-      >
+        </b-input-group>
+      </b-col>
     </b-row>
-    <b-row class="mb-3"
-      ><b-col>
+    <b-row class="mb-3">
+      <b-col>
         <label for="password">Your Password</label>
         <b-input-group>
-          <b-input
-            id="password"
-            v-model="password"
-            type="password"
-            placeholder="Enter your password"
-          ></b-input>
+          <b-input id="password" v-model="password" type="password" placeholder="Enter your password" />
           <b-form-invalid-feedback :state="validatePassword"
             >{{ password.length > 0 ? validation.password : "" }}
           </b-form-invalid-feedback>
-        </b-input-group></b-col
-      >
+        </b-input-group>
+      </b-col>
     </b-row>
-    <b-row
-      ><b-col>
-        <b-button variant="outline-success" @click="changeMobile"
-          >Save Mobile
-        </b-button>
-        <router-link :to="{ name: 'profile' }" class="ml-5">
+    <b-row>
+      <b-col>
+        <b-button variant="outline-success" @click="changeMobile">Save Mobile</b-button>
+        <!-- <router-link :to="{ name: 'profile' }" class="ml-5">
             Back to Profile
-        </router-link></b-col
-      >
+        </router-link> -->
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -86,10 +75,15 @@ export default {
         password: this.password
       })
         .then(response => {
-          
+          if (response.data.response_type == 'success'){
+            this.currentMobile = this.mobile
+            return this.$router.push({ 
+              name: 'verify mobile', 
+              params: { message: response.data.message, variant: response.data.response_type }
+            })
+          }
           this.setAlert({
             message: response.data.message,
-            variant: response.data.response_type
           })
         })
         .catch(err => {
@@ -104,10 +98,7 @@ export default {
   created() {
     ApiService.get("/users/profile-get")
       .then(response => (this.currentMobile = response.data.mobile))
-      .catch(
-        error =>
-          this.setAlert({ message: `Network Error!` }) && console.log(error)
-      )
+      .catch( error =>this.setAlert({ message: `Network Error!` }) && console.log(error))
   },
   computed: {
     validateNewMobile() {

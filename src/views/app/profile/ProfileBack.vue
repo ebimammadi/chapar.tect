@@ -91,52 +91,8 @@
       </b-col>
     </b-row>
       <b-collapse id="addresses">
-      <b-row class="mb-3" v-if="user.userRole !='user'">
-        <b-col>
-          <label for="slug">Slug (your shop short-name at our pages)</label>
-          <b-input-group>
-            <b-input id="slug" type="text" v-model="user.slug" placeholder="Enter Slug" />
-            <b-form-invalid-feedback :state="validateSlug"> {{ validation.slug }} </b-form-invalid-feedback>
-          </b-input-group>
-        </b-col>
-      </b-row>
-      <b-row class="mb-3" v-if="user.userRole !='user'">
-        <b-col>
-          <label for="website">Website Address</label>
-          <b-input-group>
-            <b-input id="website" type="url" v-model="user.urls.website" placeholder="Enter Website Address" />
-            <b-form-invalid-feedback :state="validateWebsite"> {{ validation.urls.website }} </b-form-invalid-feedback>
-          </b-input-group>
-        </b-col>
-      </b-row>
-      <b-row class="mb-3" v-if="user.userRole !='user'">
-        <b-col>
-          <label for="facebook">Facebook Address</label>
-          <b-input-group>
-            <b-input id="facebook" type="url" v-model="user.urls.facebook" placeholder="Enter Facebook Page"/>
-            <b-form-invalid-feedback :state="validateFacebook">
-              {{ validation.urls.facebook }}
-            </b-form-invalid-feedback>
-          </b-input-group>
-        </b-col>
-      </b-row>
-      <b-row class="mb-3" v-if="user.userRole !='user'">
-        <b-col>
-          <label for="instagram">Instagram Address</label>
-          <b-input-group>
-            <b-input id="instagram" type="url" v-model="user.urls.instagram" placeholder="Enter Instagram Page" />
-            <b-form-invalid-feedback :state="validateInstagram">{{ validation.urls.instagram }}</b-form-invalid-feedback>
-          </b-input-group>
-        </b-col>
-      </b-row>
-      <b-row class="mb-3" >
-        <b-col>
-          <router-link :to="{ name: 'address' }" class="float-right">
-              Add/Edit Postal Addresses
-          </router-link>
-        </b-col>
-      </b-row>
-    </b-collapse>
+        <child-web-addresses :user="user" :validation="validation"/>
+      </b-collapse>
     <b-row ><b-col><hr/></b-col></b-row>
     <b-row class="mt-3">
       <b-col>
@@ -164,11 +120,13 @@
 
 <script>
 import { mapActions } from "vuex"
-import { validateURL, validateSlug } from "@/core/lib.js"
 import ApiService from "@/core/ApiService"
 import JwtService from "@/core/JwtService"
 import ImageUpload from "@/components/ImageUpload.vue"
 import ModalConfirm from "@/components/ModalConfirm"
+import { validateSlug } from "@/core/lib.js"
+
+import ChildWebAddresses from "@/views/app/profile/ProfileChildWebAddresses"
 
 export default {
   data() {
@@ -189,7 +147,7 @@ export default {
     }
   },
   components: {
-    ImageUpload, ModalConfirm
+    ImageUpload, ModalConfirm, ChildWebAddresses
   },
   methods: {
     ...mapActions(["setAlert","setProfilePhotoUrl"]),
@@ -207,7 +165,6 @@ export default {
       const { _id } = JwtService.decodeToken()
       ApiService.post("/users/send-request-supplier",{ _id } )
         .then(response => {
-          this.user.supplierRequest = response.data.supplierRequest
           this.setAlert({ message: response.data.message, variant: response.data.response_type})
         })
         .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error))
@@ -246,13 +203,30 @@ export default {
         )
     },
     sendProfile() {
-      if (!this.validateName) return this.setAlert({ message: this.validation.name })
-      if (!this.validateSlug) return this.setAlert({ message: this.validation.slug })
-      if (!this.validateWebsite) return this.setAlert({ message: this.validation.urls.website })
-      if (!this.validateFacebook) return this.setAlert({ message: this.validation.urls.facebook })
-      if (!this.validateInstagram) return this.setAlert({ message: this.validation.urls.instagram })
+      if (!this.validateName)
+        return this.setAlert({ message: this.validation.name })
 
-      ApiService.post("/users/profile-set", { name: this.user.name, slug: this.user.slug, urls: this.user.urls })
+      if (!this.validateSlug)
+        return this.setAlert({ message: this.validation.slug })
+
+      if (!this.validateWebsite)
+        return this.setAlert({
+          message: this.validation.urls.website
+        })
+      if (!this.validateFacebook)
+        return this.setAlert({
+          message: this.validation.urls.facebook
+        })
+      if (!this.validateInstagram)
+        return this.setAlert({
+          message: this.validation.urls.instagram
+        })
+
+      ApiService.post("/users/profile-set", {
+        name: this.user.name,
+        slug: this.user.slug,
+        urls: this.user.urls
+      })
         .then(response => {
           this.setAlert({
             message: response.data.message,
@@ -309,19 +283,8 @@ export default {
     validateUserRole() {
       return !(this.user.userRole == 'user' && (!this.user.emailVerify || !this.user.mobileVerify ) )
     },
-    validateWebsite() {
-      const url = this.user.urls.website
-      return url.length == 0 || validateURL(url)
-    },
-    validateFacebook() {
-      const url = this.user.urls.facebook
-      return url.length == 0 || validateURL(url)
-    },
-    validateInstagram() {
-      const url = this.user.urls.instagram
-      return url.length == 0 || validateURL(url)
-    },
     validateSlug() {
+      console.log(`this.user.slug`, this.user.slug)
       if (this.user.slug === undefined) return false
       return (
         this.user.slug &&

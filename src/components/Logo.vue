@@ -1,21 +1,12 @@
 <template>
   <div class="logo">
-    <a href="/" target="_self" :title="appName">
+    <a href="/" target="_self" :title="chapar.tech">
       <span class="color-chapar-blue">
         chapar<span class="color-chapar-green">.tech</span>
       </span>
     </a>
   </div>
 </template>
-
-<script>
-import Store from "@/store/index.js"
-export default {
-  computed: {
-    appName: () => Store.getters.settings.app_name
-  }
-}
-</script>
 
 <style scoped>
 a {

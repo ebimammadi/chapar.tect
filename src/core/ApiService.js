@@ -8,7 +8,7 @@ const ApiService = {
   init() {
     Vue.prototype.$http = axios
 
-    axios.defaults.baseURL = process.env.VUE_APP_API + "api"  //Store.getters.settings.remote_api_base_url
+    axios.defaults.baseURL = process.env.VUE_APP_API + "/api"  //Store.getters.settings.remote_api_base_url
     axios.defaults.timeout = 20000 //Store.getters.settings.axios_timeout
     axios.defaults.withCredentials = true
 

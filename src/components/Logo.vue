@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <a href="/" target="_self" :title="chapar.tech">
+    <a href="/" target="_self" title="chapar.tech">
       <span class="color-chapar-blue">
         chapar<span class="color-chapar-green">.tech</span>
       </span>
@@ -22,7 +22,6 @@ a:hover {
 
 span {
   font-size: 1.7rem;
-
   margin: 0px auto;
 }
 

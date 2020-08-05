@@ -37,7 +37,7 @@
         </b-form-invalid-feedback>
       </b-form-group>
       <b-form-group>
-        <b-button type="submit" variant="success">Set Password</b-button>
+        <b-button type="submit" variant="success">Set Password</b-button> <router-link to="/login" class="float-right">Log In?</router-link>
       </b-form-group>
     </b-form>
   </div>

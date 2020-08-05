@@ -167,7 +167,7 @@ export default {
         .then(response => {
           this.setAlert({ message: response.data.message, variant: response.data.response_type})
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error))
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
     confirmMobile() {
       this.modal.title = `Confirm to Send a new code`
@@ -186,7 +186,7 @@ export default {
           }
           this.setAlert({ message: response.data.message})
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error))
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
     confirmEmail() {
       ApiService.get("/users/send-verification-link")
@@ -197,10 +197,7 @@ export default {
               variant: response.data.response_type
             })
         })
-        .catch(
-          error =>
-            this.setAlert({ message: `Network Error!` }) && console.log(error)
-        )
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
     sendProfile() {
       if (!this.validateName)
@@ -233,7 +230,7 @@ export default {
             variant: response.data.response_type
           })
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error))
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
     imageShow(url) {
       this.user.profilePhotoUrl = url
@@ -248,7 +245,7 @@ export default {
         })
         .catch( error => {
           this.user.profilePhotoUrl = "" 
-          this.setAlert({ message: `Network Error!` }) 
+          this.setAlert({ message: error.data.message }) 
           console.log(error)
         })
     }
@@ -256,7 +253,7 @@ export default {
   created() {
     ApiService.get("/users/profile-get")
       .then(response => (this.user = response.data))
-      .catch( error =>this.setAlert({ message: `Network Error!` }) && console.log(error))
+      .catch( error => this.setAlert( { message: error.data.message } ))
   },
   computed: {
     userRoleInfo() {

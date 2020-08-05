@@ -92,10 +92,7 @@ export default {
           this.setSingInStatus(true)
           this.$router.push("/app")
         })
-        .catch(
-          error =>
-            this.setAlert({ message: `Network Error!` }) && console.log(error)
-        )
+        .catch( error => this.setAlert( { message: error.data.message } ))
     }
   },
   created() {
@@ -112,10 +109,7 @@ export default {
           this.setAlert({ message: response.data.message, variant: "success" })
         }
       })
-      .catch(
-        error =>
-          this.setAlert({ message: `Network Error!` }) && console.log(error)
-      )
+      .catch( error => this.setAlert( { message: error.data.message } ))
   },
   computed: {
     passwordOptions() {

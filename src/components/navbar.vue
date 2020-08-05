@@ -93,9 +93,9 @@ export default {
       JwtService.deleteToken()
       ApiService.get(`/users/logout`)
         .then( () => this.$router.push("/login"))
-        .catch(err => {
-          console.log(err)
-          if (!err.status) this.setAlert({ message: `Network Error!` })
+        .catch(error => {
+          console.log(error)
+          //if (!err.status) this.setAlert({ message: error.data.message })
           this.$router.push("/login")
         })
         .finally( () => {

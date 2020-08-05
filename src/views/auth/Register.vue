@@ -129,10 +129,7 @@ export default {
           this.setSingInStatus(true)
           this.$router.push("/app")
         })
-        .catch(
-          error =>
-            this.setAlert({ message: `Network Error!` }) && console.log(error)
-        )
+        .catch( error => this.setAlert( { message: error.data.message } ))
     }
   },
   created() {

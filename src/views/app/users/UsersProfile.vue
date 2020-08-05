@@ -148,10 +148,7 @@ export default {
   created() {
     ApiService.get(`/users/profile-get-by-email/${this.$route.params.user}`)
       .then(response => (this.user = response.data))
-      .catch(
-        error =>
-          this.setAlert({ message: `Network Error!` }) && console.log(error)
-      )
+      .catch( error => this.setAlert( { message: error.data.message } ))
   }
 }
 </script>

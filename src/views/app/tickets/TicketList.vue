@@ -75,11 +75,8 @@ export default {
   },
   created() {
     ApiService.get(`/tickets/ticket-list`)
-      .then(response => (this.ticketsRaw = response.data))
-      .catch(
-        error =>
-          this.setAlert({ message: `Network Error!` }) && console.log(error)
-      )
+      .then(response => this.ticketsRaw = response.data )
+      .catch( error => this.setAlert({ message: error.data.message }) )
   },
   computed: {
     tickets() {

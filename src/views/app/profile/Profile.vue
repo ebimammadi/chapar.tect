@@ -210,7 +210,7 @@ export default {
           this.user.supplierRequest = response.data.supplierRequest
           this.setAlert({ message: response.data.message, variant: response.data.response_type})
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error))
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
     confirmMobile() {
       this.modal.title = `Confirm to Send a new code`
@@ -229,7 +229,7 @@ export default {
           }
           this.setAlert({ message: response.data.message})
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error))
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
     confirmEmail() {
       ApiService.get("/users/send-verification-link")
@@ -240,10 +240,7 @@ export default {
               variant: response.data.response_type
             })
         })
-        .catch(
-          error =>
-            this.setAlert({ message: `Network Error!` }) && console.log(error)
-        )
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
     sendProfile() {
       if (!this.validateName) return this.setAlert({ message: this.validation.name })
@@ -259,7 +256,7 @@ export default {
             variant: response.data.response_type
           })
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error))
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
     imageShow(url) {
       this.user.profilePhotoUrl = url
@@ -274,21 +271,20 @@ export default {
         })
         .catch( error => {
           this.user.profilePhotoUrl = "" 
-          this.setAlert({ message: `Network Error!` }) 
-          console.log(error)
+          this.setAlert({ message: error.data.message }) 
         })
     }
   },
   created() {
     ApiService.get("/users/profile-get")
       .then(response => (this.user = response.data))
-      .catch( error =>this.setAlert({ message: `Network Error!` }) && console.log(error))
+      .catch( error => this.setAlert( { message: error.data.message } ))
   },
   computed: {
     userRoleInfo() {
       const dateFormat = (date) => {
-        const [ datepart,time ] = date.split('T')
-        return datepart + ',' + time.slice(0,5)
+        const [ datePart,time ] = date.split('T')
+        return datePart + ',' + time.slice(0,5)
       }
       try{
         if (this.user.supplierRequest.status == 'pending' ) 

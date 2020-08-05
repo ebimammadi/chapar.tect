@@ -57,8 +57,7 @@ export default {
         })
         .catch(error => {
           this.form.email = ""
-          console.log(error)
-          this.setAlert({ message: `Network Error!` })
+          this.setAlert({ message: error.data.message })
         })
     }
   },

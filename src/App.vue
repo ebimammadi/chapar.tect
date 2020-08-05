@@ -51,10 +51,7 @@ export default {
         const url = (response.data.profilePhotoUrl === undefined) ? "" : response.data.profilePhotoUrl
         this.setProfilePhotoUrl(url)
       })
-      .catch(
-        error =>
-          this.setAlert({ message: `Network Error!` }) && console.log(error)
-      )
+      .catch( error => this.setAlert({ message: error.data.message }) )
   },
   methods: {
     ...mapActions(["setAlert", "setProfilePhotoUrl"])

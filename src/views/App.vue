@@ -23,10 +23,7 @@ export default {
           variant: `success`
         })
       )
-      .catch(
-        error =>
-          this.setAlert({ message: `Network Error!` }) && console.log(error)
-      )
+      .catch( error => this.setAlert( { message: error.data.message } ))
       .finally(function() {
         //test
       })

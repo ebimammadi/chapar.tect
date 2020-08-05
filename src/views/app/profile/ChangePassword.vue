@@ -92,7 +92,7 @@ export default {
         .then(response => {
           this.setAlert({ message: response.data.message, variant: response.data.response_type })
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+        .catch( error => this.setAlert( { message: error.data.message } ))
         .finally(() => {
           this.newPassword = this.confirmPassword = this.password = ""
         })

@@ -98,7 +98,7 @@ export default {
   created() {
     ApiService.get("/users/profile-get")
       .then(response => (this.currentMobile = response.data.mobile))
-      .catch( error =>this.setAlert({ message: `Network Error!` }) && console.log(error))
+      .catch( error => this.setAlert( { message: error.data.message } ))
   },
   computed: {
     validateNewMobile() {

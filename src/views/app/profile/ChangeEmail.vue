@@ -88,7 +88,7 @@ export default {
             variant: response.data.response_type
           })
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+        .catch( error => this.setAlert( { message: error.data.message } ))
         .finally(() => {
           this.email = ""
           this.password = ""
@@ -98,7 +98,7 @@ export default {
   created() {
     ApiService.get("/users/profile-get")
       .then(response => (this.currentEmail = response.data.email))
-      .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+      .catch( error => this.setAlert( { message: error.data.message } ))
   },
   computed: {
     validateNewEmail() {

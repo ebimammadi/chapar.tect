@@ -46,10 +46,7 @@ export default {
           variant: response.data.response_type
         })
       })
-      .catch(
-        error =>
-          this.setAlert({ message: `Network Error!` }) && console.log(error)
-      )
+      .catch( error => this.setAlert( { message: error.data.message } ))
   }
 }
 </script>

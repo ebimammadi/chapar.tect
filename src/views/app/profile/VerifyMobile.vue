@@ -87,7 +87,7 @@ export default {
         .then(response => {
           this.setAlert({ message: response.data.message, variant: response.data.response_type})
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
 
     verifyMobile() {
@@ -104,7 +104,7 @@ export default {
           }
           this.setAlert({ message: response.data.message, variant: response.data.response_type}) 
         })
-        .catch(error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+        .catch( error => this.setAlert( { message: error.data.message } ))
         .finally(() => {this.code = "" })
     }
   },
@@ -119,7 +119,7 @@ export default {
           this.setAlert({ message, variant })
         }
       })
-      .catch(error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+      .catch( error => this.setAlert( { message: error.data.message } ))
   },
   computed: {
     validateCode() {

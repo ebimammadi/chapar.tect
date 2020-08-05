@@ -190,7 +190,7 @@ export default {
             })
           }
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
     userActivateShowModal(_id){
       const item = this.usersRaw.users.find( item => item._id === _id)
@@ -212,7 +212,7 @@ export default {
             })
           }
         })
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+        .catch( error => this.setAlert( { message: error.data.message } ))
     },
     userSetAsSupplierShowConfirm(_id){
       const item = this.usersRaw.users.find( item => item._id === _id)
@@ -225,7 +225,7 @@ export default {
     invokeUsers() {
       ApiService.get(`/users/user-list?page=${this.currentPage}&search=${this.search}&userRole=${this.userRole}`)
         .then( response => (this.usersRaw = response.data) )
-        .catch( error => this.setAlert({ message: `Network Error!` }) && console.log(error) )
+        .catch( error => this.setAlert( { message: error.data.message } ))
     }
   },
   created(){

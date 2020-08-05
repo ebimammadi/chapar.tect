@@ -8,13 +8,13 @@ const ApiService = {
   init() {
     Vue.prototype.$http = axios
 
-    axios.defaults.baseURL = process.env.VUE_APP_API + "/api"  //Store.getters.settings.remote_api_base_url
-    axios.defaults.timeout = 20000 //Store.getters.settings.axios_timeout
+    axios.defaults.baseURL = process.env.VUE_APP_API + "/api"
+    axios.defaults.timeout = 20000 
     axios.defaults.withCredentials = true
 
     axios.interceptors.request.use(
       config => {
-        //TODO disable overlayShow in case of needed
+        //todo improvement: disable overlayShow in case of needed
         Store.dispatch({ type: "setAlert", message: "" })
         Store.commit("changeOverlayShow", true)
         return config

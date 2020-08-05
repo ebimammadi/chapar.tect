@@ -13,7 +13,9 @@
           <b-button v-if="!mobileVerify" @click="sendCodeShowModal" variant="outline-secondary" class="ml-2">
             Send Code Again?
           </b-button>
-          <b-button v-if="mobileVerify" variant="outline-secondary" class="ml-2" disabled>✓</b-button>
+          <b-button v-if="mobileVerify" variant="outline-secondary" class="ml-2" disabled>
+            <b-icon-check-all variant="success" />
+          </b-button>
         </b-input-group>
         
       </b-col>

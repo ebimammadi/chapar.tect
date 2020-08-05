@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container v-if="email.length>0">
     <b-row class="mb-3">
       <b-col>
         <label for="current-mobile">Current Mobile</label>
@@ -49,7 +49,7 @@ import ApiService from "@/core/ApiService"
 export default {
   data() {
     return {
-      confirmation: "",
+      email: "",
       confirmCode: "",
       currentMobile: "",
       mobile: "",
@@ -86,9 +86,7 @@ export default {
             message: response.data.message,
           })
         })
-        .catch(err => {
-          console.log(err)
-        })
+        .catch( error => this.setAlert( { message: error.data.message } ))
         .finally(() => {
           this.mobile = ""
           this.password = ""
@@ -97,7 +95,10 @@ export default {
   },
   created() {
     ApiService.get("/users/profile-get")
-      .then(response => (this.currentMobile = response.data.mobile))
+      .then(response => {
+        this.currentMobile = response.data.mobile
+        this.email = response.data.email
+      })
       .catch( error => this.setAlert( { message: error.data.message } ))
   },
   computed: {

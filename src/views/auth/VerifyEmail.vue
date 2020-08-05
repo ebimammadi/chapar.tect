@@ -1,6 +1,6 @@
 <template>
   <div class="entrance-jumbotron bg-ultra-light-gray">
-    <app-logo />
+    <logo />
     <h5 class="mt-2 align-center">Email Verification</h5>
     <b-form >
       <b-form-group v-if="verified" class="mt-5">
@@ -21,9 +21,7 @@ import ApiService from "@/core/ApiService"
 import Logo from "@/components/Logo.vue"
 
 export default {
-  components: {
-    "app-logo": Logo
-  },
+  components: { Logo },
   data() {
     return {
       verified: false

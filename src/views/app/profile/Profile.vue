@@ -1,5 +1,5 @@
 <template >
-  <b-container v-if="this.user.name && this.user.name.length>0">
+  <b-container v-if="user.name && user.name.length>0">
     <b-row class="mb-3">
       <b-col>
         <img v-if="user.profilePhotoUrl" :src="user.profilePhotoUrl" width="150" class="rounded" />
@@ -41,7 +41,9 @@
         <label for="email">Username (Email)</label>
         <b-input-group>
           <b-input id="email" disabled v-model="user.email" type="email" placeholder="Enter email address" />
-          <b-button v-if="user.emailVerify" variant="outline-secondary" class="ml-2" disabled>✓</b-button>
+          <b-button v-if="user.emailVerify" variant="outline-secondary" class="ml-2" disabled>
+            <b-icon-check-all/>
+          </b-button>
           <b-button @click="confirmEmail" v-if="!user.emailVerify" variant="outline-secondary" class="ml-2">
             Confirm Email
           </b-button>
@@ -53,7 +55,9 @@
         <label for="mobile">Mobile Number </label>
         <b-input-group>
           <b-input id="mobile" disabled v-model="user.mobile" placeholder="Use 'Change Mobile' to set your mobile number" />
-          <b-button v-if="user.mobileVerify" variant="outline-secondary" class="ml-2" disabled>✓</b-button>
+          <b-button v-if="user.mobileVerify" variant="outline-secondary" class="ml-2" disabled>
+            <b-icon-check-all/>
+          </b-button>
           <b-button v-if="!user.mobileVerify && user.mobile" @click="confirmMobile" variant="outline-secondary" class="ml-2">
             Verify Mobile
           </b-button>
@@ -77,7 +81,7 @@
     <b-row class="mb-3" v-if="user.userRole =='user' && user.mobileVerify && user.emailVerify">
       <b-col>
         <b-button @click="sendSupplierRequestModal"  variant="outline-secondary" 
-          v-if="user.userRole =='user' && user.mobileVerify && user.emailVerify && user.supplierRequest.status!='pending'">
+          v-if="user.userRole =='user' && user.mobileVerify && user.emailVerify && user.roleStatus && user.roleStatus.status!='pending'">
           Request to be a supplier ?
         </b-button>
         <div v-if="userRoleInfo.length>0"><b-icon-info-circle/> {{userRoleInfo}}</div>
@@ -174,7 +178,7 @@ export default {
   data() {
     return {
       modal: { _id: "", title: "", body:"", function:"" },
-      user: { urls: { facebook: "", website: "", instagram: "" } },
+      user: { urls: { facebook: "", website: "", instagram: "" }, userRole: { status: "" } },
       validation: {
         userRole: `To become a supplier and start selling, you need to verify you email and mobile number!`,
         name: `Your 'Fullname' should be at least 5 characters, including first name and last name.`,
@@ -207,7 +211,7 @@ export default {
       const { _id } = JwtService.decodeToken()
       ApiService.post("/users/send-request-supplier",{ _id } )
         .then(response => {
-          this.user.supplierRequest = response.data.supplierRequest
+          this.user.roleStatus = response.data.roleStatus
           this.setAlert({ message: response.data.message, variant: response.data.response_type})
         })
         .catch( error => this.setAlert( { message: error.data.message } ))
@@ -277,7 +281,7 @@ export default {
   },
   created() {
     ApiService.get("/users/profile-get")
-      .then(response => (this.user = response.data))
+      .then(response => this.user = response.data)
       .catch( error => this.setAlert( { message: error.data.message } ))
   },
   computed: {
@@ -287,8 +291,8 @@ export default {
         return datePart + ',' + time.slice(0,5)
       }
       try{
-        if (this.user.supplierRequest.status == 'pending' ) 
-          return `Supplier request pending, sent at `+ dateFormat(this.user.supplierRequest.date)
+        if (this.user.roleStatus.status == 'pending' ) 
+          return `Supplier request pending, sent at `+ dateFormat(this.user.roleStatus.date)
         return ''  
       }catch(_){
         return ''

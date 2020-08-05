@@ -100,7 +100,7 @@ export default {
         })
         .finally( () => {
           this.setProfilePhotoUrl('') 
-          const [ , , domain, ] = this.settings.remote_api_base_url.split("/")
+          const [ , , domain, ] = process.env.VUE_APP_API.split("/")
           document.cookie = `x-auth-token=; path=/ domain=${domain}; expires=Thu, 01 Jan 1970 00:00:01 GMT` //delete the cookie
         })
     }

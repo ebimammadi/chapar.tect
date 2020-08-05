@@ -2,22 +2,16 @@
   <div class="entrance-jumbotron bg-ultra-light-gray">
     <app-logo />
     <h5 class="mt-2 align-center">Email Verification</h5>
-    <b-form class="mt-4">
-      <b-form-group v-if="verified">
-        Thank you for your confirmation. Your email address has been verified
-        now, please sign in and start using the application.
+    <b-form >
+      <b-form-group v-if="verified" class="mt-5">
+        <b-icon-check-all variant="success"/> Thank you for your confirmation. Your email address has been verified successfully.
       </b-form-group>
-
-      <b-form-group class="mt-4"> </b-form-group>
-
-      <b-form-group class="mt-10 align-center">
+      <b-form-group class="mt-5">
         Go to the
-        <router-link to="/app">Application Panel</router-link> 
+        <router-link to="/app">App Panel</router-link> 
         or visit the <router-link to="/">Home Page</router-link>.
       </b-form-group>
     </b-form>
-
-    <!-- <b-button variant="primary" href="#">More Info</b-button> -->
   </div>
 </template>
 
@@ -40,11 +34,9 @@ export default {
   },
   created() {
     ApiService.get(`/users/verify-email/${this.$route.params.code}`)
-      .then(response => {
-        return this.setAlert({
-          message: response.data.message,
-          variant: response.data.response_type
-        })
+      .then( response => {
+        if ( response.data.response_type == "success") this.verified = true
+        this.setAlert(response.data)
       })
       .catch( error => this.setAlert( { message: error.data.message } ))
   }

@@ -81,13 +81,12 @@
     <b-row class="mb-3" v-if="user.userRole =='user' && user.mobileVerify && user.emailVerify">
       <b-col>
         <b-button @click="sendSupplierRequestModal"  variant="outline-secondary" 
-          v-if="user.userRole =='user' && user.mobileVerify && user.emailVerify && user.roleStatus && user.roleStatus.status!='pending'">
+          v-if="user.userRole =='user' && user.mobileVerify && user.emailVerify && user.roleStatus.status!='pending'">
           Request to be a supplier ?
         </b-button>
         <div v-if="userRoleInfo.length>0"><b-icon-info-circle/> {{userRoleInfo}}</div>
       </b-col>
     </b-row>
-    
     <b-row class="mb-3" >
       <b-col>
         <hr/>
@@ -158,11 +157,7 @@
         </router-link>
       </b-col>
     </b-row>
-    <modal-confirm 
-      :title="modal.title" 
-      :body="modal.body" 
-      @ok="handleConfirmOk(modal.function)"
-    />
+    <modal-confirm :title="modal.title" :body="modal.body" @ok="handleConfirmOk(modal.function)" />
   </b-container>
 </template>
 
@@ -207,7 +202,6 @@ export default {
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
     sendSupplierRequest(){
-      //todo fetch _id from token
       const { _id } = JwtService.decodeToken()
       ApiService.post("/users/send-request-supplier",{ _id } )
         .then(response => {
@@ -219,10 +213,10 @@ export default {
     confirmMobile() {
       this.modal.title = `Confirm to Send a new code`
       this.modal.body = `Are you sure you want to send a code to this number <b>${this.user.mobile}</b>?`
-      this.modal.function = "sendCode"
+      this.modal.function = "sendVerificationCode"
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
-    sendCode() {
+    sendVerificationCode() {
       ApiService.post("/users/send-verification-sms",{ mobile: this.user.mobile } )
         .then(response => {
           if (response.data.response_type == "success"){ 
@@ -263,6 +257,7 @@ export default {
         .catch( error => this.setAlert( { message: error.data.message } ))
     },
     imageShow(url) {
+      //console.log(`catched`,url)
       this.user.profilePhotoUrl = url
       this.setProfilePhotoUrl(url)
     },

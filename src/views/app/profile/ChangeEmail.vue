@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container v-if="currentEmail.length>0">
     <b-row class="mb-3">
       <b-col>
         <label for="current-email">Current Email</label>

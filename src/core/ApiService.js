@@ -9,7 +9,7 @@ const ApiService = {
     Vue.prototype.$http = axios
 
     axios.defaults.baseURL = process.env.VUE_APP_API + "/api"
-    axios.defaults.timeout = 20000 
+    axios.defaults.timeout = 30000 
     axios.defaults.withCredentials = true
 
     axios.interceptors.request.use(

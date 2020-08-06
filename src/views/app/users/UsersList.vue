@@ -1,5 +1,6 @@
 <template>
-  <b-container v-if="usersRaw.count">
+<!-- <div> -->
+  <b-container v-if="usersRaw.perPage">
     <b-row class="mb-3">
       <b-col>
         <h1 class="mb-3">User list</h1>
@@ -27,8 +28,8 @@
           ></b-form-select>
           <div class="mb-2 mr-sm-3 mb-sm-0">Total: <b>{{ usersRaw.count }}</b></div>
         </b-form>
+        <div class="table-responsive">
         <b-table 
-          responsive
           striped
           hover
           stacked="sm"
@@ -128,6 +129,7 @@
             </router-link>
           </template>
         </b-table>
+        </div>
         <modal-confirm 
           :title="modal.title" 
           :body="modal.body" 

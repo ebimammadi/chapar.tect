@@ -5,7 +5,7 @@
         <img v-if="user.profilePhotoUrl" :src="user.profilePhotoUrl" width="150" class="rounded" />
         <b-button
           v-if="user.profilePhotoUrl"
-          @click="deleteImage"
+          @click="deleteImageConfirm"
           variant="outline-secondary"
           class="ml-1 mt-1 align-bottom"
           >Remove/Change Photo</b-button
@@ -257,9 +257,14 @@ export default {
         .catch( error => this.setAlert( { message: error.data.message } ))
     },
     imageShow(url) {
-      //console.log(`catched`,url)
       this.user.profilePhotoUrl = url
       this.setProfilePhotoUrl(url)
+    },
+    deleteImageConfirm() {
+      this.modal.title = `Are you sure to delete current photo?`
+      this.modal.body = `Are you sure to delete curent photo? You can then add a new one.`
+      this.modal.function = "deleteImage"
+      this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
     deleteImage() {
       const [ , , server, filename] = this.user.profilePhotoUrl.split("/") 

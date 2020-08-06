@@ -219,8 +219,8 @@ export default {
     sendVerificationCode() {
       ApiService.post("/users/send-verification-sms",{ mobile: this.user.mobile } )
         .then(response => {
-          if (response.data.response_type == "success"){ 
-            this.$router.push({ 
+          if (response.data.response_type == "info"){ 
+            return this.$router.push({ 
               name: 'verify mobile', 
               params: { message: response.data.message, variant: response.data.response_type }
             })

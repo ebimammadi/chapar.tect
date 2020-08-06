@@ -75,7 +75,7 @@ export default {
         password: this.password
       })
         .then(response => {
-          if (response.data.response_type == 'success'){
+          if (response.data.response_type == 'info'){
             this.currentMobile = this.mobile
             return this.$router.push({ 
               name: 'verify mobile', 

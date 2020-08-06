@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container v-if="user.email">
     <b-row class="mb-3">
       <b-col>
         <img
@@ -7,6 +7,7 @@
           :src="user.profilePhotoUrl"
           width="150" class="rounded"
         />
+        <b-avatar v-if="!user.profilePhotoUrl" size="lg" rounded="sm"/>
       </b-col>
     </b-row>
     <b-row class="mb-3">
@@ -29,24 +30,25 @@
         <hr/>
       </b-col>
     </b-row>
+     <b-row class="mb-3">
+      <b-col>
+        <label for="email">Username (Email)</label>
+        <b-input-group>
+          <b-input id="email" disabled v-model="user.email" type="email" placeholder="Enter email address" />
+          <b-button v-if="user.emailVerify" variant="outline-secondary" class="ml-2" disabled>
+            <b-icon-check-all/>
+          </b-button>
+        </b-input-group>
+      </b-col>
+    </b-row>
     <b-row class="mb-3">
       <b-col>
-        <label for="email">Username</label>
+        <label for="mobile">Mobile Number </label>
         <b-input-group>
-          <b-input
-            id="email"
-            disabled
-            v-model="user.email"
-            type="email"
-            placeholder="Enter email address"
-          ></b-input>
-          <b-button
-            v-if="user.emailVerify"
-            variant="outline-secondary"
-            class="ml-2"
-            disabled
-            >✓</b-button
-          >
+          <b-input id="mobile" disabled v-model="user.mobile" placeholder="-" />
+          <b-button v-if="user.mobileVerify" variant="outline-secondary" class="ml-2" disabled>
+            <b-icon-check-all/>
+          </b-button>
         </b-input-group>
       </b-col>
     </b-row>
@@ -57,18 +59,23 @@
     </b-row>
     <b-row class="mb-3">
       <b-col>
-        <label for="user-role">User Role</label>
+        <label for="user-role">Access Role</label>
         <b-input-group>
-          <b-input
-            id="user-role"
-            v-model="user.userRole"
-            type="text"
-            disabled
-          ></b-input>
+          <b-input id="user-role" v-model="user.userRole" type="text" disabled/>
         </b-input-group>
       </b-col>
     </b-row>
-    <b-row class="mb-3" v-if="user.userRole !='user'">
+    <b-row class="mb-3" v-if="user.userRole =='user' && user.mobileVerify && user.emailVerify">
+      <b-col>
+        <div v-if="userRoleInfo.length>0"><b-icon-info-circle/> {{userRoleInfo}}</div>
+      </b-col>
+    </b-row>
+    <b-row class="mb-3">
+      <b-col>
+        <hr/>
+      </b-col>
+    </b-row>
+    <b-row class="mb-3" >
       <b-col>
         <label for="slug">Slug</label>
         <b-input-group>
@@ -76,49 +83,46 @@
             id="slug"
             type="text"
             v-model="user.slug"
-            placeholder="Enter Slug"
+            disabled
           >
           </b-input>
         </b-input-group>
       </b-col>
     </b-row>
-    <b-row class="mb-3" v-if="user.userRole !='user'">
+    <b-row class="mb-3">
       <b-col>
         <label for="website">Website Address</label>
         <b-input-group>
           <b-input
             id="website"
-            type="url"
             v-model="user.urls.website"
-            placeholder="Enter Website Address"
+            disabled
           >
           </b-input>
         </b-input-group>
       </b-col>
     </b-row>
-    <b-row class="mb-3" v-if="user.userRole !='user'">
+    <b-row class="mb-3" >
       <b-col>
         <label for="facebook">Facebook Address</label>
         <b-input-group>
           <b-input
             id="facebook"
-            type="url"
             v-model="user.urls.facebook"
-            placeholder="Enter Facebook Page"
+            disabled
           >
           </b-input>
         </b-input-group>
       </b-col>
     </b-row>
-    <b-row class="mb-3" v-if="user.userRole !='user'">
+    <b-row class="mb-3" >
       <b-col>
         <label for="instagram">Instagram Address</label>
         <b-input-group>
           <b-input
             id="instagram"
-            type="url"
             v-model="user.urls.instagram"
-            placeholder="Enter Instagram Page"
+            disabled
           >
           </b-input>
         </b-input-group>
@@ -149,6 +153,21 @@ export default {
     ApiService.get(`/users/profile-get-by-email/${this.$route.params.user}`)
       .then(response => (this.user = response.data))
       .catch( error => this.setAlert( { message: error.data.message } ))
+  },
+  computed: {
+    userRoleInfo() {
+      const dateFormat = (date) => {
+        const [ datePart,time ] = date.split('T')
+        return datePart + ',' + time.slice(0,5)
+      }
+      try{
+        if (this.user.roleStatus.status == 'pending' ) 
+          return `Supplier request pending, sent at `+ dateFormat(this.user.roleStatus.date)
+        return ''  
+      }catch(_){
+        return ''
+      }
+    }, 
   }
 }
 </script>

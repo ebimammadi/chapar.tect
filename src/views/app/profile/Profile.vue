@@ -297,7 +297,6 @@ export default {
       }catch(_){
         return ''
       }
-
     }, 
     validateName() {
       return (

@@ -30,8 +30,12 @@ const ApiService = {
       err => {
         // ? https://github.com/axios/axios#handling-errors
         Store.commit("changeOverlayShow", false)
-        Store.dispatch({ type: "setAlert", message: "Network Error!" })
+        //Store.dispatch({ type: "setAlert", message: "Network Error!" })
         if (err.response) {
+          if (err.response.status >= 500) {
+            //Store.dispatch({ type: "setAlert", message: err.response.data.message })
+            return Promise.reject(err.response)
+          }
           if (err.response.status == 403) { // err.response.status =>400 a more strick rule
             if (!["login", "register"].includes(router.currentRoute.name))
               router.push("/login")

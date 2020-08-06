@@ -1,6 +1,6 @@
 <template>
   <div class="alert-box">
-    <b-alert :show="message.length > 0" :variant="variant" dismissible fade>
+    <b-alert :show="message.length>0 " :variant="variant" dismissible fade>
       {{ message }}
     </b-alert>
   </div>
@@ -11,8 +11,8 @@ import Store from "@/store/index.js"
 
 export default {
   computed: {
-    message: () => Store.getters.getMessage,
-    variant: () => Store.getters.getVariant
+    message: () => Store.getters.getMessage || '',
+    variant: () => Store.getters.getVariant,
   }
 }
 </script>

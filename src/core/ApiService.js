@@ -28,12 +28,12 @@ const ApiService = {
         return config
       },
       err => {
+        const costumeErr = { data: { message: 'Network Error'} }
         // ? https://github.com/axios/axios#handling-errors
         Store.commit("changeOverlayShow", false)
         //Store.dispatch({ type: "setAlert", message: "Network Error!" })
         if (err.response) {
           if (err.response.status >= 500) {
-            //Store.dispatch({ type: "setAlert", message: err.response.data.message })
             return Promise.reject(err.response)
           }
           if (err.response.status == 403) { // err.response.status =>400 a more strick rule
@@ -42,9 +42,14 @@ const ApiService = {
             return Promise.reject(err.response)
           }
         } else if (err.request) {
-          return Promise.reject(err.request)
-        } else return Promise.reject(err.message)
-        return Promise.reject(err.config)
+          err.request
+          return Promise.reject(costumeErr)
+        } else {
+          err.message
+          return Promise.reject(costumeErr)
+        }
+        err.config
+        return Promise.reject(costumeErr)
       }
     )
   },

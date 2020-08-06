@@ -116,20 +116,16 @@ export default {
       if (!this.validateConfirmPassword)
         return this.setAlert({ message: this.validation.confirmPassword })
 
-      ApiService.post(
-        "/users/register",
-        _.pick(this, ["name", "email", "password"])
-      )
-        .then(response => {
-          if (response.data.message)
-            return this.setAlert({ message: response.data.message })
+      ApiService.post( "/users/register", _.pick(this, ["name", "email", "password"]) )
+        .then( response => {
+          if (response.data.message) return this.setAlert({ message: response.data.message })
           this.setAlert({ message: "" })
           const token = response.headers["x-auth-token"]
           JwtService.setToken(token)
           this.setSingInStatus(true)
           this.$router.push("/app")
         })
-        .catch( error => this.setAlert( { message: error.data.message } ))
+        .catch( error => this.setAlert( { message: error.data.message } ) )
     }
   },
   created() {

@@ -10,6 +10,7 @@
 
 <script>
 import Vue from "vue"
+//todo apply timezone in dateTime
 Vue.filter("dateTime", (date) => date.split("T")[0] + ',' + (date.split("T")[1]).slice(0,5) )
 Vue.filter("titleize", (str) => str.replace(/(?:^|\s|-)\S/g, x => x.toUpperCase()) ) 
 
@@ -40,7 +41,7 @@ export default {
     }
   },
   mounted(){
-    ApiService.get("/users/me")
+    ApiService.get("/users/me") //todo improve refreshed me!
       .then( response => this.setProfilePhotoUrl(response.data.profilePhotoUrl) )
       .catch( error => this.setAlert({ message: error.data.message }) )
       .finally( () => this.loaded = true )

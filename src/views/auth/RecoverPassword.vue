@@ -1,8 +1,8 @@
 <template>
-  <div class="entrance-jumbotron bg-ultra-light-gray">
+  <div class="entrance-jumbotron bg-ultra-light-gray" >
     <app-logo />
     <h5 class="mt-2 align-center">Recover Your Password</h5>
-    <b-form @submit.prevent="onSubmit" class="mt-4">
+    <b-form @submit.prevent="onSubmit" class="mt-4" v-if="email">
       <b-form-group label="Email address:" label-for="email">
         <b-form-input
           id="email"

@@ -219,7 +219,8 @@ export default {
     userSetAsSupplierShowConfirm(_id){
       const item = this.usersRaw.users.find( item => item._id === _id)
       this.modal.title = `Set Role As Supplier`
-      this.modal.body = `Are you sure to grant the role 'supplier' to the user <b>${item.name} (${item.email})</b>?`
+      this.modal.body = `Are you sure to grant the role 'supplier' to the user <b>${item.name} (${item.email})</b>?
+        Please note this action cannot be undone.`
       this.modal._id = _id
       this.modal.function = "userSetAsSupplier"
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')

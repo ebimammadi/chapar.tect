@@ -17,10 +17,8 @@
             <b-icon-check-all variant="success" />
           </b-button>
         </b-input-group>
-        
       </b-col>
-    </b-row>
-    
+    </b-row> 
     <b-row class="mb-3" v-if="!mobileVerify">
       <b-col>
         <label for="code">Verification Code</label>

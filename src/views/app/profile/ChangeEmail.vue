@@ -78,11 +78,9 @@ export default {
       if (this.password.length < 8)
         return this.setAlert({ message: `Your password seems invalid!` })
 
-      ApiService.post("/users/email-set", {
-        email: this.email,
-        password: this.password
-      })
+      ApiService.post("/users/email-set", { email: this.email, password: this.password })
         .then(response => {
+          this.currentEmail = this.email 
           this.setAlert({
             message: response.data.message,
             variant: response.data.response_type

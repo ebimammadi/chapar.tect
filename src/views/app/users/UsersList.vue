@@ -108,7 +108,7 @@
             </b-tooltip>
           </template>
           <template v-slot:cell(date)="data">
-            {{ data.item.date | dateTime }} 
+            {{ data.item.date | localTimeFormat }} 
           <!-- </template> -->
           <!-- <template v-slot:cell(logs)="data"> -->
             <router-link class="ml-2"

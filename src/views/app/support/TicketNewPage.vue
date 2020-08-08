@@ -1,15 +1,13 @@
 //TODO adding new line to the text and save them, both database and email!
 //TODO ticket update email message & close ticket
-//TODO ticket list paginaation 
-//TODO refactor ticket view for more details 
+//TODO ticket list pagination 
 //TODO add link for links text! vue component!
-//TODO children access check
 //TODO short file chunk
 <template>
   <b-container>
     <b-row class="mb-3">
       <b-col>
-        <h1>New Support Tikcet</h1>
+        <h1>New Support Ticket</h1>
       </b-col>
     </b-row>
     <b-row class="mb-3"
@@ -42,7 +40,6 @@
             Create Ticket
           </b-button>
         </div>
-        <div style="white-space: pre-line" v-html="updateText"></div>
       </b-col>
     </b-row>
   </b-container>

@@ -10,9 +10,15 @@
 
 <script>
 import Vue from "vue"
+import moment from "moment"
 //todo apply timezone in dateTime
-Vue.filter("dateTime", (date) => date.split("T")[0] + ',' + (date.split("T")[1]).slice(0,5) )
-Vue.filter("titleize", (str) => str.replace(/(?:^|\s|-)\S/g, x => x.toUpperCase()) ) 
+Vue.filter('localTime', (date) => moment.utc(date).local().format())
+Vue.filter('dateTime', (date) => date.split("T")[0] + ',' + (date.split("T")[1]).slice(0,5) )
+Vue.filter('localTimeFormat', (date) => {
+  const localTime = moment.utc(date).local().format()
+  return  localTime.split("T")[0] + ',' + (localTime.split("T")[1]).slice(0,5)
+})
+Vue.filter('titleize', (str) => str.replace(/(?:^|\s|-)\S/g, x => x.toUpperCase()) ) 
 
 import ApiService from "@/core/ApiService"
 import Navbar from "@/components/Navbar"

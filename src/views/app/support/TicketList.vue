@@ -2,7 +2,8 @@
   <b-container v-if="ticketsRaw.perPage">
     <b-row class="mb-3">
       <b-col>
-        <h1>Ticket List</h1>
+        <h1>Ticket List <span class="float-right small"><router-link :to="{ name: 'new ticket'}">New Support Ticket?</router-link></span></h1>
+        
         <b-table 
           responsive
           striped
@@ -12,6 +13,14 @@
           :fields="fields"
           :class="'table'"
         >
+          <template v-slot:cell(ticketId)="data">
+            <router-link
+              variant="primary" 
+              v-b-tooltip.hover title="View Ticket Details"
+              :to="{ name: 'ticket page', params: { ticketId: data.item.ticketId } }"
+            >
+            {{ data.item.ticketId }}</router-link>
+          </template>
           <template v-slot:cell(subject)="data">
             <router-link
               variant="primary" 
@@ -31,10 +40,10 @@
             </router-link>
           </template>
           <template v-slot:cell(updated_at)="data">
-            {{ data.item.updated_at | dateTime }} 
+            {{ data.item.updated_at | localTimeFormat }} 
           </template>
           <template v-slot:cell(date)="data">
-            {{ data.item.date | dateTime }} 
+            {{ data.item.date | localTimeFormat }} 
           </template>
         </b-table>
         <!-- <modal-confirm :title="modal.title" 
@@ -62,6 +71,7 @@ export default {
       modal: { _id: "", title: "", body:"", function:"" },
       ticketsRaw: { tickets: [] },
       fields: [
+        { key: "ticketId" , label: "Id" },  
         { key: "subject" , label: "Subject" },  
         { key: "ownerEmail", label: "User" },
         { key: "status" , label: "Status" },  

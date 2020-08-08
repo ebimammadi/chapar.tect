@@ -1,3 +1,4 @@
+//todo needs refactor //filter status
 <template>
   <b-container v-if="ticketsRaw.perPage">
     <b-row class="mb-3">

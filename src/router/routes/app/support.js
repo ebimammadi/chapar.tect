@@ -1,3 +1,4 @@
+//! todo requiresAuth for children!
 export default [
   {
     path: "support",
@@ -14,9 +15,17 @@ export default [
         }
       },
       {
-        path: ":ticketId",
+        path: "id/:ticketId",
         name: "ticket page",
         component: () => import("@/views/app/support/TicketPage.vue"),
+        meta: {
+        },
+        props: true
+      },
+      {
+        path: "new",
+        name: "new ticket",
+        component: () => import("@/views/app/support/TicketNewPage.vue"),
         meta: {
         }
       }

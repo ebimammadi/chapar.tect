@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container v-if="ticketsRaw.perPage">
     <b-row class="mb-3">
       <b-col>
         <h1>Ticket List</h1>
@@ -60,7 +60,7 @@ export default {
   data(){
     return {
       modal: { _id: "", title: "", body:"", function:"" },
-      ticketsRaw: [],
+      ticketsRaw: { tickets: [] },
       fields: [
         { key: "subject" , label: "Subject" },  
         { key: "ownerEmail", label: "User" },
@@ -71,16 +71,23 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["setAlert","setProfilePhotoUrl"])
-  },
-  created() {
-    ApiService.get(`/tickets/ticket-list`)
+    ...mapActions(["setAlert"]),
+    invokeTickets() {
+      ApiService.get(`/tickets/ticket-list`)
       .then(response => this.ticketsRaw = response.data )
-      .catch( error => this.setAlert({ message: error.data.message }) )
+      .catch( error => this.setAlert({ message: error.data.message }) )      
+    }
+  },
+
+  created() {
+    this.invokeTickets()
+    // ApiService.get(`/tickets/ticket-list`)
+    //   .then(response => this.ticketsRaw = response.data )
+    //   .catch( error => this.setAlert({ message: error.data.message }) )
   },
   computed: {
     tickets() {
-      return this.ticketsRaw
+      return this.ticketsRaw.tickets
     }
   }
 }

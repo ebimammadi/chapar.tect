@@ -41,8 +41,8 @@
           </router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link :to="'/app/tickets'">
-            Tickets
+          <router-link :to="'/app/support'">
+            Support
           </router-link>
         </b-nav-item>
         <b-nav-item v-if="isAdmin">

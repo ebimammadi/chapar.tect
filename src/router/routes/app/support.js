@@ -1,7 +1,7 @@
 export default [
   {
-    path: "tickets",
-    component: () => import("@/views/app/tickets/TicketParent.vue"),
+    path: "support",
+    component: () => import("@/views/app/support/SupportParent.vue"),
     meta: {
       requiresAuth: true
     },
@@ -9,14 +9,14 @@ export default [
       {
         path: "",
         name: "ticket list",
-        component: () => import("@/views/app/tickets/TicketList.vue"),
+        component: () => import("@/views/app/support/TicketList.vue"),
         meta: {
         }
       },
       {
         path: ":ticketId",
         name: "ticket page",
-        component: () => import("@/views/app/tickets/TicketPage.vue"),
+        component: () => import("@/views/app/support/TicketPage.vue"),
         meta: {
         }
       }

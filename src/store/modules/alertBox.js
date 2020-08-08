@@ -16,8 +16,9 @@ const actions = {
 
 const mutations = {
   changeAlert: (state, payload) => {
+    if (typeof payload === 'string') payload = { message: payload, variant: 'warning' }
     if (payload.response_type) payload.variant = payload.response_type
-    payload.variant = payload.variant || "warning"
+    payload.variant = payload.variant || 'warning'
     state.message = payload.message
     state.variant = payload.variant
     if (document.getElementsByClassName("alert-box").length > 0)

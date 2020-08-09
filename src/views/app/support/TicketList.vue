@@ -49,6 +49,9 @@
             >
             {{ data.item.ticketId }}</router-link>
           </template>
+          <template v-slot:cell(status)="data">
+            {{ data.item.status | titleize}} 
+          </template>
           <template v-slot:cell(subject)="data">
             <router-link
               variant="primary" 

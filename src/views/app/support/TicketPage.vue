@@ -6,7 +6,10 @@
         <h1 class="mb-4">
           Support Ticket Id: {{$route.params.ticketId}} 
           <span class="bg-light dark p-2"> {{ticket.status | titleize}}</span> 
-          <span class="small" v-if="this.ticket.status =='closed' "> Add a new ticket?</span>
+          <span class="small float-right" v-if="this.ticket.status =='closed' "> 
+            <router-link :to="'/app/support/new'">Add a new support ticket?
+            </router-link>
+          </span>
         </h1>
         <p v-if="userRole== 'admin'">Associated user: <b>{{ ticket.ownerName }} ({{ticket.ownerEmail}})</b>, 
         <span class="float-right">status: <b>{{ ticket.status || '' | titleize }}</b></span></p>

@@ -161,8 +161,6 @@ export default {
         { key: "mobileSlot" , label: "Mobile" },  
         { key: "status", label: "Status" },
         { key: "date", label: "Reg. Time"},
-        // { key: "logs", label: ""},
-        // { key: "profile", label: ""},
       ],
       userRoleOptions: [
         { text: 'All User Roles', value: '' }, 
@@ -179,8 +177,6 @@ export default {
     },
     userActivateToggle(_id){
       const item = this.usersRaw.users.find( item => item._id === _id )
-      //TODO check it
-      console.log(this.usersRaw.users)
       const request = item.isActive ? '/users/user-suspend' : '/users/user-activate'
       ApiService.post(request, { _id })
         .then(response => {
@@ -232,7 +228,6 @@ export default {
     }
   },
   created(){
-    //this.currentPage
     this.invokeUsers()
   },
   computed: {
@@ -267,8 +262,8 @@ export default {
       get() {
         return this.$route.query.search || ''
       },
-      set(search) {
-        this.$router.push({ query: { ...this.$route.query, search:search }}).catch(()=>{})
+      set(newSearch) {
+        this.$router.push({ query: { ...this.$route.query, search: newSearch }}).catch(()=>{})
         this.invokeUsers()
       }
     },

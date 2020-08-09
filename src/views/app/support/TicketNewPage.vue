@@ -1,8 +1,3 @@
-//TODO adding new line to the text and save them, both database and email!
-//TODO ticket update email message & close ticket
-//TODO ticket list pagination 
-//TODO add link for links text! vue component!
-//TODO short file chunk
 <template>
   <b-container>
     <b-row class="mb-3">

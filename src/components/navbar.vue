@@ -1,11 +1,9 @@
 <template>
   <b-navbar toggleable="lg" type="dark" :variant="isInAppPanel ? 'warning': 'dark' ">
     <b-navbar-brand>
-      <app-logo />
+      <logo/>
     </b-navbar-brand>
-
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav v-if="!isInAppPanel">
         <b-nav-item>
@@ -18,14 +16,14 @@
             Suppliers
           </router-link>
         </b-nav-item>
-        <b-nav-item >
+        <b-nav-item>
           <router-link :to="'/about'">
-            About Us
+            About
           </router-link>
         </b-nav-item>
-        <b-nav-item >
-          <router-link :to="'/contact'">
-            Contact Us
+        <b-nav-item>
+          <router-link :to="'/contact'" >
+            Contact
           </router-link>
         </b-nav-item>
         <b-nav-item >
@@ -84,9 +82,7 @@ import { mapActions, mapGetters } from "vuex"
 import JwtService from "@/core/JwtService"
 import ApiService from "@/core/ApiService"
 export default {
-  components: {
-    "app-logo": Logo
-  },
+  components: { Logo },
   methods: {
     ...mapActions(["setAlert", "setProfilePhotoUrl"]),
     singOut: function() {

@@ -1,6 +1,6 @@
 <template>
   <div class="entrance-jumbotron bg-ultra-light-gray" >
-    <app-logo />
+    <p class="align-center"><logo/></p>
     <h5 class="mt-2 align-center">Recover Your Password</h5>
     <b-form @submit.prevent="onSubmit" class="mt-4" v-if="email">
       <b-form-group label="Email address:" label-for="email">
@@ -46,16 +46,12 @@
 <script>
 import { mapActions } from "vuex"
 import { validate as validatePassword } from "secure-password-validator"
-
 import ApiService from "@/core/ApiService"
 import JwtService from "@/core/JwtService"
 import Logo from "@/components/Logo.vue"
 
 export default {
-  name: "recover-password",
-  components: {
-    "app-logo": Logo
-  },
+  components: { Logo },
   data() {
     return {
       email: "",
@@ -68,7 +64,6 @@ export default {
       }
     }
   },
-
   methods: {
     ...mapActions(["setAlert", "setSingInStatus", "setProfilePhotoUrl"]),
     onSubmit: function() {
@@ -96,7 +91,7 @@ export default {
     }
   },
   created() {
-    if (JwtService.getToken()) return this.$router.push("/") //if we have logged in before
+    if (JwtService.getToken()) return this.$router.push("/app") 
 
     ApiService.get(
       `/users/recover-password-verify-code/${this.$route.params.code}`

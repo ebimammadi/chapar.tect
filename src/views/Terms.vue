@@ -1,6 +1,6 @@
 <template>
   <div class="entrance-jumbotron bg-ultra-light-gray">
-    <app-logo />
+    <p class="align-center"><logo/></p>
     <h5 class="mt-5 align-center">Terms and Condition Policy</h5>
     <b-form class="mt-4">
       <b-form-group class="mt-20 align-center">
@@ -43,8 +43,6 @@
 import Logo from "@/components/Logo.vue"
 
 export default {
-  components: {
-    "app-logo": Logo
-  }
+  components: { Logo }
 }
 </script>

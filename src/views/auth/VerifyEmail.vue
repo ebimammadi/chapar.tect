@@ -1,6 +1,6 @@
 <template>
   <div class="entrance-jumbotron bg-ultra-light-gray">
-    <logo />
+    <p class="align-center"><logo/></p>
     <h5 class="mt-2 align-center">Email Verification</h5>
     <b-form >
       <b-form-group v-if="verified" class="mt-5">

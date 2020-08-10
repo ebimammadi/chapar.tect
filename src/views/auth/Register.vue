@@ -1,6 +1,6 @@
 <template>
   <div class="entrance-jumbotron bg-ultra-light-gray">
-    <app-logo />
+    <p class="align-center"><logo/></p>
     <h5 class="mt-2 align-center">Sign Up</h5>
     <b-form @submit.prevent="onSubmit" class="mt-4">
       <b-form-group label="Fullname" label-for="name">
@@ -83,9 +83,7 @@ import JwtService from "@/core/JwtService"
 import Logo from "@/components/Logo.vue"
 
 export default {
-  components: {
-    "app-logo": Logo
-  },
+  components: { Logo },
   data() {
     return {
       name: "",
@@ -103,7 +101,6 @@ export default {
       }
     }
   },
-
   methods: {
     ...mapActions(["setAlert", "setSingInStatus"]),
     onSubmit: function() {
@@ -130,7 +127,7 @@ export default {
   },
   created() {
     //if we have logged in before
-    if (JwtService.getToken()) return this.$router.push("/")
+    if (JwtService.getToken()) return this.$router.push("/app")
   },
   computed: {
     passwordOptions() {

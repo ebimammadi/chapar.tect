@@ -1,6 +1,6 @@
 <template>
   <div class="entrance-jumbotron bg-ultra-light-gray">
-    <app-logo />
+    <p class="align-center"><logo/></p>
     <h5 class="mt-2 align-center">Sign In</h5>
     <b-form @submit.prevent="onSubmit" class="mt-4">
       <b-form-group label="Email address:" label-for="email">
@@ -14,7 +14,6 @@
         >
         </b-form-input>
       </b-form-group>
-
       <b-form-group label="Password:" label-for="password">
         <b-form-input
           id="password"
@@ -24,11 +23,9 @@
           placeholder="Enter Password"
         ></b-form-input>
       </b-form-group>
-
       <b-form-group>
         <b-button type="submit" variant="success">Log In</b-button>
       </b-form-group>
-
       <b-form-group class="mt-10 align-center ">
         <router-link to="/forget-password">Forget Password?</router-link>
       </b-form-group>
@@ -42,17 +39,13 @@
 <script>
 import _ from "lodash"
 import { mapActions, mapGetters } from "vuex"
-
-import Logo from "@/components/Logo.vue"
 import ApiService from "@/core/ApiService"
 import JwtService from "@/core/JwtService"
-// import Store from "@/store/index"
+import Logo from "@/components/Logo.vue"
 
 export default {
   name: "login",
-  components: {
-    "app-logo": Logo
-  },
+  components: { Logo },
   data() {
     return {
       form: {
@@ -87,10 +80,6 @@ export default {
     }
   },
   created() {
-    //console.log(this.$router.from)
-    ///this.$router
-
-    //this.setProfilePhotoUrl('') //? Todo check this if required or redundant!
     //if we have logged in before
     //Todo update this chunk
     //console.log(`login JwtService.getToken()`, JwtService.isValidToken())

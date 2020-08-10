@@ -1,16 +1,15 @@
 <template>
-  <div class="logo">
-    <a href="/" target="_self" title="chapar.tech">
-      <span class="color-chapar-blue">
-        chapar<span class="color-chapar-green">.tech</span>
-      </span>
-    </a>
-  </div>
+  <a href="/" target="_self" title="chapar.tech">
+    <span class="color-chapar-blue">
+      chapar<span class="color-chapar-green">.tech</span>
+    </span>
+  </a>
 </template>
 
 <style scoped>
 a {
   opacity: 0.9;
+  text-align: center;
 }
 
 a:hover {
@@ -22,10 +21,6 @@ a:hover {
 
 span {
   font-size: 1.7rem;
-  margin: 0px auto;
-}
-
-.logo {
-  text-align: center;
+  margin: 0px;
 }
 </style>

@@ -29,6 +29,13 @@ const baseRoutes = [
     }
   },
   {
+    path: "/contact",
+    name: "contact",
+    component: () => import("@/views/Contact.vue"),
+    meta: {
+    }
+  },
+  {
     path: "/404",
     name: "Page not found",
     component: () => import("@/views/404.vue"),
@@ -46,7 +53,7 @@ const routes = baseRoutes.concat(entranceRoutes, appRoutes, supplierRoutes)
 const router = new Router({
   mode: "history",
   routes: routes,
-  linkExactActiveClass: "active-link"
+  linkExactActiveClass: "active-link" //TODO add this class
 })
 
 //clear AlertBox

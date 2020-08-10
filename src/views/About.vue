@@ -2,11 +2,11 @@
   <b-container>
     <b-row class="mb-3">
       <b-col>
-        <h1>About this webstite</h1>
+        <h1>About this website</h1>
         <div class="mr-0" a>
           <Logo />
         </div>
-        <p class="mt-4 logo" style="display: block">
+        <p class="mt-4" >
           You can deliver your product, goods and comodoties in the local neighbourhood, <br/>
           when you can focus on your productions, you can let 'chapar' pickup and deliver your parcels and packages.<br/>
         </p>
@@ -34,14 +34,6 @@
 import Logo from "@/components/Logo.vue"
 
 export default {
-  components: {
-    Logo
-  }
+  components: { Logo }
 }
 </script>
-
-<style scoped>
-.logod {
-  display: block;
-}
-</style>

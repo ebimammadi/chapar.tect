@@ -18,14 +18,7 @@ export default {
   computed: {
     
     items: function() {
-      // const capitalize = str =>
-      //   str
-      //     .split(" ")
-      //     .map(
-      //       ([firstChar, ...rest]) =>
-      //         firstChar.toUpperCase() + rest.join("").toLowerCase()
-      //     )
-      //     .join(" ")
+      if (this.$route.path == "/") return {}
       const pathArray = this.$route.path.split("/")
       pathArray.shift()
       if (pathArray[pathArray.length-1] == "") pathArray.pop()//handles the last slash

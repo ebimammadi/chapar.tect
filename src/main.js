@@ -13,7 +13,7 @@ import "@/assets/custom.scss"
 import * as VueGoogleMaps from "vue2-google-maps"
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyDurjtHO0UnzTvWrPVLDf8IDLyxs82E1XA", //this key is limited! 
+    key: process.env.VUE_APP_GOOGLE_MAP_KEY, //this key is limited! 
     libraries: "places" // necessary for places input
   }
 })

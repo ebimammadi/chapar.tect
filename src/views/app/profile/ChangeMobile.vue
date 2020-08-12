@@ -70,7 +70,7 @@ export default {
       if (this.password.length < 8)
         return this.setAlert({ message: `Your password seems invalid!` })
 
-      ApiService.post("/users/mobile-set", {
+      ApiService.post("/app-users/mobile-set", {
         mobile: this.mobile,
         password: this.password
       })
@@ -94,7 +94,7 @@ export default {
     }
   },
   created() {
-    ApiService.get("/users/profile-get")
+    ApiService.get("/app-users/profile-get")
       .then(response => {
         this.currentMobile = response.data.mobile
         this.email = response.data.email

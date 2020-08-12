@@ -39,7 +39,7 @@ export default {
   methods: {
     ...mapActions(["setAlert"]),
     onSubmit: function() {
-      ApiService.post("/users/forget-password", { email: this.email })
+      ApiService.post("/app-users/forget-password", { email: this.email })
         .then(response => {
           this.email = ""
           this.setAlert({

@@ -203,7 +203,7 @@ export default {
     },
     sendSupplierRequest(){
       const { _id } = JwtService.decodeToken()
-      ApiService.post("/users/send-request-supplier",{ _id } )
+      ApiService.post("/app-users/send-request-supplier",{ _id } )
         .then(response => {
           this.user.roleStatus = response.data.roleStatus
           this.setAlert({ message: response.data.message, variant: response.data.response_type})
@@ -217,7 +217,7 @@ export default {
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
     sendVerificationCode() {
-      ApiService.post("/users/send-verification-sms",{ mobile: this.user.mobile } )
+      ApiService.post("/app-users/send-verification-sms",{ mobile: this.user.mobile } )
         .then(response => {
           if (response.data.response_type == "info"){ 
             return this.$router.push({ 
@@ -230,7 +230,7 @@ export default {
         .catch( error => this.setAlert( { message: error.data.message } ))
     },
     confirmEmail() {
-      ApiService.get("/users/send-verification-link")
+      ApiService.get("/app-users/send-verification-link")
         .then(response => {
           if (response.data.message)
             return this.setAlert({
@@ -247,7 +247,7 @@ export default {
       if (!this.validateFacebook) return this.setAlert({ message: this.validation.urls.facebook })
       if (!this.validateInstagram) return this.setAlert({ message: this.validation.urls.instagram })
 
-      ApiService.post("/users/profile-set", { name: this.user.name, slug: this.user.slug, urls: this.user.urls })
+      ApiService.post("/app-users/profile-set", { name: this.user.name, slug: this.user.slug, urls: this.user.urls })
         .then(response => {
           this.setAlert({
             message: response.data.message,
@@ -268,7 +268,7 @@ export default {
     },
     deleteImage() {
       const [ , , server, filename] = this.user.profilePhotoUrl.split("/") 
-      ApiService.get(`/files/delete-image/${server}/${filename}`)
+      ApiService.get(`/app-files/delete-image/${server}/${filename}`)
         .then(() => { 
           this.user.profilePhotoUrl = ""
           this.setProfilePhotoUrl("") 
@@ -280,7 +280,7 @@ export default {
     }
   },
   created() {
-    ApiService.get("/users/profile-get")
+    ApiService.get("/app-users/profile-get")
       .then(response => this.user = response.data)
       .catch( error => this.setAlert( { message: error.data.message } ))
   },

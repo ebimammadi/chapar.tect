@@ -80,7 +80,7 @@ export default {
         status: (this.close !== 'closed' ) ? this.ticket.status.toLowerCase().replace(' ','-') : 'closed',
         text: this.updateText
       }
-      ApiService.post(`/tickets/ticket-update`, payload)
+      ApiService.post(`/app-tickets/ticket-update`, payload)
         .then(response => {
          if (response.data.response_type == 'success') {
            this.ticket.updates.unshift(response.data.update) 
@@ -93,7 +93,7 @@ export default {
     }
   },
   created() {
-    ApiService.get(`/tickets/ticket-get/${this.$route.params.ticketId}`)
+    ApiService.get(`/app-tickets/ticket-get/${this.$route.params.ticketId}`)
       .then(response => {
         this.ticket = response.data
         if (this.message) {

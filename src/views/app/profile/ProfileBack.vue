@@ -238,7 +238,7 @@ export default {
     },
     deleteImage() {
       const [ , , server, filename] = this.user.profilePhotoUrl.split("/") 
-      ApiService.get(`/files/delete-image/${server}/${filename}`)
+      ApiService.get(`/app-files/delete-image/${server}/${filename}`)
         .then(() => { 
           this.user.profilePhotoUrl = ""
           this.setProfilePhotoUrl("") 

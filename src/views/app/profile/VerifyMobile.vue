@@ -83,7 +83,7 @@ export default {
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
     sendCode(){
-      ApiService.post("/users/send-verification-sms",{ mobile: this.mobile } )
+      ApiService.post("/app-users/send-verification-sms",{ mobile: this.mobile } )
         .then(response => {
           this.setAlert({ message: response.data.message, variant: response.data.response_type})
         })
@@ -94,7 +94,7 @@ export default {
       if (!this.validateCode)
         return this.setAlert({ message: this.validation.code })
       
-      ApiService.post("/users/receive-verification-sms", {
+      ApiService.post("/app-users/receive-verification-sms", {
         mobile: this.mobile,
         code: this.code
       })
@@ -109,7 +109,7 @@ export default {
     }
   },
   created() {
-    ApiService.get("/users/profile-get")
+    ApiService.get("/app-users/profile-get")
       .then(response => {
         this.mobile = response.data.mobile
         this.mobileVerify = response.data.mobileVerify

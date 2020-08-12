@@ -48,7 +48,7 @@ export default {
     }
   },
   mounted(){
-    ApiService.get("/users/me") //todo improve refreshed me!
+    ApiService.get("/me") //todo improve refreshed me!
       .then( response => this.setProfilePhotoUrl(response.data.profilePhotoUrl) )
       .catch( error => this.setAlert({ message: error.data.message }) )
       .finally( () => this.loaded = true )

@@ -31,7 +31,7 @@ export default {
     ...mapActions(["setAlert"])
   },
   created() {
-    ApiService.get(`/users/verify-email/${this.$route.params.code}`)
+    ApiService.get(`/app-users/verify-email/${this.$route.params.code}`)
       .then( response => {
         if ( response.data.response_type == "success") this.verified = true
         this.setAlert(response.data)

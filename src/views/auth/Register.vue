@@ -113,7 +113,7 @@ export default {
       if (!this.validateConfirmPassword)
         return this.setAlert({ message: this.validation.confirmPassword })
 
-      ApiService.post( "/users/register", _.pick(this, ["name", "email", "password"]) )
+      ApiService.post( "/app-users/register", _.pick(this, ["name", "email", "password"]) )
         .then( response => {
           if (response.data.message) return this.setAlert({ message: response.data.message })
           this.setAlert({ message: "" })

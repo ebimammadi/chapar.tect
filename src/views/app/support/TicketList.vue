@@ -1,3 +1,4 @@
+//todo needs refactor //filter status
 <template>
   <b-container v-if="ticketsRaw.perPage">
     <b-row class="mb-3">
@@ -113,7 +114,7 @@ export default {
   methods: {
     ...mapActions(["setAlert"]),
     invokeTickets() {
-      ApiService.get(`/tickets/ticket-list?page=${this.currentPage}&search=${this.search}&status=${this.status}`)
+      ApiService.get(`/app-tickets/ticket-list?page=${this.currentPage}&search=${this.search}&status=${this.status}`)
       .then(response => this.ticketsRaw = response.data )
       .catch( error => this.setAlert({ message: error.data.message }) )      
     }

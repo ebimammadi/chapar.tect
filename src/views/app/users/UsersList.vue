@@ -177,7 +177,7 @@ export default {
     },
     userActivateToggle(_id){
       const item = this.usersRaw.users.find( item => item._id === _id )
-      const request = item.isActive ? '/users/user-suspend' : '/users/user-activate'
+      const request = item.isActive ? '/app-users/user-suspend' : '/app-users/user-activate'
       ApiService.post(request, { _id })
         .then(response => {
           this.setAlert({message: response.data.message, variant: response.data.response_type})
@@ -200,7 +200,7 @@ export default {
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
     userSetAsSupplier(_id){
-      ApiService.post('/users/user-set-role', { _id, userRole: 'supplier' })
+      ApiService.post('/app-users/user-set-role', { _id, userRole: 'supplier' })
         .then(response => {
           this.setAlert({message: response.data.message, variant: response.data.response_type})
           if (response.data.response_type === "success") {
@@ -222,7 +222,7 @@ export default {
       this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
     },
     invokeUsers() {
-      ApiService.get(`/users/user-list?page=${this.currentPage}&search=${this.search}&userRole=${this.userRole}`)
+      ApiService.get(`/app-users/user-list?page=${this.currentPage}&search=${this.search}&userRole=${this.userRole}`)
         .then( response => (this.usersRaw = response.data) )
         .catch( error => this.setAlert( { message: error.data.message } ))
     }

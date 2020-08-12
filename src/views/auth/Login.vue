@@ -58,7 +58,7 @@ export default {
     ...mapActions(["setAlert", "setSingInStatus", "setProfilePhotoUrl", "setRouteTo"]),
     onSubmit: function() {
       const data = _.pick(this.form, ["email", "password"])
-      ApiService.post("/users/login", data)
+      ApiService.post("/app-users/login", data)
         .then(response => {
           if (response.data.message) return this.setAlert({ message: response.data.message })
           this.setAlert({ message: "" })

@@ -27,7 +27,7 @@ export default {
     }
   },
   created() {
-    ApiService.get(`/users/profile-get-by-email/${this.$route.params.slug}`)
+    ApiService.get(`/app-users/profile-get-by-email/${this.$route.params.slug}`)
       .then(response => (this.user = response.data))
       .catch( error => this.setAlert( { message: error.data.message } ))
   }

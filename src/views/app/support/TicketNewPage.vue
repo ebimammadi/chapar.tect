@@ -67,7 +67,7 @@ export default {
         ownerEmail: email,
         text: this.updateText
       }
-      ApiService.post(`/tickets/ticket-create`, payload)
+      ApiService.post(`/app-tickets/ticket-create`, payload)
         .then(response => {
          if (response.data.response_type == 'success') {
            // redirect to the ticket page

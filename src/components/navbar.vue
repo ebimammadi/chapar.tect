@@ -87,7 +87,7 @@ export default {
     ...mapActions(["setAlert", "setProfilePhotoUrl"]),
     singOut: function() {
       JwtService.deleteToken()
-      ApiService.get(`/users/logout`)
+      ApiService.get(`/app-users/logout`)
         .then( () => this.$router.push("/login"))
         .catch(error => {
           console.log(error)

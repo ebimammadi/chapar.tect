@@ -75,7 +75,7 @@ export default {
         password: this.password,
         code: this.$route.params.code
       }
-      ApiService.post("/users/recover-password", payload)
+      ApiService.post("/app-users/recover-password", payload)
         .then(response => {
           if (response.data.message)
             return this.setAlert({ message: response.data.message })
@@ -94,7 +94,7 @@ export default {
     if (JwtService.getToken()) return this.$router.push("/app") 
 
     ApiService.get(
-      `/users/recover-password-verify-code/${this.$route.params.code}`
+      `/app-users/recover-password-verify-code/${this.$route.params.code}`
     )
       .then(response => {
         if (!response.data.email) {

@@ -40,7 +40,7 @@ import ApiService from "@/core/ApiService"
 Vue.use(VueCroppie)
 
 export default {
-  props: ["crop_width", "crop_height", "unique", "usage", "placeholder"],
+  props: ["crop_width", "crop_height", "unique", "usage", "placeholder", "_id"],
   data() {
     return {
       croppieImage: "",
@@ -86,9 +86,12 @@ export default {
         const postPayload = {
           image: output,
           unique: this.unique,
-          usage: this.usage
+          usage: this.usage,
+          _id: this._id
         }
-        ApiService.post("/files/upload-image", postPayload)
+
+        console.log(postPayload)
+        ApiService.post("/app-files/upload-image", postPayload)
           .then(response => {
             this.show = false
             this.$emit("url", response.data.url)

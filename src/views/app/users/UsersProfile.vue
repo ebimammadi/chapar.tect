@@ -150,7 +150,7 @@ export default {
     }
   },
   created() {
-    ApiService.get(`/users/profile-get-by-email/${this.$route.params.user}`)
+    ApiService.get(`/app-users/profile-get-by-email/${this.$route.params.user}`)
       .then(response => (this.user = response.data))
       .catch( error => this.setAlert( { message: error.data.message } ))
   },

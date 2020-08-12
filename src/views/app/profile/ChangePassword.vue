@@ -88,7 +88,7 @@ export default {
       if (!this.validatePassword)
         return this.setAlert({ message: this.validation.password })
 
-      ApiService.post("/users/password-set", { newPassword: this.newPassword, password: this.password })
+      ApiService.post("/app-users/password-set", { newPassword: this.newPassword, password: this.password })
         .then(response => {
           this.setAlert({ message: response.data.message, variant: response.data.response_type })
         })

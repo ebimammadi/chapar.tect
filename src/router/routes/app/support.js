@@ -1,4 +1,3 @@
-//! todo requiresAuth for children!
 export default [
   {
     path: "support",

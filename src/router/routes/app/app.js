@@ -1,6 +1,7 @@
 import profileRoutes from "@/router/routes/app/profile"
 import userRoutes from "@/router/routes/app/users"
 import supportRoutes from "@/router/routes/app/support"
+import productsRoutes from "@/router/routes/app/products"
 
 let children = [
   {
@@ -10,18 +11,10 @@ let children = [
     meta: {
       requiresAuth: true
     }
-  },
-  {
-    path: "about",
-    name: "about app",
-    component: () => import("@/views/app/About.vue"),
-    meta: {
-      requiresAuth: true
-    }
   }
 ]
 
-children = children.concat(profileRoutes, userRoutes, supportRoutes)
+children = children.concat(profileRoutes, userRoutes, supportRoutes, productsRoutes)
 
 const appRoutes = [
   {

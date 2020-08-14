@@ -1,3 +1,4 @@
+//TODO check and edit to use set product and edit page
 <template>
   <b-container>
     <b-row class="mb-3">
@@ -13,7 +14,6 @@
           <b-form-invalid-feedback :state="validateName">{{ name.length > 0 ? validateName : "" }}
           </b-form-invalid-feedback>
         </b-input-group>
-
         <label for="slug" class="mt-3">Slug</label>
         <b-input-group>
           <b-input id="slug" v-model="slug" placeholder="Enter a name" />
@@ -22,27 +22,31 @@
         </b-input-group>
       </b-col>
       <b-col class="col-12 col-lg-6 mb-3">
-        <span v-if="images.length>0" >
-          <img  v-for="image in images" :key="image" :src="image" width="600" class="rounded" />
-          <!-- <b-button
-            v-if="user.profilePhotoUrl"
-            @click="deleteImageConfirm"
-            variant="outline-secondary"
-            class="ml-1 mt-1 align-bottom"
-            >Remove/Change Photo</b-button
-          > -->
-        </span>
-        <label v-if="!images.length">Photos</label>
+        <label >Add {{ images.length>0 ? 'more' : '' }} photos</label>
         <image-upload
-          v-if="!images.length"
+          :_id="productId"
+          width="400"
+          height="200"
           crop_width="800"
           crop_height="400"
-          unique="false"
+          unique=""
           usage="product"
           placeholder="Add Product Photo"
-          @url="imageShow"
+          @url="imageShow" @_id="idSet"
         >
         </image-upload>
+        <div v-if="images.length>0"  >
+          <span v-for="image in images" :key="image" >  
+          <img  :src="image" class="rounded img-fluid w-100" />
+          <b-button 
+            @click="deleteImageConfirm(image)"
+            variant="secondary"
+            class="overlay-delete"
+            >
+            <b-icon-trash/>
+          </b-button>
+          </span>
+        </div>
       </b-col>
     </b-row>
     <b-row>
@@ -80,7 +84,7 @@ export default {
       features: [],
       images: [],
       validation: {
-        name: 'Your note is very short ...',
+        name: `Your 'Name' is very short`,
         slug: 'Your note is very short ...',
         discription: 'Your note is very short ...',
         features: 'Your note is very short ...',
@@ -90,6 +94,29 @@ export default {
   },
   methods: {
     ...mapActions(["setAlert"]),
+    handleConfirmOk(function_name) {
+      this[function_name](this.modal._id)
+    },
+    deleteImageConfirm(filename) {
+      this.modal.title = `Are you sure to delete this Photo?`
+      this.modal.body = `<img src="${filename}" class="img-fluid w-100" />`
+      this.modal._id =  filename
+      this.modal.function = "deleteImage"
+      this.$root.$emit( 'bv::show::modal', 'mainModal', '#btnShow')
+    },
+    deleteImage() {
+      const fileNameKey = this.modal._id
+      const [ , , server, filename] = fileNameKey.split("/")
+      ApiService.get(`/app-files/delete-image/${server}/${filename}`)
+        .then( response => { 
+          if (response.data.response_type == "success") 
+            this.images = this.images.filter(image => image != fileNameKey)
+          else this.setAlert({ message: response.data.message }) 
+        })
+        .catch( error => {
+          this.setAlert({ message: error.data.message }) 
+        })
+    },
     AddProduct() {
       if (!this.validateName) return this.setAlert(this.validation.name)
       if (!this.validateSlug) return this.setAlert(this.validation.slug)
@@ -105,7 +132,6 @@ export default {
       ApiService.post(`/app-products/product-add`, payload)
         .then(response => {
          if (response.data.response_type == 'success') {
-           // redirect to the ticket page
            return this.$router.push({ 
               name: 'ticket page', 
               params: _.pick( response.data, ['message','response_type', 'ticketId'])
@@ -117,6 +143,9 @@ export default {
     },   
     imageShow(url){
       this.images.push(url)
+    },
+    idSet(_id) {
+      if (this.productId == '') this.productId = _id
     }
   },
   computed: {
@@ -135,3 +164,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.overlay-delete {
+   position:absolute;
+    bottom:10px;
+    right:25px;
+    height:30px;
+}
+</style>

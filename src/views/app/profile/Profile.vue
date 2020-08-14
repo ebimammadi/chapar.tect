@@ -12,6 +12,9 @@
         >
         <image-upload
           v-if="!user.profilePhotoUrl"
+          :_id="''"
+          width="200"
+          height="200"
           crop_width="400"
           crop_height="400"
           unique="true"
@@ -274,7 +277,6 @@ export default {
           this.setProfilePhotoUrl("") 
         })
         .catch( error => {
-          this.user.profilePhotoUrl = "" 
           this.setAlert({ message: error.data.message }) 
         })
     }

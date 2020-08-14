@@ -1,13 +1,13 @@
 <template>
   <div>
-    <b-form-group v-if="!show">
+    <b-form-group v-if="!showCropper">
       <b-form-file
         id="file-default"
         :placeholder="placeholder"
         @change="croppie"
       ></b-form-file>
     </b-form-group>
-    <div v-if="show" class="float-left">
+    <div v-if="showCropper" class="float-left">
       <b-button @click="crop" variant="outline-success"
         >Crop & Save Photo</b-button
       >
@@ -16,13 +16,13 @@
       >
       <b-button @click="cancel" variant="outline-secondary" class="ml-3"
         >Cancel</b-button
-      >
+      >{{ _id }}  = id
       <vue-croppie
         ref="croppieRef"
         :enableOrientation="true"
         :enableResize="false"
         :enforceBoundary="true"
-        :boundary="{ width: width + boundary, height: height + boundary }"
+        :boundary="{ width: parseInt(width) + boundary, height: parseInt(height) + boundary }"
         :viewport="{ width: width, height: height, type: 'square' }"
         class="mt-3"
       ></vue-croppie>
@@ -35,46 +35,38 @@
 import Vue from "vue"
 import VueCroppie from "vue-croppie"
 import "croppie/croppie.css"
-
-import ApiService from "@/core/ApiService"
 Vue.use(VueCroppie)
 
+import { mapActions } from "vuex"
+import ApiService from "@/core/ApiService"
+
 export default {
-  props: ["crop_width", "crop_height", "unique", "usage", "placeholder", "_id"],
+  props: ["width", "height", "crop_width", "crop_height", "unique", "usage", "placeholder", "_id"],
   data() {
     return {
       croppieImage: "",
       cropped: null,
-      width: 200,
-      height: 200,
       boundary: 20,
-      show: ""
+      showCropper: ""
     }
   },
   methods: {
+    ...mapActions(["setAlert"]),
     rotate() {
       this.$refs.croppieRef.rotate(-90)
     },
     cancel() {
-      this.show = false
+      this.showCropper = false
     },
     croppie(event) {
-      if (!this.width) this.width = 200
-      if (!this.height) this.height = 200
-      if (!this.boundary) this.boundary = 40
       const files = event.target.files || event.dataTransfer.files
-      if (!files.length) {
-        return (this.file = false)
-      }
-      this.show = true //!this file is useless?
+      if (!files.length) return (this.file = false)
+      
+      this.showCropper = true 
       const reader = new FileReader()
-      reader.onload = event => {
-        this.$refs.croppieRef.bind({
-          url: event.target.result
-        })
-        //console.log(this.$refs.croppieRef.viewport)
-      }
+      reader.onload = event => this.$refs.croppieRef.bind({ url: event.target.result })
       reader.readAsDataURL(files[0])
+      //console.log(this.$refs.croppieRef.viewport)
     },
     crop() {
       let options = {
@@ -87,23 +79,20 @@ export default {
           image: output,
           unique: this.unique,
           usage: this.usage,
-          _id: this._id
+          _id: this._id || ''
         }
-
-        console.log(postPayload)
         ApiService.post("/app-files/upload-image", postPayload)
           .then(response => {
-            this.show = false
-            this.$emit("url", response.data.url)
+            if (response.data.response_type==="success") {
+              this.showCropper = false
+              this.$emit("url", response.data.url)
+              this.$emit("_id", response.data._id)
+            }
+            else this.setAlert( { message: response.data.message } )
           })
-          .catch(err => {
-            console.log(`error in 'ImageUpload' component`, err)
-          })
+          .catch( error => this.setAlert( { message: error.data.message } ))
       })
     }
-  },
-  rotate() {
-    this.$refs.croppieRef.rotate(90)
   }
 }
 </script>

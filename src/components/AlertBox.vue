@@ -5,10 +5,11 @@
       :variant="variant" 
       dismissible
       fade @dismissed="clearMessage"
-      style="z-index: 1000;"
+      
     >
       {{ message }}
     </b-alert>
+    <!-- style="z-index: 1000;" -->
   </div>
 </template>
 

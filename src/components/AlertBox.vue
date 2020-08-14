@@ -1,6 +1,12 @@
 <template>
   <div class="alert-box">
-    <b-alert :show="message.length>0 " :variant="variant" dismissible fade @dismissed="clearMessage">
+    <b-alert 
+      :show="message.length>0 " 
+      :variant="variant" 
+      dismissible
+      fade @dismissed="clearMessage"
+      style="z-index: 1000;"
+    >
       {{ message }}
     </b-alert>
   </div>
@@ -10,11 +16,6 @@
 import Store from "@/store/index.js"
 
 export default {
-  data(){
-    return {
-      clearText: ''
-    }
-  },
   computed: {
     message: () => Store.getters.getMessage || '',
     variant: () => Store.getters.getVariant,
@@ -23,6 +24,18 @@ export default {
     clearMessage() {
       Store.commit("changeAlert", {message : ''})
     } 
+  },
+  watch: {
+    message: function(){
+      if (this.message.length>0)
+        this.$bvToast.toast(this.message, {
+          title: `${this.variant.toUpperCase()}:`,
+          variant: this.variant,
+          autoHideDelay: 7000,
+          toaster: 'b-toaster-top-center',
+          appendToast: true
+        })
+    }
   }
 }
 </script>

@@ -16,7 +16,8 @@
       >
       <b-button @click="cancel" variant="outline-secondary" class="ml-3"
         >Cancel</b-button
-      >{{ _id }}  = id
+      >
+      <!-- {{ _id }}  = id -->
       <vue-croppie
         ref="croppieRef"
         :enableOrientation="true"

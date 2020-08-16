@@ -109,8 +109,6 @@
           </template>
           <template v-slot:cell(date)="data">
             {{ data.item.date | localTimeFormat }} 
-          <!-- </template> -->
-          <!-- <template v-slot:cell(logs)="data"> -->
             <router-link class="ml-2"
               variant="primary" 
               v-b-tooltip.hover title="View Recent Logs"
@@ -118,8 +116,7 @@
             >
             <b-icon-list-check /> 
             </router-link>
-          <!-- </template> -->
-          <!-- <template v-slot:cell(profile)="data"> -->
+          
             <router-link class="ml-2"
               variant="primary" 
               v-b-tooltip.hover title="View Profile"

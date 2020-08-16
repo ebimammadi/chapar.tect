@@ -48,9 +48,11 @@
               :to="{ name: 'edit product', params: { productId: data.item._id } }"
             >
             {{ data.item.slug }}</router-link>
-            {{ data.item.description.slice(0,10)+'...' | titleize}} 
+            <p>{{ descriptionSliced(data.item.description) | titleize}} </p>
+
           </template>
           <template v-slot:cell(ownerId)="data">
+            {{ data.item.ownerName | titleize }}
             {{ data.item.ownerSlug | titleize}} 
           </template>
           <template v-slot:cell(publishStatus)="data">
@@ -63,7 +65,7 @@
               <b-icon-pencil />
             </b-button>
             <b-button @click="productDeleteModal(data.item._id)"
-              variant="danger link"
+              variant="outline-danger"
               size="sm"
               :id="`delete`+ data.item._id" 
               >
@@ -158,13 +160,17 @@ export default {
     }, 
     productDelete(){
       const _id = this.modal._id
+      //  this.productsRaw.products = this.productsRaw.products.filter(item => {
+      //         if (item._id !== _id) return item
+      //       })
       ApiService.post('/app-products/product-delete', { _id })
         .then(response => {
           this.setAlert({message: response.data.message, variant: response.data.response_type})
           if (response.data.response_type === "success"){
-            this.productsRaw.products.map(item => {
-              if (item._id === _id) return item
+            this.productsRaw.products = this.productsRaw.products.filter(item => {
+              if (item._id !== _id) return item
             })
+            this.productsRaw.count --
           }
         })
         .catch( error => this.setAlert( { message: error.data.message } ))
@@ -174,6 +180,10 @@ export default {
       ApiService.get(`/app-products/product-list?page=${this.currentPage}&search=${this.search}&publishStatus=${this.publishStatus}`)
       .then(response => this.productsRaw = response.data )
       .catch( error => this.setAlert({ message: error.data.message }) )      
+    },
+    descriptionSliced(description) {
+      if (description.length< 20) return description
+      return description.slice(0,17)+'...'
     }
   },
   created() {
@@ -209,7 +219,7 @@ export default {
         this.$router.push({ query: { ...this.$route.query, publishStatus: newStatus  }}).catch(()=>{})
         this.invokeProducts()
       }
-    },
+    }
   }
 }
 </script>

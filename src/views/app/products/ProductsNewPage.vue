@@ -1,8 +1,12 @@
 <template>
-  <b-container>
+  <b-container v-if="show">
     <b-row class="mb-3">
       <b-col>
-        <h1>New Product</h1>
+        <h1>{{ pageType }} Product
+          <span v-if=" pageType=='Edit'"> 
+            Id: {{$route.params.productId.slice(0,7)+'...'}}
+          </span>
+        </h1>
       </b-col>
     </b-row>
     <b-row>
@@ -88,6 +92,7 @@ export default {
   },
   data() {
     return {
+      show: false,
       modal: { _id: "", title: "", body:"", function:"" },
       productId: '',
       name: '',
@@ -181,28 +186,33 @@ export default {
     validateDescription() {
       if (this.description.length>1000) return false
       return true
-    }
+    },
+    pageType(){
+       if (this.$route.name == "edit product") return 'Edit'
+       return 'New'
+    } 
   },
   created(){
+
     if (this.$route.name == "edit product")
     ApiService.get(`/app-products/product-get/${this.$route.params.productId}`)
-        .then( response => { 
-          if (response.data.response_type == "success") {
-            this.productId = response.data.product._id
-            this.name = response.data.product.name
-            this.slug = response.data.product.slug
-            this.description = response.data.product.description
-            this.images = response.data.product.images
-            this.features = response.data.product.features
-          }
-          else this.setAlert({ message: response.data.message }) 
-        })
-        .catch( error => {
-          this.setAlert({ message: error.data.message }) 
-        })
-    console.log(this.$route)
-    //this.invokeUsers()
-  },
+      .then( response => { 
+        if (response.data.response_type == "success") {
+          this.show = true
+          this.productId = response.data.product._id
+          this.name = response.data.product.name
+          this.slug = response.data.product.slug
+          this.description = response.data.product.description
+          this.images = response.data.product.images
+          this.features = response.data.product.features
+        }
+        else this.setAlert({ message: response.data.message }) 
+      })
+      .catch( error => {
+        this.setAlert({ message: error.data.message }) 
+      })
+    else this.show = true  
+  }
 }
 </script>
 

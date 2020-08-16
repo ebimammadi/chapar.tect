@@ -60,6 +60,12 @@ export default {
         const item = this.$route.params.ticketId
         breadcrumbs.push({ text: item })
       }
+      // /app/products/id/productId
+      if ( this.$route.name == "edit product") {
+        breadcrumbs.pop()
+        const item = this.$route.params.productId
+        breadcrumbs.push({ text: item })
+      }
       return breadcrumbs
     }
   }

@@ -14,7 +14,7 @@ export default [
         }
       },
       {
-        path: "id/:productId",
+        path: "id/:_id",
         name: "edit product",
         component: () => import("@/views/app/products/ProductsNewPage.vue"),
         meta: {

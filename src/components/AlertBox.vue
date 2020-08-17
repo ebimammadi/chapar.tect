@@ -32,8 +32,8 @@ export default {
         this.$bvToast.toast(this.message, {
           title: `${this.variant.toUpperCase()}:`,
           variant: this.variant,
-          autoHideDelay: 7000,
-          toaster: 'b-toaster-top-center',
+          autoHideDelay: 3000,
+          toaster: 'b-toaster-top-right', //'b-toaster-top-center'
           appendToast: true
         })
     }

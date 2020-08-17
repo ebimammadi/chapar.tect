@@ -33,7 +33,7 @@
         </b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav v-if="isInAppPanel">
-        <b-nav-item>
+        <b-nav-item v-if="isSupplier">
           <router-link :to="'/app/products'">
             Products
           </router-link>
@@ -110,6 +110,15 @@ export default {
       try{
         const { userRole } = JwtService.decodeToken()
         if (userRole === "admin") return true
+        return false
+      }catch(_){
+        return false
+      }
+    },
+    isSupplier: function() {
+      try{
+        const { userRole } = JwtService.decodeToken()
+        if (userRole === "supplier" || userRole === "admin") return true
         return false
       }catch(_){
         return false

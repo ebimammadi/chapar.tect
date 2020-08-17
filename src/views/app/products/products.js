@@ -1,5 +1,7 @@
+const modal = { _id: "", title: "", body:"", function:"" }
+
 const productsListData = {
-  modal: { _id: "", title: "", body:"", function:"" },
+  modal: modal,
   productsRaw: { products: [] },
   fields: [
     { key: "_id" , label: "" },  
@@ -15,4 +17,21 @@ const productsListData = {
   ]
 }
 
-export { productsListData }
+const productsPageData = {
+  show: false,
+  modal: modal,
+  product: {
+    _id: '',
+    name: '',
+    slug: '',
+    price: '',
+    description: '',
+    features: [],
+    images: [],
+  },
+  validation: {
+    name: `Product 'Name' is very short`,
+    price: `You need to specify a 'price'.`
+  }
+}
+export { productsListData, productsPageData }

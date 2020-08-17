@@ -83,6 +83,18 @@ router.beforeEach((to, from, next) => {
   } else next()
 })
 
+//control supplier access
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(path => path.meta.requiresSupplier)) {
+    const { userRole } = JwtService.decodeToken()
+    if (userRole !== "supplier" && userRole !== "admin") {
+      console.warn(`Guarded!`)
+      next({ name: "home" })
+    } else next()
+  } else next()
+})
+
+
 //TODO control supplier access
 
 export default router

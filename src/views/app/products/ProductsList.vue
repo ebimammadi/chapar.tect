@@ -41,15 +41,25 @@
           :fields="fields"
           :class="'table'"
         >
-          <template v-slot:cell(name)="data">
-            {{ data.item.name | titleize}} <router-link
+          <template v-slot:cell(_id)="data">
+            <div  class="d-flex flex-column">
+              <router-link
               variant="primary" 
-              v-b-tooltip.hover title="View Ticket Details"
-              :to="{ name: 'edit product', params: { productId: data.item._id } }"
-            >
-            {{ data.item.slug }}</router-link>
-            <p>{{ descriptionSliced(data.item.description) | titleize}} </p>
-
+              v-b-tooltip.hover title="Edit product"
+              :to="{ name: 'edit product', params: { productId: data.item._id } }" >
+              {{ data.item.slug }} <b-icon-pencil />
+              </router-link>
+              <div v-if="data.item.images.length>0">
+                <b-img style="width:100px" :src="data.item.images[0]" />
+              </div>
+              <small v-if="data.item.images.length>1" >
+                +{{ data.item.images.length - 1 }} photo<span v-if="data.item.images.length>2" >s</span>
+              </small>
+            </div>
+          </template>
+          <template v-slot:cell(name)="data">
+            <b>{{ data.item.name | titleize}}</b>
+            <p>{{ descriptionSliced(data.item.description)}} </p>
           </template>
           <template v-slot:cell(ownerId)="data">
             {{ data.item.ownerName | titleize }}
@@ -62,7 +72,8 @@
               size="sm"
               :id="`publish`+ data.item._id" 
               >
-              <b-icon-pencil />
+              <b-icon-box-arrow-up v-if="data.item.publishStatus.toString()== 'false' " />
+              <b-icon-box-arrow-in-down v-if="data.item.publishStatus.toString()== 'true'"/>
             </b-button>
             <b-button @click="productDeleteModal(data.item._id)"
               variant="outline-danger"
@@ -81,13 +92,8 @@
           <template v-slot:cell(date)="data">
             {{ data.item.date | localTimeFormat }} 
           </template>
-          
         </b-table>
-        <modal-confirm :title="modal.title" 
-          :body="modal.body" 
-          :_id="modal._id" 
-          @ok="handleConfirmOk(modal.function)"
-        />
+        <modal-confirm :title="modal.title" :body="modal.body" :_id="modal._id" @ok="handleConfirmOk(modal.function)" />
       </b-col>
     </b-row>
   </b-container>
@@ -97,27 +103,14 @@
 import ModalConfirm from "@/components/ModalConfirm"
 import { mapActions } from "vuex"
 import ApiService from "@/core/ApiService"
+import { productsListData } from "@/views/app/products/productsList"
 
 export default {
   components: {
     ModalConfirm,
   },
   data(){
-    return {
-      modal: { _id: "", title: "", body:"", function:"" },
-      productsRaw: { products: [] },
-      fields: [
-        { key: "name" , label: "Product" },  
-        { key: "ownerId", label: "Supplier" },
-        { key: "publishStatus" , label: "Published" },  
-        { key: "date", label: "Date" },
-      ],
-      publishStatusOptions: [
-        { text: 'All', value: '' }, 
-        { text: 'Published', value: 'true' },
-        { text: 'Unpublished', value: 'false' },
-      ]
-    }
+    return productsListData
   },
   methods: {
     ...mapActions(["setAlert"]),

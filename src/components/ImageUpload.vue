@@ -17,7 +17,6 @@
       <b-button @click="cancel" variant="outline-secondary" class="ml-3"
         >Cancel</b-button
       >
-      <!-- {{ _id }}  = id -->
       <vue-croppie
         ref="croppieRef"
         :enableOrientation="true"
@@ -27,7 +26,6 @@
         :viewport="{ width: width, height: height, type: 'square' }"
         class="mt-3"
       ></vue-croppie>
-      <!-- <img :src="cropped"> -->
     </div>
   </div>
 </template>

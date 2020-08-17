@@ -18,7 +18,7 @@ Vue.use(VueGoogleMaps, {
   }
 })
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false //!
 
 Vue.directive("focus", {
   inserted: el => el.focus()

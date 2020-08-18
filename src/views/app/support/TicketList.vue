@@ -60,7 +60,7 @@
             >
             {{ data.item.subject }}</router-link>
           </template>
-          <template v-slot:cell(ownerEmail)="data">
+          <template v-slot:cell(ownerEmail)="data" v-if="userRole === 'admin' ">
             {{ data.item.ownerName }}, {{ data.item.ownerEmail}} 
             <router-link 
               variant="primary" 
@@ -90,6 +90,7 @@
 <script>
 import { mapActions } from "vuex"
 import ApiService from "@/core/ApiService"
+import JwtService from "@/core/JwtService"
 
 export default {
   data(){
@@ -121,8 +122,14 @@ export default {
   },
   created() {
     this.invokeTickets()
+    const { userRole } = JwtService.decodeToken()
+    if (userRole !=="admin") this.fields = this.fields.filter(item => { if (item.key!="ownerEmail") return item })
   },
   computed: {
+    userRole() {
+      const { userRole } = JwtService.decodeToken()
+      return userRole
+    },
     tickets() {
       return this.ticketsRaw.tickets
     },

@@ -19,6 +19,7 @@ const productsListData = {
 
 const productsPageData = {
   show: false,
+  messageObject: {},
   modal: modal,
   product: {
     _id: '',

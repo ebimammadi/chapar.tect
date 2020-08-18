@@ -4,7 +4,7 @@
       <b-col>
         <h1>{{ pageType }} Product
           <span v-if=" pageType=='Edit'"> 
-            Id: {{$route.params.productId.slice(0,7)+'...'}}
+            Id: {{$route.params._id.slice(0,7)+'...'}}
           </span>
         </h1>
       </b-col>
@@ -13,34 +13,39 @@
       <b-col class="col-12 col-lg-6 mb-3">
         <label for="name">Name</label>
         <b-input-group>
-          <b-input id="name" v-model="name" placeholder="Enter a name" maxlength="200" @keyup="slugGenerate" debounce="1000"/>
-          <b-form-invalid-feedback :state="validateName" v-if= " name.length > 0">{{validation.name }}
+          <b-input id="name" v-model="product.name" placeholder="Enter a name" maxlength="200" @keyup="slugGenerate" debounce="1000"/>
+          <b-form-invalid-feedback :state="validateName" v-if=" product.name.length > 0">
+            {{validation.name }}
           </b-form-invalid-feedback>
         </b-input-group>
-        
         <label for="description" class="mt-3">Description </label>
         <b-input-group>
-          <b-form-textarea id="description" v-model="description" placeholder="Enter a short descrption ..." max-rows="12" maxlength="500">
+          <b-form-textarea id="description" v-model="product.description" placeholder="Enter a short descrption ..." max-rows="12" maxlength="500">
           </b-form-textarea>
-          <b-form-valid-feedback :state="(description.length>10) && (description.length<400)">
-            <span>{{ 500 - description.length}} character left</span>
+          <b-form-valid-feedback :state="(product.description.length>10) && (product.description.length<400)">
+            <span>{{ 500 - product.description.length}} character left</span>
           </b-form-valid-feedback>
-          <b-form-valid-feedback :state=" description.length >= 400 ">
-            <span class="float-right">{{ 500 - description.length}} character left</span>
+          <b-form-valid-feedback :state=" product.description.length >= 400 ">
+            <span class="float-right">{{ 500 - product.description.length}} character left</span>
           </b-form-valid-feedback>
         </b-input-group>
-        
         <label for="slug" class="mt-3">Slug</label>
         <b-input-group>
-          <b-input id="slug" v-model="slug" placeholder="Enter a name" maxlength="20" />
-          <b-form-invalid-feedback :state="validateSlug">{{ slug.length > 0 ? validateSlug : "" }}
+          <b-input id="slug" v-model="product.slug" placeholder="Enter a unique slug" maxlength="20" />
+          <b-form-invalid-feedback :state="validateSlug">{{ product.slug.length > 0 ? validateSlug : "" }}
+          </b-form-invalid-feedback>
+        </b-input-group>
+        <label for="price" class="mt-3">Price</label>
+        <b-input-group>
+          <b-input id="price" type="number" v-model="product.price" placeholder="Enter a price" maxlength="20" />
+          <b-form-invalid-feedback :state="validatePrice">{{ product.price.length > 0 ? validation.price : "" }}
           </b-form-invalid-feedback>
         </b-input-group>
       </b-col>
       <b-col class="col-12 col-lg-6 mb-3">
-        <label >Add {{ images.length>0 ? 'more' : '' }} photos</label>
+        <label >Add {{ product.images.length>0 ? 'more' : '' }} photos</label>
         <image-upload
-          :_id="productId"
+          :_id="product._id"
           width="400"
           height="200"
           crop_width="800"
@@ -51,17 +56,11 @@
           @url="imageShow" @_id="idSet"
         >
         </image-upload>
-        <div v-if="images.length>0"  >
-          <span v-for="image in images" :key="image" >  
-          <img  :src="image" class="rounded img-fluid w-100" />
-          <b-button 
-            @click="deleteImageConfirm(image)"
-            variant="secondary"
-            class="overlay-delete"
-            >
-            <b-icon-trash/>
-          </b-button>
-          </span>
+        <div v-for="image in product.images" :key="image" >  
+            <img :src="image" class="rounded img-fluid w-100" />
+            <b-button @click="deleteImageConfirm(image)" variant="secondary" class="overlay-delete">
+              <b-icon-trash/>
+            </b-button>
         </div>
       </b-col>
     </b-row>
@@ -81,33 +80,18 @@
 <script>
 import _ from "lodash"
 import { mapActions } from "vuex"
-// import { validateSlug } from "@/core/lib.js"
 import ApiService from "@/core/ApiService"
 import ImageUpload from "@/components/ImageUpload.vue"
 import ModalConfirm from "@/components/ModalConfirm"
+import { productsPageData } from "@/views/app/products/products"
 
 export default {
-   components: {
+  props: ["message","response_type"],
+  components: {
     ImageUpload, ModalConfirm
   },
   data() {
-    return {
-      show: false,
-      modal: { _id: "", title: "", body:"", function:"" },
-      productId: '',
-      name: '',
-      slug: '',
-      description: '',
-      features: [],
-      images: [],
-      validation: {
-        name: `Your 'Name' is very short`,
-        slug: 'Your note is very short ...',
-        description: 'Your note is very short ...',
-        features: 'Your note is very short ...',
-        images: 'Your note is very short ...',
-      }
-    }
+    return productsPageData
   },
   methods: {
     ...mapActions(["setAlert"]),
@@ -127,7 +111,7 @@ export default {
       ApiService.get(`/app-files/delete-image/${server}/${filename}`)
         .then( response => { 
           if (response.data.response_type == "success") 
-            this.images = this.images.filter(image => image != fileNameKey)
+            this.product.images = this.product.images.filter(image => image != fileNameKey)
           else this.setAlert({ message: response.data.message }) 
         })
         .catch( error => {
@@ -136,91 +120,108 @@ export default {
     },
     SaveProduct() {
       if (!this.validateName) return this.setAlert(this.validation.name)
-      if (this.slug.trim() == "") this.slug = this.name.trim().split(" ").map(item => item.toLowerCase().slice(0,2)).join("-") + (Math.floor(Math.random() * 100) + 1)
+      this.slugGenerate() 
       if (!this.validateSlug) return this.setAlert(this.validation.slug)
-      //todo add select user for ownerEmail
-      //const { _id } = JwtService.decodeToken()
-      const payload = {
-        name: this.name,
-        slug: this.slug,
-        description: this.description,
-        _id: this.productId,
-        text: this.updateText
-      }
+      if (!this.validatePrice) return this.setAlert(this.validation.price)
+      const payload = _.pick(this.product, ["_id","name","description","slug", "price","images"])
       ApiService.post(`/app-products/product-set`, payload)
         .then(response => {
          if (response.data.response_type == 'success') {
             if (this.$route.name == "new product")
-            return this.$router.push({ 
-              name: 'edit product', 
-              params: _.pick( response.data, ['message','response_type', 'productId'])
-            })
-         } 
-         this.setAlert( _.pick(response.data, ['message', 'response_type']))
+              return this.$router.push({ 
+                name: 'edit product', 
+                params: _.pick( response.data, ['message','response_type', '_id'])
+              })
+          } 
+          this.setAlert( _.pick(response.data, ['message', 'response_type']))
         })
         .catch( error => this.setAlert( { message: error.data.message } ))
     },   
     imageShow(url){
-      this.images.push(url)
+      this.product.images.push(url)
     },
     idSet(_id) {
-      if (this.productId == '') this.productId = _id
+      if (this.product._id == '') this.product._id = _id
     },
     slugGenerate() {
-      if (this.slug.length > 4) return 
-      console.log(this.name.trim().split(" ").map(item => item.toLowerCase().slice(0,2)).join("-"))
-      if (this.name.length>0) this.slug = this.name.trim().split(" ").map(item => item.toLowerCase().slice(0,2)).join("-")
-      else this.slug = ""
+      if (this.product.slug.trim() == "") 
+        this.product.slug = this.product.name.trim()
+          .replace(/[^a-zA-Z ]/g, "")
+          .split(" ")
+          .map(item => item.toLowerCase().slice(0,2))
+          .join("-") + (Math.floor(Math.random() * 100) + 1)
+      return this.product.slug
     }
   },
   computed: {
     validateName() {
-      if (this.name.length>5) return true
+      if (this.product.name.length>5) return true
       return false
     },
     validateSlug() {
-      if (this.slug.length == 0) return false
-      if (this.slug.length > 20) return false
+      if (this.product.slug.length == 0) return false
+      if (this.product.slug.length > 20) return false
       return true
     },
     validateDescription() {
-      if (this.description.length>1000) return false
+      if (this.product.description.length>1000) return false
+      return true
+    },
+    validatePrice() {
+      if (isNaN(this.product.price)) return false
       return true
     },
     pageType(){
-       if (this.$route.name == "edit product") return 'Edit'
-       return 'New'
+      if (this.$route.name == "edit product") return 'Edit'
+      return 'New'
     } 
   },
-  created(){
-
-    if (this.$route.name == "edit product")
-    ApiService.get(`/app-products/product-get/${this.$route.params.productId}`)
-      .then( response => { 
-        if (response.data.response_type == "success") {
-          this.show = true
-          this.productId = response.data.product._id
-          this.name = response.data.product.name
-          this.slug = response.data.product.slug
-          this.description = response.data.product.description
-          this.images = response.data.product.images
-          this.features = response.data.product.features
-        }
-        else this.setAlert({ message: response.data.message }) 
-      })
-      .catch( error => {
-        this.setAlert({ message: error.data.message }) 
-      })
-    else this.show = true  
+  mounted() {
+    if (this.$route.name == "edit product") {
+      this.show = false
+      console.log("edit page")
+      console.log(this.message)
+      if (this.message) {
+        console.log(`hieisi`)
+          this.messageObject.message = this.message
+          this.messageObject.message = this.response_type
+      }
+      ApiService.get(`/app-products/product-get/${this.$route.params._id}`)
+        .then( response => { 
+          if (response.data.response_type == "success") {
+            this.show = true
+            console.log(this)
+            this.product = response.data.product
+            if (this.messageObject.message) this.setAlert({ ...this.messageObject })
+          }
+          else this.setAlert({ message: response.data.message }) 
+        })
+        .catch( error => {
+          this.setAlert({ message: error.data.message }) 
+        })
+    }
+    if (this.$route.name == "new product") {
+      this.product = {}
+      //   _id: '',
+      //   name: '',
+      //   slug: '',
+      //   price: '',
+      //   description: '',
+      //   features: [],
+      //   images: [],
+      // }
+      this.show = true  
+    }
   }
 }
 </script>
 
 <style scoped>
 .overlay-delete {
-   position:absolute;
-    bottom:10px;
-    right:25px;
-    height:30px;
+  position: relative;
+  bottom:40px;
+  right:10px;
+  height: 30px;
+  float: right;
 }
 </style>

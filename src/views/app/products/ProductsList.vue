@@ -45,25 +45,27 @@
             <div  class="d-flex flex-column">
               <router-link
               variant="primary" 
-              v-b-tooltip.hover title="Edit product"
-              :to="{ name: 'edit product', params: { productId: data.item._id } }" >
+              v-b-tooltip.hover :title="'Edit Product: '+ data.item.slug"
+              :to="{ name: 'edit product', params: { _id: data.item._id } }" >
               {{ data.item.slug }} <b-icon-pencil />
               </router-link>
               <div v-if="data.item.images.length>0">
                 <b-img style="width:100px" :src="data.item.images[0]" />
               </div>
               <small v-if="data.item.images.length>1" >
-                +{{ data.item.images.length - 1 }} photo<span v-if="data.item.images.length>2" >s</span>
+                +{{ data.item.images.length - 1 }} photo<span v-if="data.item.images.length>2" >s <b-icon-images/></span>
               </small>
             </div>
           </template>
           <template v-slot:cell(name)="data">
             <b>{{ data.item.name | titleize}}</b>
-            <p>{{ descriptionSliced(data.item.description)}} </p>
+            <p>
+              <small>{{ descriptionSliced(data.item.description)}} </small>
+            </p>
           </template>
           <template v-slot:cell(ownerId)="data">
             {{ data.item.ownerName | titleize }}
-            {{ data.item.ownerSlug | titleize}} 
+            {{ ownerSlugSliced(data.item.ownerSlug) }} 
           </template>
           <template v-slot:cell(publishStatus)="data">
             {{ data.item.publishStatus.toString() | titleize}} 
@@ -90,7 +92,14 @@
             </b-tooltip>
           </template>
           <template v-slot:cell(date)="data">
-            {{ data.item.date | localTimeFormat }} 
+            <p>
+              Updated:
+              <span class="float-right">{{ data.item.updated_at | localTimeFormat }}</span>
+            </p>
+            <p>
+              Created: 
+              <span class="float-right">{{ data.item.date | localTimeFormat }}</span> 
+            </p>  
           </template>
         </b-table>
         <modal-confirm :title="modal.title" :body="modal.body" :_id="modal._id" @ok="handleConfirmOk(modal.function)" />
@@ -103,7 +112,7 @@
 import ModalConfirm from "@/components/ModalConfirm"
 import { mapActions } from "vuex"
 import ApiService from "@/core/ApiService"
-import { productsListData } from "@/views/app/products/productsList"
+import { productsListData } from "@/views/app/products/products"
 
 export default {
   components: {
@@ -164,6 +173,7 @@ export default {
               if (item._id !== _id) return item
             })
             this.productsRaw.count --
+            setTimeout(() => this.invokeProducts(), 2000)
           }
         })
         .catch( error => this.setAlert( { message: error.data.message } ))
@@ -175,8 +185,12 @@ export default {
       .catch( error => this.setAlert({ message: error.data.message }) )      
     },
     descriptionSliced(description) {
-      if (description.length< 20) return description
-      return description.slice(0,17)+'...'
+      if (description.length< 30) return description
+      return description.slice(0, 27)+'...'
+    },
+    ownerSlugSliced(slug){
+      if (slug.length< 10) return slug
+      return slug.slice(0, 7)+'...'
     }
   },
   created() {

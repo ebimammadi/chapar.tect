@@ -201,15 +201,15 @@ export default {
         })
     }
     if (this.$route.name == "new product") {
-      this.product = {}
-      //   _id: '',
-      //   name: '',
-      //   slug: '',
-      //   price: '',
-      //   description: '',
-      //   features: [],
-      //   images: [],
-      // }
+      this.product = {
+        _id: '',
+        name: '',
+        slug: '',
+        price: '',
+        description: '',
+        features: [],
+        images: [],
+      }
       this.show = true  
     }
   }

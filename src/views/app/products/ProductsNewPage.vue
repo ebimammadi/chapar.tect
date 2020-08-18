@@ -179,18 +179,14 @@ export default {
   mounted() {
     if (this.$route.name == "edit product") {
       this.show = false
-      console.log("edit page")
-      console.log(this.message)
       if (this.message) {
-        console.log(`hieisi`)
-          this.messageObject.message = this.message
-          this.messageObject.message = this.response_type
+        this.messageObject.message = this.message
+        this.messageObject.response_type = this.response_type
       }
       ApiService.get(`/app-products/product-get/${this.$route.params._id}`)
         .then( response => { 
           if (response.data.response_type == "success") {
             this.show = true
-            console.log(this)
             this.product = response.data.product
             if (this.messageObject.message) this.setAlert({ ...this.messageObject })
           }

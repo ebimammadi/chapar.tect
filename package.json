@@ -12,7 +12,7 @@
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.16.0",
     "dotenv": "^8.2.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "moment": "^2.27.0",
     "secure-password-validator": "^1.0.2",
     "vue": "^2.6.11",
